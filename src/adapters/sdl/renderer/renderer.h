@@ -25,5 +25,6 @@ namespace Game
         SDLRendererAdapter(SDLWindowManagerAdapter *_sdlWindowManagerAdapter);
         void renderElement(const RenderDataDTO &renderDataDTO) override;
         void updateScreen() override;
+        void renderText(std::string_view text, int x, int y) override;
     };
 }

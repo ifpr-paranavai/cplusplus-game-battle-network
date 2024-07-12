@@ -23,7 +23,7 @@ namespace Game
         this->height = height;
     }
 
-    void VisualElement::setTilePosition(int positionX, int positionY)
+    void VisualElement::setPosition(int positionX, int positionY)
     {
         this->positionX = positionX;
         this->positionY = positionY;

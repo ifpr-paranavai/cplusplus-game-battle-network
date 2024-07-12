@@ -18,6 +18,6 @@ namespace Game
         VisualElement(RendererPort *_renderer);
         void renderSprite();
         void setConfig(std::string_view hexColor, int positionX, int positionY, int width, int height);
-        void setTilePosition(int positionX, int positionY);
+        void setPosition(int positionX, int positionY);
     };
 }

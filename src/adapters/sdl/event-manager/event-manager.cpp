@@ -18,6 +18,8 @@ namespace Game
             return SDLK_LEFT;
         case KeyCode::ARROW_RIGHT:
             return SDLK_RIGHT;
+        case KeyCode::X:
+            return SDLK_x;
         default:
             return SDLK_UNKNOWN;
         }

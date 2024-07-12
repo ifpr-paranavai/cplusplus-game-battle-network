@@ -2,9 +2,17 @@
 
 namespace Game
 {
-    Enemy::Enemy(RendererPort *_renderer) : Character(_renderer, 50, 50, "#FF0000") {}
+    Enemy::Enemy(RendererPort *_renderer) : Character(_renderer, 50, 50, "#FF0000")
+    {
+    }
 
     void Enemy::update()
     {
-        }
+        Character::update();
+    }
+
+    void Enemy::onCollision(Element *other)
+    {
+        this->life -= 1;
+    }
 }

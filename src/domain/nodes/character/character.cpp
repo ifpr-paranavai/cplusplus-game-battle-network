@@ -3,7 +3,7 @@
 namespace Game
 {
 
-    Character::Character(RendererPort *_renderer, int width, int height, std::string_view hexColor)
+    Character::Character(RendererPort *_renderer, int width, int height, std::string_view hexColor) : renderer(_renderer), Element(width, height)
     {
         this->width = width;
         this->height = height;
@@ -11,10 +11,24 @@ namespace Game
         this->sprite->setConfig(hexColor, 0, 0, this->width, this->height);
     }
 
-    void Character::setTilePosition(int tileColumnIndex, int tileRowIndex)
+    void Character::setTileCoords(int tileColumnIndex, int tileRowIndex)
     {
         this->tileColumnIndex = tileColumnIndex;
         this->tileRowIndex = tileRowIndex;
+        this->positionX = TileMap::getElementInTilePositionX(this->tileColumnIndex, this->width);
+        this->positionY = TileMap::getElementInTilePositionY(this->tileRowIndex, this->height);
+    }
+
+    void Character::setTileColumnIndex(int tileColumnIndex)
+    {
+        this->tileColumnIndex = tileColumnIndex;
+        this->positionX = TileMap::getElementInTilePositionX(this->tileColumnIndex, this->width);
+    }
+
+    void Character::setTileRowIndex(int tileRowIndex)
+    {
+        this->tileRowIndex = tileRowIndex;
+        this->positionY = TileMap::getElementInTilePositionY(this->tileRowIndex, this->height);
     }
 
     int Character::getWidth()
@@ -35,9 +49,9 @@ namespace Game
 
     void Character::render()
     {
-        int positionX = TileMap::getElementInTilePositionX(this->tileColumnIndex, this->width);
-        int positionY = TileMap::getElementInTilePositionY(this->tileRowIndex, this->height);
-        this->sprite->setTilePosition(positionX, positionY);
+        this->sprite->setPosition(this->positionX, this->positionY);
         this->sprite->renderSprite();
+        this->renderer->renderText(std::to_string(this->life), this->positionX, this->positionY + this->height + 5);
     }
+
 }

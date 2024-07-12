@@ -5,7 +5,18 @@ namespace Game
     SDLRendererAdapter::SDLRendererAdapter(
         SDLWindowManagerAdapter *_sdlWindowManagerAdapter) : sdlWindowManagerAdapter(_sdlWindowManagerAdapter)
     {
-        this->font = TTF_OpenFont("../../../../assets/fonts/Mega-Man-Battle-Network.ttf", 24);
+        if (TTF_Init() == -1)
+        {
+            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "TTF_Init failed: %s", TTF_GetError());
+            throw std::runtime_error(TTF_GetError());
+        }
+
+        this->font = TTF_OpenFont("assets/fonts/Mega-Man-Battle-Network.ttf", 20);
+        if (!font)
+        {
+            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "TTF_OpenFont failed: %s", TTF_GetError());
+            throw std::runtime_error(TTF_GetError());
+        }
     }
 
     SDL_Renderer *SDLRendererAdapter::getRenderer()
@@ -67,4 +78,69 @@ namespace Game
     {
         SDL_RenderPresent(this->getRenderer());
     }
+
+    void SDLRendererAdapter::renderText(std::string_view text, int x, int y)
+    {
+        SDL_Color textColor = {255, 255, 255, 255};
+        SDL_Color borderColor = {0, 0, 0, 255};
+        int borderSize = 2;
+
+        // Create the text surface for the main text
+        SDL_Surface *textSurface = TTF_RenderText_Solid(this->font, text.data(), textColor);
+        if (!textSurface)
+        {
+            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "TTF_RenderText_Solid failed: %s", TTF_GetError());
+            throw std::runtime_error(TTF_GetError());
+        }
+
+        SDL_Texture *textTexture = SDL_CreateTextureFromSurface(this->getRenderer(), textSurface);
+        if (!textTexture)
+        {
+            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "SDL_CreateTextureFromSurface failed: %s", SDL_GetError());
+            throw std::runtime_error(SDL_GetError());
+        }
+
+        SDL_Rect textRect;
+        textRect.x = x;
+        textRect.y = y;
+        SDL_QueryTexture(textTexture, NULL, NULL, &textRect.w, &textRect.h);
+
+        // Render the border by rendering the text in black in all surrounding positions
+        for (int dx = -borderSize; dx <= borderSize; ++dx)
+        {
+            for (int dy = -borderSize; dy <= borderSize; ++dy)
+            {
+                // Skip the center position
+                if (dx == 0 && dy == 0)
+                    continue;
+
+                SDL_Surface *borderSurface = TTF_RenderText_Solid(this->font, text.data(), borderColor);
+                if (!borderSurface)
+                {
+                    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "TTF_RenderText_Solid failed: %s", TTF_GetError());
+                    throw std::runtime_error(TTF_GetError());
+                }
+
+                SDL_Texture *borderTexture = SDL_CreateTextureFromSurface(this->getRenderer(), borderSurface);
+                if (!borderTexture)
+                {
+                    SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "SDL_CreateTextureFromSurface failed: %s", SDL_GetError());
+                    throw std::runtime_error(SDL_GetError());
+                }
+
+                SDL_Rect borderRect = textRect;
+                borderRect.x += dx;
+                borderRect.y += dy;
+                SDL_RenderCopy(this->getRenderer(), borderTexture, NULL, &borderRect);
+                SDL_FreeSurface(borderSurface);
+                SDL_DestroyTexture(borderTexture);
+            }
+        }
+
+        // Render the actual text on top
+        SDL_RenderCopy(this->getRenderer(), textTexture, NULL, &textRect);
+        SDL_FreeSurface(textSurface);
+        SDL_DestroyTexture(textTexture);
+    }
+
 }

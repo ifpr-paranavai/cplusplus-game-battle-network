@@ -19,7 +19,7 @@ namespace Game
     void Arena::createEnemies()
     {
         Enemy *enemy = new Enemy(this->renderer);
-        enemy->setTilePosition(4, 1);
+        enemy->setTileCoords(4, 1);
         enemy->setTileLimits(this->tileMap->getEnemyColumnTilesCount() - 1, this->tileMap->getTilesRowsCount() - 1);
         this->enemies.push_back(enemy);
     }
@@ -27,7 +27,7 @@ namespace Game
     void Arena::setPlayer(Player *player)
     {
         this->player = player;
-        this->player->setTilePosition(1, 1);
+        this->player->setTileCoords(1, 1);
         this->player->setTileLimits(this->tileMap->getPlayerColumnTilesCount() - 1, this->tileMap->getTilesRowsCount() - 1);
     }
 
@@ -37,11 +37,25 @@ namespace Game
         this->background->renderSprite();
         this->tileMap->render();
         this->player->render();
+        for (Projectile *projectile : this->player->getProjectiles())
+        {
+            projectile->update();
+            for (Enemy *enemy : this->enemies)
+            {
+                projectile->checkCollision(enemy);
+            }
+            projectile->render();
+        }
         for (Enemy *enemy : this->enemies)
         {
             enemy->update();
+            for (Projectile *projectile : this->player->getProjectiles())
+            {
+                enemy->checkCollision(projectile);
+            }
             enemy->render();
         }
-        this->renderer->updateScreen();
+
+                this->renderer->updateScreen();
     }
 }
