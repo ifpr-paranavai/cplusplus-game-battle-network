@@ -2,7 +2,7 @@
 #include <iostream>
 #include <ctime>
 #include "../../nodes/character/character.h"
-#include "../../../ports/event-manager/event-manager.h"
+#include "../../../ports/keyboard-manager/keyboard-manager.h"
 #include "../projectile/projectile.h"
 
 namespace Game
@@ -12,7 +12,7 @@ namespace Game
     private:
         bool movementKeyAlreadyPressed = false;
         bool attackKeyAlreadyPressed = false;
-        EventManagerPort *eventManager;
+        KeyboardManagerPort *eventManager;
         std::list<Projectile *> projectiles;
 
         void handleMovement();
@@ -21,7 +21,7 @@ namespace Game
         void checkProjectiles();
 
     public:
-        Player(RendererPort *_renderer, EventManagerPort *_eventManager);
+        Player(RendererPort *_renderer, KeyboardManagerPort *_eventManager, TimeManagerPort *_timeManager);
         void update() override;
         void onCollision(Element *other) override;
         std::list<Projectile *> getProjectiles();

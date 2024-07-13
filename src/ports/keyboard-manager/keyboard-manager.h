@@ -10,7 +10,7 @@ namespace Game
         X
     };
 
-    class EventManagerPort
+    class KeyboardManagerPort
     {
     public:
         virtual bool exitEventIsCalled() = 0;

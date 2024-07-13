@@ -14,7 +14,7 @@ namespace Game
         void onCollision(Element *other);
 
     public:
-        Projectile(RendererPort *_renderer, int initialX, int initialY);
+        Projectile(RendererPort *_renderer, TimeManagerPort *_timeManager, int initialX, int initialY);
 
         void update();
         void render();

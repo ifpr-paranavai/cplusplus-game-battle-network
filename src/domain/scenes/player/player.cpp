@@ -3,7 +3,14 @@
 namespace Game
 {
     Player::Player(
-        RendererPort *_renderer, EventManagerPort *_eventManager) : Character(_renderer, 50, 70, "#00ADEF"), eventManager(_eventManager)
+        RendererPort *_renderer,
+        KeyboardManagerPort *_eventManager,
+        TimeManagerPort *_timeManeger) : Character(_renderer,
+                                                   _timeManeger,
+                                                   50,
+                                                   70,
+                                                   "#00ADEF"),
+                                         eventManager(_eventManager)
     {
     }
 
@@ -17,7 +24,7 @@ namespace Game
             }
             this->movementKeyAlreadyPressed = true;
 
-            if (this->tileRowIndex - 1 < 0)
+            if (this->tileRowIndex - 1 < this->initialTileRowLimit)
             {
                 return;
             }
@@ -33,7 +40,7 @@ namespace Game
             }
             this->movementKeyAlreadyPressed = true;
 
-            if (this->tileRowIndex + 1 > this->tileRowLimit)
+            if (this->tileRowIndex + 1 > this->finalTileRowLimit)
             {
                 return;
             }
@@ -49,7 +56,7 @@ namespace Game
             }
             this->movementKeyAlreadyPressed = true;
 
-            if (this->tileColumnIndex - 1 < 0)
+            if (this->tileColumnIndex - 1 < this->initialTileColumnLimit)
             {
                 return;
             }
@@ -65,7 +72,7 @@ namespace Game
             }
             this->movementKeyAlreadyPressed = true;
 
-            if (this->tileColumnIndex + 1 > this->tileColumnIndexLimit)
+            if (this->tileColumnIndex + 1 > this->finalTileColumnLimit)
             {
                 return;
             }
@@ -97,7 +104,10 @@ namespace Game
     void Player::attack()
     {
         Projectile *projectile = new Projectile(
-            this->renderer, this->positionX + this->width, this->positionY + this->height / 2);
+            this->renderer,
+            this->timeManager,
+            this->positionX + this->width,
+            this->positionY + this->height / 2);
         this->projectiles.push_back(projectile);
     }
 
@@ -108,6 +118,7 @@ namespace Game
         {
             if ((*it)->isDeleted())
             {
+                delete *it;
                 it = this->projectiles.erase(it);
             }
             else
@@ -116,7 +127,6 @@ namespace Game
             }
         }
     }
-
     void Player::update()
     {
         this->checkProjectiles();

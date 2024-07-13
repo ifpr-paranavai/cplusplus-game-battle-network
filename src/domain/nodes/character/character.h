@@ -11,15 +11,22 @@ namespace Game
     protected:
         int tileColumnIndex = 0;
         int tileRowIndex = 0;
-        int tileColumnIndexLimit = 0;
-        int tileRowLimit = 0;
+        int initialTileColumnLimit = 0;
+        int initialTileRowLimit = 0;
+        int finalTileColumnLimit = 0;
+        int finalTileRowLimit = 0;
         int life = 100;
 
         VisualElement *sprite;
         RendererPort *renderer;
 
     public:
-        Character(RendererPort *_renderer, int width, int height, std::string_view hexColor);
+        Character(
+            RendererPort *_renderer,
+            TimeManagerPort *_timeManager,
+            int width,
+            int height,
+            std::string_view hexColor);
 
         void setTileCoords(int tileColumnIndex, int tileRowIndex);
         void setTileColumnIndex(int tileColumnIndex);
@@ -27,7 +34,7 @@ namespace Game
         int getWidth();
         int getHeight();
         void render();
-        void setTileLimits(int tileColumnIndex, int tileRowIndex);
+        void setTileLimits(int initialTileColumnIndex, int finalTileColumnIndex, int initialTileRowIndex, int finalTileRowIndex);
 
         virtual ~Character() = default;
     };

@@ -6,7 +6,7 @@ LDFLAGS = -L src/lib
 LIBS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_ttf
 
 # Lista de arquivos fonte
-SOURCES = main.o $(wildcard src/application/*/*.cpp) $(wildcard src/adapters/*/*/*.cpp) $(wildcard src/domain/*/*/*.cpp)
+SOURCES = main.o $(wildcard src/application/*/*.cpp) $(wildcard src/adapters/*/*/*.cpp) $(wildcard src/domain/*/*/*.cpp) $(wildcard src/utils/*/*.cpp)
 
 # Objetos gerados a partir dos arquivos fonte
 OBJECTS = $(SOURCES:.cpp=.o)

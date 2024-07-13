@@ -5,6 +5,7 @@ namespace Game
     SDLRendererAdapter::SDLRendererAdapter(
         SDLWindowManagerAdapter *_sdlWindowManagerAdapter) : sdlWindowManagerAdapter(_sdlWindowManagerAdapter)
     {
+        this->sdlRenderer = nullptr;
         if (TTF_Init() == -1)
         {
             SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "TTF_Init failed: %s", TTF_GetError());
@@ -21,11 +22,16 @@ namespace Game
 
     SDL_Renderer *SDLRendererAdapter::getRenderer()
     {
-        if (this->sdlRenderer == NULL)
+        if (this->sdlRenderer == nullptr)
         {
-            this->sdlRenderer = SDL_CreateRenderer(this->sdlWindowManagerAdapter->getWindow(), -1, SDL_RENDERER_ACCELERATED);
-            if (this->sdlRenderer == NULL)
+            SDL_Window *window = this->sdlWindowManagerAdapter->getWindow();
+            const char *windowTitle = SDL_GetWindowTitle(window);
+
+            this->sdlRenderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+
+            if (this->sdlRenderer == nullptr)
             {
+                SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create SDL_Renderer: %s", SDL_GetError());
                 throw std::runtime_error(SDL_GetError());
             }
         }
@@ -141,6 +147,12 @@ namespace Game
         SDL_RenderCopy(this->getRenderer(), textTexture, NULL, &textRect);
         SDL_FreeSurface(textSurface);
         SDL_DestroyTexture(textTexture);
+    }
+
+    void SDLRendererAdapter::destroyRenderer()
+    {
+        this->sdlRenderer = nullptr;
+        SDL_DestroyRenderer(this->getRenderer());
     }
 
 }

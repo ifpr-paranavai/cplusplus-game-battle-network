@@ -2,8 +2,10 @@
 
 namespace Game
 {
-    Element::Element(int width, int height)
+    Element::Element(TimeManagerPort *_timeManager, int width, int height) : timeManager(_timeManager)
     {
+        this->width = width;
+        this->height = height;
         this->collisionBox = new CollisionBox(this->positionX, this->positionY, width, height);
     }
 

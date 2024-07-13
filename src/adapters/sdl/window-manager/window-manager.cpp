@@ -4,6 +4,7 @@ namespace Game
 {
     void SDLWindowManagerAdapter::createWindow(int width, int height)
     {
+        this->window = nullptr;
         SDL_Init(SDL_INIT_EVERYTHING);
         this->window = SDL_CreateWindow(
             "Battle Network", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_SHOWN);
@@ -15,6 +16,7 @@ namespace Game
 
     void SDLWindowManagerAdapter::destroyWindow()
     {
+        this->window = nullptr;
         SDL_DestroyWindow(this->window);
         SDL_Quit();
     }

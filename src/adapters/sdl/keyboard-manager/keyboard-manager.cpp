@@ -1,12 +1,12 @@
-#include "event-manager.h"
+#include "keyboard-manager.h"
 
 namespace Game
 {
-    SDLEventManagerAdapter::SDLEventManagerAdapter()
+    SDLKeyboardManagerAdapter::SDLKeyboardManagerAdapter()
     {
     }
 
-    SDL_Keycode SDLEventManagerAdapter::convertKeycode(KeyCode keycode)
+    SDL_Keycode SDLKeyboardManagerAdapter::convertKeycode(KeyCode keycode)
     {
         switch (keycode)
         {
@@ -25,7 +25,7 @@ namespace Game
         }
     }
 
-    bool SDLEventManagerAdapter::exitEventIsCalled()
+    bool SDLKeyboardManagerAdapter::exitEventIsCalled()
     {
         SDL_Event windowEvent;
         if (SDL_PollEvent(&windowEvent))
@@ -39,7 +39,7 @@ namespace Game
         return false;
     }
 
-    bool SDLEventManagerAdapter::isKeyPressed(KeyCode keycode)
+    bool SDLKeyboardManagerAdapter::isKeyPressed(KeyCode keycode)
     {
         SDL_Keycode sdlKeyCode = convertKeycode(keycode);
         SDL_Scancode sdlScancode = SDL_GetScancodeFromKey(sdlKeyCode);

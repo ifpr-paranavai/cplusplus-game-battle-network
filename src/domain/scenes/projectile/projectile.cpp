@@ -2,7 +2,10 @@
 
 namespace Game
 {
-    Projectile::Projectile(RendererPort *_renderer, int initialX, int initialY) : Element(10, 10)
+    Projectile::Projectile(RendererPort *_renderer,
+                           TimeManagerPort *_timeManager,
+                           int initialX,
+                           int initialY) : Element(_timeManager, 10, 10)
     {
         this->sprite = new VisualElement(_renderer);
         this->sprite->setConfig("#FFFF00", initialX, initialY, this->width, this->height);

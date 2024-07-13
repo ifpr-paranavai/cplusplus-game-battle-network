@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "../collision-box/collision-box.h"
+#include "../../../ports/time-manager/time-manager.h"
 
 namespace Game
 {
@@ -8,6 +9,7 @@ namespace Game
     {
     protected:
         CollisionBox *collisionBox;
+        TimeManagerPort *timeManager;
         int width = 0;
         int height = 0;
         int positionX = 0;
@@ -16,7 +18,7 @@ namespace Game
         virtual void onCollision(Element *other) = 0;
 
     public:
-        Element(int width, int height);
+        Element(TimeManagerPort *_timeManager, int width, int height);
 
         virtual void update();
         virtual void checkCollision(Element *other);

@@ -3,7 +3,13 @@
 namespace Game
 {
 
-    Character::Character(RendererPort *_renderer, int width, int height, std::string_view hexColor) : renderer(_renderer), Element(width, height)
+    Character::Character(
+        RendererPort *_renderer,
+        TimeManagerPort *_timeManager,
+        int width,
+        int height,
+        std::string_view hexColor) : renderer(_renderer),
+                                     Element(_timeManager, width, height)
     {
         this->width = width;
         this->height = height;
@@ -41,10 +47,16 @@ namespace Game
         return this->height;
     }
 
-    void Character::setTileLimits(int tileColumnIndex, int tileRowIndex)
+    void Character::setTileLimits(
+        int initialTileColumnIndex,
+        int finalTileColumnIndex,
+        int initialTileRowIndex,
+        int finalTileRowIndex)
     {
-        this->tileColumnIndexLimit = tileColumnIndex;
-        this->tileRowLimit = tileRowIndex;
+        this->initialTileColumnLimit = initialTileColumnIndex;
+        this->initialTileRowLimit = initialTileRowIndex;
+        this->finalTileColumnLimit = finalTileColumnIndex;
+        this->finalTileRowLimit = finalTileRowIndex;
     }
 
     void Character::render()
