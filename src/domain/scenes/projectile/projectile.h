@@ -1,6 +1,7 @@
 #pragma once
 #include "../../nodes/visual-element/visual-element.h"
 #include "../../nodes/element/element.h"
+#include "../../../config/config.h"
 
 namespace Game
 {
@@ -8,7 +9,7 @@ namespace Game
     {
     private:
         VisualElement *sprite;
-        int speedVel = 10;
+        int speedVel = 1000;
         bool deleted = false;
 
         void onCollision(Element *other);

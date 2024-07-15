@@ -20,7 +20,13 @@ namespace Game
     private:
         float decisionTime = 1;
         float decisionTimer = 0;
+        bool dead = false;
+
         void handleMovement();
+        bool tryMove(Direction direction);
+        bool checkIsWithinTileLimits(int rowIndex, int columnIndex);
+        Direction getRandomDirection();
+        void moveRandomlyWithinLimits();
 
     protected:
         void onCollision(Element *other) override;

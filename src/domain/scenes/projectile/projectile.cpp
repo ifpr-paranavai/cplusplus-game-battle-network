@@ -15,8 +15,13 @@ namespace Game
 
     void Projectile::update()
     {
-        this->positionX += this->speedVel;
+        float deltaTime = this->timeManager->getDeltaTime();
+        this->positionX = this->positionX + this->speedVel * deltaTime;
         this->sprite->setPosition(this->positionX, this->positionY);
+        if (this->positionX > Config::WINDOW_WIDTH)
+        {
+            this->deleted = true;
+        }
         Element::update();
     }
 

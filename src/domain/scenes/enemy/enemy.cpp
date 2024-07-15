@@ -11,6 +11,7 @@ namespace Game
                                                    "#FF0000")
     {
         std::srand(static_cast<unsigned int>(std::time(0)));
+        this->life = 100;
     }
 
     void Enemy::handleMovement()
@@ -22,47 +23,65 @@ namespace Game
         }
         this->decisionTimer = 0;
 
-        bool isMoved = false;
-        while (isMoved == false)
+        moveRandomlyWithinLimits();
+    }
+
+    void Enemy::moveRandomlyWithinLimits()
+    {
+        while (true)
         {
-            int randomDirection = std::rand() % 4;
-            Direction moveDirection = static_cast<Direction>(randomDirection);
-            switch (moveDirection)
+            Direction moveDirection = getRandomDirection();
+            if (tryMove(moveDirection))
             {
-            case Direction::UP:
-                if (this->tileRowIndex - 1 < this->initialTileRowLimit)
-                {
-                    break;
-                }
-                this->setTileRowIndex(this->tileRowIndex - 1);
-                isMoved = true;
-                break;
-            case Direction::DOWN:
-                if (this->tileRowIndex + 1 > this->finalTileRowLimit)
-                {
-                    break;
-                }
-                this->setTileRowIndex(this->tileRowIndex + 1);
-                isMoved = true;
-                break;
-            case Direction::LEFT:
-                if (this->tileColumnIndex - 1 < this->initialTileColumnLimit)
-                {
-                    break;
-                }
-                this->setTileColumnIndex(this->tileColumnIndex - 1);
-                isMoved = true;
-                break;
-            case Direction::RIGHT:
-                if (this->tileColumnIndex + 1 > this->finalTileColumnLimit)
-                {
-                    break;
-                }
-                this->setTileColumnIndex(this->tileColumnIndex + 1);
-                isMoved = true;
                 break;
             }
         }
+    }
+
+    Direction Enemy::getRandomDirection()
+    {
+        int randomDirectionIndex = std::rand() % 4;
+        return static_cast<Direction>(randomDirectionIndex);
+    }
+
+    bool Enemy::tryMove(Direction direction)
+    {
+        int newRowIndex = this->tileRowIndex;
+        int newColumnIndex = this->tileColumnIndex;
+
+        switch (direction)
+        {
+        case Direction::UP:
+            newRowIndex--;
+            break;
+        case Direction::DOWN:
+            newRowIndex++;
+            break;
+        case Direction::LEFT:
+            newColumnIndex--;
+            break;
+        case Direction::RIGHT:
+            newColumnIndex++;
+            break;
+        default:
+            throw std::runtime_error("Invalid direction");
+        }
+
+        if (checkIsWithinTileLimits(newRowIndex, newColumnIndex))
+        {
+            this->setTileRowIndex(newRowIndex);
+            this->setTileColumnIndex(newColumnIndex);
+            return true;
+        }
+        return false;
+    }
+
+    bool Enemy::checkIsWithinTileLimits(int rowIndex, int columnIndex)
+    {
+        return rowIndex >= this->initialTileRowLimit &&
+               rowIndex <= this->finalTileRowLimit &&
+               columnIndex >= this->initialTileColumnLimit &&
+               columnIndex <= this->finalTileColumnLimit;
     }
 
     void Enemy::update()
@@ -73,6 +92,15 @@ namespace Game
 
     void Enemy::onCollision(Element *other)
     {
+        if (this->dead)
+        {
+            return;
+        }
+
         this->life -= 1;
+        if (this->life <= 0)
+        {
+            this->dead = true;
+        }
     }
 }
