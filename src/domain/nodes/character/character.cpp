@@ -4,13 +4,9 @@ namespace Game
 {
 
     Character::Character(
-        RendererPort *_renderer,
-        TimeManagerPort *_timeManager,
         int width,
         int height,
-        std::string_view hexColor) : renderer(_renderer),
-                                     Element(_timeManager, width, height),
-                                     sprite(_renderer)
+        std::string_view hexColor) : Element(width, height)
 
     {
         this->width = width;
@@ -50,8 +46,8 @@ namespace Game
     {
         this->sprite.setPosition(this->position);
         this->sprite.renderSprite();
-        Vector textPosition = Vector(this->position.x, this->position.y + this->height + 5);
-        this->renderer->renderText(std::to_string(this->life), textPosition);
+        const Vector textPosition = Vector(this->position.x, this->position.y + this->height + 5);
+        Global::adaptersInstance.renderer->renderText(std::to_string(this->life), textPosition);
     }
 
 }

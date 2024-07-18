@@ -2,12 +2,9 @@
 
 namespace Game
 {
-    Arena::Arena(
-        RendererPort *_renderer,
-        TimeManagerPort *_timeManager) : renderer(_renderer),
-                                         timeManager(_timeManager)
+    Arena::Arena()
     {
-        this->tileMap = new TileMap(this->renderer);
+        this->tileMap = new TileMap();
         this->tileMap->init();
         this->configureBackground();
         this->createEnemies();
@@ -15,7 +12,7 @@ namespace Game
 
     void Arena::configureBackground()
     {
-        this->background = new VisualElement(this->renderer);
+        this->background = new VisualElement();
         this->background->setConfig(
             this->backgroundColorHex,
             Vector(0, 0),
@@ -25,7 +22,7 @@ namespace Game
 
     void Arena::createEnemies()
     {
-        Enemy *enemy = new Enemy(this->renderer, this->timeManager);
+        Enemy *enemy = new Enemy();
         enemy->setTilePosition({4, 1});
         enemy->setTileLimits(
             6 - this->tileMap->getEnemyColumnTilesCount(),
@@ -82,7 +79,7 @@ namespace Game
             LogManager::log("Enemy rendered!");
         }
 
-        this->renderer->updateScreen();
+        Global::adaptersInstance.renderer->updateScreen();
         LogManager::log("Screen updated!");
     }
 }

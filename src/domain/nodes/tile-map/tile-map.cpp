@@ -2,7 +2,7 @@
 
 namespace Game
 {
-    TileMap::TileMap(RendererPort *_renderer) : renderer(_renderer) {}
+    TileMap::TileMap() {}
 
     void TileMap::init()
     {
@@ -10,9 +10,9 @@ namespace Game
         {
             for (int j = 0; j < this->tilesRowsCount; ++j)
             {
-                VisualElement *tile = new VisualElement(this->renderer);
-                int posX = i * (tileWidth + tileSpacing) + tileSpacing;
-                int posY = this->tilesStartY + (j * (this->tileHeight + this->tileSpacing));
+                VisualElement *tile = new VisualElement();
+                const int posX = i * (tileWidth + tileSpacing) + tileSpacing;
+                const int posY = this->tilesStartY + (j * (this->tileHeight + this->tileSpacing));
                 std::string_view hexColor = i < this->playerColumnTilesCount ? this->playerTileColor : this->enemyTileColor;
                 tile->setConfig(hexColor, Vector(posX, posY), this->tileWidth, this->tileHeight);
                 this->tiles.push_back(tile);

@@ -1,5 +1,6 @@
 #pragma once
 #include <list>
+#include "../../../utils/global/global.h"
 #include "../../../utils/math/vector.h"
 #include "../visual-element/visual-element.h"
 #include "../../../config/config.h"
@@ -16,7 +17,6 @@ namespace Game
         static const int tileHeight = TileMap::tileWidth / 2.5;
         static const int tilesStartY = Config::WINDOW_HEIGHT - (TileMap::tilesRowsCount * (TileMap::tileHeight + TileMap::tileSpacing));
 
-        RendererPort *renderer;
         std::list<VisualElement *> tiles;
         int playerColumnTilesCount = 3;
         int enemyColumnTilesCount = TileMap::tilesColumnsCount - this->playerColumnTilesCount;
@@ -24,7 +24,7 @@ namespace Game
         std::string enemyTileColor = "#4169E1";
 
     public:
-        TileMap(RendererPort *_renderer);
+        TileMap();
 
         static Vector getElementPositionInTile(Vector tilePosition, int elementWidth, int elementHeight);
 

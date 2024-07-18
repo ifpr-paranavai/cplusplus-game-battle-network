@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include "../../utils/global/global.h"
 #include "../../ports/window-manager/window-manager.h"
 #include "../../ports/keyboard-manager/keyboard-manager.h"
 #include "../../ports/renderer/renderer.h"
@@ -13,18 +14,8 @@ namespace Game
 {
     class GameEngine
     {
-    private:
-        WindowManagerPort *windowManager;
-        KeyboardManagerPort *eventManager;
-        RendererPort *renderer;
-        TimeManagerPort *timeManager;
 
     public:
-        GameEngine(
-            WindowManagerPort *_windowManager,
-            KeyboardManagerPort *_eventManager,
-            RendererPort *_renderer,
-            TimeManagerPort *_timeManager);
         void startGame();
     };
 }

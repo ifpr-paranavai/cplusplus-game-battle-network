@@ -2,11 +2,11 @@
 
 namespace Game
 {
-    VisualElement::VisualElement(RendererPort *_renderer) : renderer(_renderer) {}
+    VisualElement::VisualElement() {}
 
     void VisualElement::renderSprite()
     {
-        this->renderer->renderElement(RenderDataDTO{
+        Global::adaptersInstance.renderer->renderElement(RenderDataDTO{
             position = this->position,
             width = this->width,
             height = this->height,

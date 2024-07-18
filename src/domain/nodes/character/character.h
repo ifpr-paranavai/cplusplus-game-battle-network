@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "../../../utils/global/global.h"
 #include "../../../utils/math/vector.h"
 #include "../visual-element/visual-element.h"
 #include "../tile-map/tile-map.h"
@@ -18,12 +19,9 @@ namespace Game
         int life = 100;
 
         VisualElement sprite;
-        RendererPort *renderer;
 
     public:
         Character(
-            RendererPort *_renderer,
-            TimeManagerPort *_timeManager,
             int width,
             int height,
             std::string_view hexColor);

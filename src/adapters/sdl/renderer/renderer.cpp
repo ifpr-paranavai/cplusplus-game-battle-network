@@ -2,8 +2,7 @@
 
 namespace Game
 {
-    SDLRendererAdapter::SDLRendererAdapter(
-        SDLWindowManagerAdapter *_sdlWindowManagerAdapter) : sdlWindowManagerAdapter(_sdlWindowManagerAdapter)
+    SDLRendererAdapter::SDLRendererAdapter()
     {
         this->sdlRenderer = nullptr;
         if (TTF_Init() == -1)
@@ -24,7 +23,8 @@ namespace Game
     {
         if (this->sdlRenderer == nullptr)
         {
-            SDL_Window *window = this->sdlWindowManagerAdapter->getWindow();
+            SDLWindowManagerAdapter *windowManager = static_cast<Game::SDLWindowManagerAdapter *>(Global::adaptersInstance.windowManager);
+            SDL_Window *window = windowManager->getWindow();
             const char *windowTitle = SDL_GetWindowTitle(window);
 
             this->sdlRenderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);

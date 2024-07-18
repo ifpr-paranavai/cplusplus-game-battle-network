@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <vector>
 #include <SDL2/SDL_ttf.h>
+#include "../../../utils/global/global.h"
 #include "../../../ports/renderer/renderer.h"
 #include "../window-manager/window-manager.h"
 
@@ -13,7 +14,6 @@ namespace Game
     class SDLRendererAdapter : public RendererPort
     {
     private:
-        SDLWindowManagerAdapter *sdlWindowManagerAdapter;
         SDL_Renderer *sdlRenderer;
         TTF_Font *font;
 
@@ -22,7 +22,7 @@ namespace Game
         unsigned int getHexColorValue(std::string_view hexColor);
 
     public:
-        SDLRendererAdapter(SDLWindowManagerAdapter *_sdlWindowManagerAdapter);
+        SDLRendererAdapter();
         void renderElement(const RenderDataDTO &renderDataDTO) override;
         void updateScreen() override;
         void renderText(std::string_view text, Vector position) override;

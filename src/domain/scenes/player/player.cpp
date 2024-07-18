@@ -2,21 +2,13 @@
 
 namespace Game
 {
-    Player::Player(
-        RendererPort *_renderer,
-        KeyboardManagerPort *_eventManager,
-        TimeManagerPort *_timeManeger) : Character(_renderer,
-                                                   _timeManeger,
-                                                   50,
-                                                   70,
-                                                   "#00ADEF"),
-                                         eventManager(_eventManager)
+    Player::Player() : Character(50, 70, "#00ADEF")
     {
     }
 
     void Player::handleMovement()
     {
-        if (this->eventManager->isKeyPressed(KeyCode::ARROW_UP))
+        if (Global::adaptersInstance.keyboardManager->isKeyPressed(KeyCode::ARROW_UP))
         {
             if (this->movementKeyAlreadyPressed)
             {
@@ -32,7 +24,7 @@ namespace Game
             return;
         }
 
-        if (this->eventManager->isKeyPressed(KeyCode::ARROW_DOWN))
+        if (Global::adaptersInstance.keyboardManager->isKeyPressed(KeyCode::ARROW_DOWN))
         {
             if (this->movementKeyAlreadyPressed)
             {
@@ -48,7 +40,7 @@ namespace Game
             return;
         }
 
-        if (this->eventManager->isKeyPressed(KeyCode::ARROW_LEFT))
+        if (Global::adaptersInstance.keyboardManager->isKeyPressed(KeyCode::ARROW_LEFT))
         {
             if (this->movementKeyAlreadyPressed)
             {
@@ -64,7 +56,7 @@ namespace Game
             return;
         }
 
-        if (this->eventManager->isKeyPressed(KeyCode::ARROW_RIGHT))
+        if (Global::adaptersInstance.keyboardManager->isKeyPressed(KeyCode::ARROW_RIGHT))
         {
             if (this->movementKeyAlreadyPressed)
             {
@@ -86,7 +78,7 @@ namespace Game
 
     void Player::handleAttack()
     {
-        if (this->eventManager->isKeyPressed(KeyCode::X))
+        if (Global::adaptersInstance.keyboardManager->isKeyPressed(KeyCode::X))
         {
             if (this->attackKeyAlreadyPressed)
             {
@@ -104,8 +96,6 @@ namespace Game
     void Player::attack()
     {
         Projectile *projectile = new Projectile(
-            this->renderer,
-            this->timeManager,
             Vector(this->position.x + this->width,
                    this->position.y + this->height / 2));
         this->projectiles.push_back(projectile);

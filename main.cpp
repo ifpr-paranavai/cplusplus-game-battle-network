@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "src/application/game-engine/game-engine.h"
+#include "src/utils/global/global.h"
 #include "src/adapters/sdl/keyboard-manager/keyboard-manager.h"
 #include "src/adapters/sdl/window-manager/window-manager.h"
 #include "src/adapters/sdl/renderer/renderer.h"
@@ -8,11 +9,12 @@
 
 int main(int argc, char *argv[])
 {
-    Game::SDLWindowManagerAdapter *windowManager = new Game::SDLWindowManagerAdapter();
-    Game::SDLKeyboardManagerAdapter *eventManager = new Game::SDLKeyboardManagerAdapter();
-    Game::SDLRendererAdapter *renderer = new Game::SDLRendererAdapter(windowManager);
-    Game::SDLTimeManagerAdapter *timeManager = new Game::SDLTimeManagerAdapter();
-    Game::GameEngine *gameEngine = new Game::GameEngine(windowManager, eventManager, renderer, timeManager);
-    gameEngine->startGame();
+    Game::Global::adaptersInstance.windowManager = new Game::SDLWindowManagerAdapter();
+    Game::Global::adaptersInstance.renderer = new Game::SDLRendererAdapter();
+    Game::Global::adaptersInstance.keyboardManager = new Game::SDLKeyboardManagerAdapter();
+    Game::Global::adaptersInstance.timeManager = new Game::SDLTimeManagerAdapter();
+
+    Game::GameEngine gameEngine;
+    gameEngine.startGame();
     return EXIT_SUCCESS;
 }

@@ -2,6 +2,7 @@
 #include <string>
 #include <random>
 #include <ctime>
+#include "../../../utils/global/global.h"
 #include "../../nodes/character/character.h"
 #include "../../../utils/log-manager/log-manager.h"
 
@@ -32,7 +33,7 @@ namespace Game
         void onCollision(Element *other) override;
 
     public:
-        Enemy(RendererPort *_renderer, TimeManagerPort *_timeManager);
+        Enemy();
         void update() override;
     };
 }

@@ -2,13 +2,7 @@
 
 namespace Game
 {
-    Enemy::Enemy(
-        RendererPort *_renderer,
-        TimeManagerPort *_timeManager) : Character(_renderer,
-                                                   _timeManager,
-                                                   50,
-                                                   50,
-                                                   "#FF0000")
+    Enemy::Enemy() : Character(50, 50, "#FF0000")
     {
         std::srand(static_cast<unsigned int>(std::time(0)));
         this->life = 100;
@@ -16,7 +10,7 @@ namespace Game
 
     void Enemy::handleMovement()
     {
-        this->decisionTimer += this->timeManager->getDeltaTime();
+        this->decisionTimer += Global::adaptersInstance.timeManager->getDeltaTime();
         if (this->decisionTimer < this->decisionTime)
         {
             return;
@@ -30,7 +24,7 @@ namespace Game
     {
         while (true)
         {
-            Direction moveDirection = getRandomDirection();
+            const Direction moveDirection = getRandomDirection();
             if (tryMove(moveDirection))
             {
                 break;

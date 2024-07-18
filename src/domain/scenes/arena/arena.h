@@ -10,11 +10,9 @@ namespace Game
     class Arena
     {
     private:
-        RendererPort *renderer;
         VisualElement *background;
         Player *player;
         TileMap *tileMap;
-        TimeManagerPort *timeManager;
         std::string backgroundColorHex = "#87CEEB";
         std::list<Enemy *> enemies;
 
@@ -22,7 +20,7 @@ namespace Game
         void createEnemies();
 
     public:
-        Arena(RendererPort *_renderer, TimeManagerPort *_timeManager);
+        Arena();
         void render();
         void setPlayer(Player *_player);
     };

@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <ctime>
+#include "../../../utils/global/global.h"
 #include "../../nodes/character/character.h"
 #include "../../../ports/keyboard-manager/keyboard-manager.h"
 #include "../projectile/projectile.h"
@@ -12,7 +13,6 @@ namespace Game
     private:
         bool movementKeyAlreadyPressed = false;
         bool attackKeyAlreadyPressed = false;
-        KeyboardManagerPort *eventManager;
         std::list<Projectile *> projectiles;
 
         void handleMovement();
@@ -21,7 +21,7 @@ namespace Game
         void checkProjectiles();
 
     public:
-        Player(RendererPort *_renderer, KeyboardManagerPort *_eventManager, TimeManagerPort *_timeManager);
+        Player();
         void update() override;
         void onCollision(Element *other) override;
         std::list<Projectile *> getProjectiles();
