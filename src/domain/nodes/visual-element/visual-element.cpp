@@ -7,25 +7,22 @@ namespace Game
     void VisualElement::renderSprite()
     {
         this->renderer->renderElement(RenderDataDTO{
-            positionX = this->positionX,
-            positionY = this->positionY,
+            position = this->position,
             width = this->width,
             height = this->height,
             hexColor = this->hexColor});
     }
 
-    void VisualElement::setConfig(std::string_view hexColor, int positionX, int positionY, int width, int height)
+    void VisualElement::setConfig(std::string_view hexColor, Vector position, int width, int height)
     {
         this->hexColor = hexColor;
-        this->positionX = positionX;
-        this->positionY = positionY;
+        this->position = position;
         this->width = width;
         this->height = height;
     }
 
-    void VisualElement::setPosition(int positionX, int positionY)
+    void VisualElement::setPosition(Vector position)
     {
-        this->positionX = positionX;
-        this->positionY = positionY;
+        this->position = position;
     }
 }

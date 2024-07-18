@@ -63,8 +63,8 @@ namespace Game
 
         // Renderizar a borda
         SDL_Rect borderRect = {
-            renderDataDTO.positionX - 2,
-            renderDataDTO.positionY - 2,
+            static_cast<int>(std::round(renderDataDTO.position.x)) - 2,
+            static_cast<int>(std::round(renderDataDTO.position.y)) - 2,
             renderDataDTO.width + 2 * 2,
             renderDataDTO.height + 2 * 2};
         SDL_SetRenderDrawColor(this->getRenderer(), 50, 50, 50, 255); // Cor preta para a borda
@@ -72,8 +72,8 @@ namespace Game
 
         // Renderizar o retângulo interno (conteúdo)
         SDL_Rect fillRect = {
-            renderDataDTO.positionX,
-            renderDataDTO.positionY,
+            static_cast<int>(std::round(renderDataDTO.position.x)),
+            static_cast<int>(std::round(renderDataDTO.position.y)),
             renderDataDTO.width,
             renderDataDTO.height};
         SDL_SetRenderDrawColor(this->getRenderer(), r, g, b, 255); // Cor interna do elemento
@@ -85,7 +85,7 @@ namespace Game
         SDL_RenderPresent(this->getRenderer());
     }
 
-    void SDLRendererAdapter::renderText(std::string_view text, int x, int y)
+    void SDLRendererAdapter::renderText(std::string_view text, Vector position)
     {
         SDL_Color textColor = {255, 255, 255, 255};
         SDL_Color borderColor = {0, 0, 0, 255};
@@ -107,8 +107,8 @@ namespace Game
         }
 
         SDL_Rect textRect;
-        textRect.x = x;
-        textRect.y = y;
+        textRect.x = position.x;
+        textRect.y = position.y;
         SDL_QueryTexture(textTexture, NULL, NULL, &textRect.w, &textRect.h);
 
         // Render the border by rendering the text in black in all surrounding positions

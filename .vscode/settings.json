@@ -55,6 +55,20 @@
     "xutility": "cpp",
     "algorithm": "cpp",
     "optional": "cpp",
-    "random": "cpp"
+    "random": "cpp",
+    "array": "cpp",
+    "chrono": "cpp",
+    "coroutine": "cpp",
+    "forward_list": "cpp",
+    "functional": "cpp",
+    "mutex": "cpp",
+    "numbers": "cpp",
+    "numeric": "cpp",
+    "ratio": "cpp",
+    "stop_token": "cpp",
+    "thread": "cpp",
+    "unordered_map": "cpp",
+    "variant": "cpp",
+    "xhash": "cpp"
   }
 }

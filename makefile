@@ -1,8 +1,6 @@
-# Makefile para compilar o projeto
-
 # Flags do compilador
-CXXFLAGS = -I src/include
-LDFLAGS = -L src/lib
+CXXFLAGS = -I src/include -std=c++20
+LDFLAGS = -L src/lib -std=c++20
 LIBS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_ttf
 
 # Lista de arquivos fonte

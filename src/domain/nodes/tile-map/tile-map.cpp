@@ -14,7 +14,7 @@ namespace Game
                 int posX = i * (tileWidth + tileSpacing) + tileSpacing;
                 int posY = this->tilesStartY + (j * (this->tileHeight + this->tileSpacing));
                 std::string_view hexColor = i < this->playerColumnTilesCount ? this->playerTileColor : this->enemyTileColor;
-                tile->setConfig(hexColor, posX, posY, this->tileWidth, this->tileHeight);
+                tile->setConfig(hexColor, Vector(posX, posY), this->tileWidth, this->tileHeight);
                 this->tiles.push_back(tile);
             }
         }
@@ -28,17 +28,12 @@ namespace Game
         }
     }
 
-    int TileMap::getElementInTilePositionX(int tileColIndex, int elementWidth)
-    {
-        int posX = tileColIndex * (tileWidth + tileSpacing) + tileSpacing + (tileWidth - elementWidth) / 2;
-        return posX;
-    }
-
-    int TileMap::getElementInTilePositionY(int tileRowIndex, int elementHeight)
+    Vector TileMap::getElementPositionInTile(Vector tilePosition, int elementWidth, int elementHeight)
     {
         int heightAdjust = elementHeight < TileMap::tileHeight ? (TileMap::tileHeight - elementHeight) : 0;
-        int posY = tilesStartY + tileRowIndex * (tileHeight + tileSpacing) - tileHeight / 2 + heightAdjust;
-        return posY;
+        int posX = tilePosition.x * (tileWidth + tileSpacing) + tileSpacing + (tileWidth - elementWidth) / 2;
+        int posY = tilesStartY + tilePosition.y * (tileHeight + tileSpacing) - tileHeight / 2 + heightAdjust;
+        return Vector(posX, posY);
     }
 
     int TileMap::getPlayerColumnTilesCount()

@@ -1,21 +1,20 @@
 #pragma once
+#include "../../../utils/math/vector.h"
 
 namespace Game
 {
     class CollisionBox
     {
     private:
-        int positionX;
-        int positionY;
         int width;
         int height;
+        Vector position;
 
     public:
-        CollisionBox(int positionX, int positionY, int with, int height);
-        void setPosition(int positionX, int positionY);
+        CollisionBox(Vector position, int with, int height);
+        void setPosition(Vector position);
         bool collidesWith(CollisionBox *other);
-        int getPositionX();
-        int getPositionY();
+        Vector getPosition();
         int getWidth();
         int getHeight();
     };

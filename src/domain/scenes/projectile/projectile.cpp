@@ -4,21 +4,19 @@ namespace Game
 {
     Projectile::Projectile(RendererPort *_renderer,
                            TimeManagerPort *_timeManager,
-                           int initialX,
-                           int initialY) : Element(_timeManager, 10, 10)
+                           Vector initialPosition) : Element(_timeManager, 10, 10)
     {
         this->sprite = new VisualElement(_renderer);
-        this->sprite->setConfig("#FFFF00", initialX, initialY, this->width, this->height);
-        this->positionX = initialX;
-        this->positionY = initialY;
+        this->sprite->setConfig("#FFFF00", initialPosition, this->width, this->height);
+        this->position = initialPosition;
     }
 
     void Projectile::update()
     {
         float deltaTime = this->timeManager->getDeltaTime();
-        this->positionX = this->positionX + this->speedVel * deltaTime;
-        this->sprite->setPosition(this->positionX, this->positionY);
-        if (this->positionX > Config::WINDOW_WIDTH)
+        this->position += this->velocity * deltaTime;
+        this->sprite->setPosition(this->position);
+        if (this->position.x > Config::WINDOW_WIDTH)
         {
             this->deleted = true;
         }

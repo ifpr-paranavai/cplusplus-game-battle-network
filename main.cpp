@@ -6,9 +6,6 @@
 #include "src/adapters/sdl/renderer/renderer.h"
 #include "src/adapters/sdl/time-manager/time-manager.h"
 
-const int WINDOW_WIDTH = 640;
-const int WINDOW_HEIGHT = 480;
-
 int main(int argc, char *argv[])
 {
     Game::SDLWindowManagerAdapter *windowManager = new Game::SDLWindowManagerAdapter();

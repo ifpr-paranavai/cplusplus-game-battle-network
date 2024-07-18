@@ -1,4 +1,5 @@
 #pragma once
+#include "../../../utils/math/vector.h"
 #include "../../../dtos/render-data/render-data.h"
 #include "../../../ports/renderer/renderer.h"
 
@@ -7,8 +8,7 @@ namespace Game
     class VisualElement
     {
     protected:
-        int positionX = 0;
-        int positionY = 0;
+        Vector position;
         int width = 0;
         int height = 0;
         std::string_view hexColor;
@@ -17,7 +17,7 @@ namespace Game
     public:
         VisualElement(RendererPort *_renderer);
         void renderSprite();
-        void setConfig(std::string_view hexColor, int positionX, int positionY, int width, int height);
-        void setPosition(int positionX, int positionY);
+        void setConfig(std::string_view hexColor, Vector position, int width, int height);
+        void setPosition(Vector position);
     };
 }

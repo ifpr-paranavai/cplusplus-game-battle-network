@@ -46,8 +46,8 @@ namespace Game
 
     bool Enemy::tryMove(Direction direction)
     {
-        int newRowIndex = this->tileRowIndex;
-        int newColumnIndex = this->tileColumnIndex;
+        float newRowIndex = this->tilePosition.y;
+        float newColumnIndex = this->tilePosition.x;
 
         switch (direction)
         {
@@ -69,8 +69,7 @@ namespace Game
 
         if (checkIsWithinTileLimits(newRowIndex, newColumnIndex))
         {
-            this->setTileRowIndex(newRowIndex);
-            this->setTileColumnIndex(newColumnIndex);
+            this->setTilePosition({newColumnIndex, newRowIndex});
             return true;
         }
         return false;

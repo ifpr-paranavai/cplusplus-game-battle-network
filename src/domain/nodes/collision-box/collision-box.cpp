@@ -2,28 +2,21 @@
 
 namespace Game
 {
-    CollisionBox::CollisionBox(int positionX, int positionY, int with, int height)
+    CollisionBox::CollisionBox(Vector position, int with, int height)
     {
-        this->positionX = positionX;
-        this->positionY = positionY;
+        this->position = position;
         this->width = with;
         this->height = height;
     }
 
-    void CollisionBox::setPosition(int positionX, int positionY)
+    void CollisionBox::setPosition(Vector position)
     {
-        this->positionX = positionX;
-        this->positionY = positionY;
+        this->position = position;
     }
 
-    int CollisionBox::getPositionX()
+    Vector CollisionBox::getPosition()
     {
-        return this->positionX;
-    }
-
-    int CollisionBox::getPositionY()
-    {
-        return this->positionY;
+        return this->position;
     }
 
     int CollisionBox::getWidth()
@@ -38,9 +31,11 @@ namespace Game
 
     bool CollisionBox::collidesWith(CollisionBox *other)
     {
-        return (this->positionX < other->getPositionX() + other->getWidth() &&
-                this->positionX + this->width > other->getPositionX() &&
-                this->positionY < other->getPositionY() + other->getHeight() &&
-                this->positionY + this->height > other->getPositionY());
+        Vector otherPosition = other->getPosition();
+
+        return (position[0] < otherPosition[0] + other->getWidth() &&
+                position[0] + width > otherPosition[0] &&
+                position[1] < otherPosition[1] + other->getHeight() &&
+                position[1] + height > otherPosition[1]);
     }
 }

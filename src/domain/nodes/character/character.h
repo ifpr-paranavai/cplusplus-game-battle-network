@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "../../../utils/math/vector.h"
 #include "../visual-element/visual-element.h"
 #include "../tile-map/tile-map.h"
 #include "../element/element.h"
@@ -9,15 +10,14 @@ namespace Game
     class Character : public Element
     {
     protected:
-        int tileColumnIndex = 0;
-        int tileRowIndex = 0;
+        Vector tilePosition;
         int initialTileColumnLimit = 0;
         int initialTileRowLimit = 0;
         int finalTileColumnLimit = 0;
         int finalTileRowLimit = 0;
         int life = 100;
 
-        VisualElement *sprite;
+        VisualElement sprite;
         RendererPort *renderer;
 
     public:
@@ -28,9 +28,7 @@ namespace Game
             int height,
             std::string_view hexColor);
 
-        void setTileCoords(int tileColumnIndex, int tileRowIndex);
-        void setTileColumnIndex(int tileColumnIndex);
-        void setTileRowIndex(int tileRowInde);
+        void setTilePosition(Vector tilePosition);
         int getWidth();
         int getHeight();
         void render();

@@ -24,11 +24,11 @@ namespace Game
             }
             this->movementKeyAlreadyPressed = true;
 
-            if (this->tileRowIndex - 1 < this->initialTileRowLimit)
+            if (this->tilePosition.y - 1 < this->initialTileRowLimit)
             {
                 return;
             }
-            this->setTileRowIndex(this->tileRowIndex - 1);
+            this->setTilePosition({this->tilePosition.x, this->tilePosition.y - 1});
             return;
         }
 
@@ -40,11 +40,11 @@ namespace Game
             }
             this->movementKeyAlreadyPressed = true;
 
-            if (this->tileRowIndex + 1 > this->finalTileRowLimit)
+            if (this->tilePosition.y + 1 > this->finalTileRowLimit)
             {
                 return;
             }
-            this->setTileRowIndex(this->tileRowIndex + 1);
+            this->setTilePosition({this->tilePosition.x, this->tilePosition.y + 1});
             return;
         }
 
@@ -56,11 +56,11 @@ namespace Game
             }
             this->movementKeyAlreadyPressed = true;
 
-            if (this->tileColumnIndex - 1 < this->initialTileColumnLimit)
+            if (this->tilePosition.x - 1 < this->initialTileColumnLimit)
             {
                 return;
             }
-            this->setTileColumnIndex(this->tileColumnIndex - 1);
+            this->setTilePosition({this->tilePosition.x - 1, this->tilePosition.y});
             return;
         }
 
@@ -72,12 +72,12 @@ namespace Game
             }
             this->movementKeyAlreadyPressed = true;
 
-            if (this->tileColumnIndex + 1 > this->finalTileColumnLimit)
+            if (this->tilePosition.x + 1 > this->finalTileColumnLimit)
             {
                 return;
             }
 
-            this->setTileColumnIndex(this->tileColumnIndex + 1);
+            this->setTilePosition({this->tilePosition.x + 1, this->tilePosition.y});
             return;
         }
 
@@ -106,8 +106,8 @@ namespace Game
         Projectile *projectile = new Projectile(
             this->renderer,
             this->timeManager,
-            this->positionX + this->width,
-            this->positionY + this->height / 2);
+            Vector(this->position.x + this->width,
+                   this->position.y + this->height / 2));
         this->projectiles.push_back(projectile);
     }
 

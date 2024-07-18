@@ -18,8 +18,7 @@ namespace Game
         this->background = new VisualElement(this->renderer);
         this->background->setConfig(
             this->backgroundColorHex,
-            0,
-            0,
+            Vector(0, 0),
             Config::WINDOW_WIDTH,
             Config::WINDOW_HEIGHT);
     }
@@ -27,7 +26,7 @@ namespace Game
     void Arena::createEnemies()
     {
         Enemy *enemy = new Enemy(this->renderer, this->timeManager);
-        enemy->setTileCoords(4, 1);
+        enemy->setTilePosition({4, 1});
         enemy->setTileLimits(
             6 - this->tileMap->getEnemyColumnTilesCount(),
             5,
@@ -39,7 +38,7 @@ namespace Game
     void Arena::setPlayer(Player *player)
     {
         this->player = player;
-        this->player->setTileCoords(1, 1);
+        this->player->setTilePosition({1, 1});
         this->player->setTileLimits(
             0,
             this->tileMap->getPlayerColumnTilesCount() - 1,

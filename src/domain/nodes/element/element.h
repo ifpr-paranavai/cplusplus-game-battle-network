@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include "../../../utils/math/vector.h"
 #include "../collision-box/collision-box.h"
 #include "../../../ports/time-manager/time-manager.h"
 
@@ -12,8 +13,7 @@ namespace Game
         TimeManagerPort *timeManager;
         int width = 0;
         int height = 0;
-        int positionX = 0;
-        int positionY = 0;
+        Vector position;
 
         virtual void onCollision(Element *other) = 0;
 

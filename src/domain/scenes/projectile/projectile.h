@@ -1,4 +1,5 @@
 #pragma once
+#include "../../../utils/math/vector.h"
 #include "../../nodes/visual-element/visual-element.h"
 #include "../../nodes/element/element.h"
 #include "../../../config/config.h"
@@ -9,13 +10,13 @@ namespace Game
     {
     private:
         VisualElement *sprite;
-        int speedVel = 1000;
+        Vector velocity = {1000, 0};
         bool deleted = false;
 
         void onCollision(Element *other);
 
     public:
-        Projectile(RendererPort *_renderer, TimeManagerPort *_timeManager, int initialX, int initialY);
+        Projectile(RendererPort *_renderer, TimeManagerPort *_timeManager, Vector initialPosition);
 
         void update();
         void render();

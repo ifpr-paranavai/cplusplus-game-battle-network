@@ -6,12 +6,12 @@ namespace Game
     {
         this->width = width;
         this->height = height;
-        this->collisionBox = new CollisionBox(this->positionX, this->positionY, width, height);
+        this->collisionBox = new CollisionBox(this->position, width, height);
     }
 
     void Element::update()
     {
-        this->collisionBox->setPosition(this->positionX, this->positionY);
+        this->collisionBox->setPosition(this->position);
     }
 
     CollisionBox *Element::getCollisionBox()

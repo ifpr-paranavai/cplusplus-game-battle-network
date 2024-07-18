@@ -1,5 +1,6 @@
 #pragma once
 #include <list>
+#include "../../../utils/math/vector.h"
 #include "../visual-element/visual-element.h"
 #include "../../../config/config.h"
 
@@ -25,8 +26,7 @@ namespace Game
     public:
         TileMap(RendererPort *_renderer);
 
-        static int getElementInTilePositionX(int tileColIndex, int elementWidth);
-        static int getElementInTilePositionY(int tileRowIndex, int elementHeight);
+        static Vector getElementPositionInTile(Vector tilePosition, int elementWidth, int elementHeight);
 
         void init();
         void render();
