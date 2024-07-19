@@ -6,24 +6,28 @@ namespace Game
     {
         this->width = width;
         this->height = height;
-        this->collisionBox = new CollisionBox(this->position, width, height);
     }
 
     void Element::update()
     {
-        this->collisionBox->setPosition(this->position);
     }
 
-    CollisionBox *Element::getCollisionBox()
+    std::list<CollisionBox> Element::getCollisionBoxes()
     {
-        return this->collisionBox;
+        return this->collisionBoxes;
     }
 
     void Element::checkCollision(Element *element)
     {
-        if (this->collisionBox->collidesWith(element->getCollisionBox()))
+        for (auto &collisionBox : this->collisionBoxes)
         {
-            element->onCollision(element);
+            for (auto &collisionBox2 : element->getCollisionBoxes())
+            {
+                if (collisionBox.collidesWith(collisionBox2))
+                {
+                    this->onCollision(element);
+                }
+            }
         }
     }
 }

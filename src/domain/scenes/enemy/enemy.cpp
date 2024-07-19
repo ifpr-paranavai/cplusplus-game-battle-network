@@ -6,6 +6,7 @@ namespace Game
     {
         std::srand(static_cast<unsigned int>(std::time(0)));
         this->life = 100;
+        this->collisionBoxes.push_back(CollisionBox(this->position, this->width, this->height));
     }
 
     void Enemy::handleMovement()
@@ -80,7 +81,10 @@ namespace Game
     void Enemy::update()
     {
         this->handleMovement();
-        Character::update();
+        for (CollisionBox &collisionBox : this->collisionBoxes)
+        {
+            collisionBox.setPosition(this->position);
+        }
     }
 
     void Enemy::onCollision(Element *other)

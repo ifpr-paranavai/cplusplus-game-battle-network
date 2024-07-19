@@ -7,6 +7,7 @@ namespace Game
     {
         this->sprite.setConfig("#FFFF00", initialPosition, this->width, this->height);
         this->position = initialPosition;
+        this->collisionBoxes.push_back(CollisionBox(this->position, this->width, this->height));
     }
 
     void Projectile::update()
@@ -18,7 +19,10 @@ namespace Game
         {
             this->deleted = true;
         }
-        Element::update();
+        for (CollisionBox &collisionBox : this->collisionBoxes)
+        {
+            collisionBox.setPosition(this->position);
+        }
     }
 
     void Projectile::render()

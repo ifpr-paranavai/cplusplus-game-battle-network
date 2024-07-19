@@ -5,6 +5,7 @@
 #include "../../nodes/character/character.h"
 #include "../../../ports/keyboard-manager/keyboard-manager.h"
 #include "../projectile/projectile.h"
+#include "../../../utils/log-manager/log-manager.h"
 
 namespace Game
 {

@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <list>
 #include "../../../utils/math/vector.h"
 #include "../collision-box/collision-box.h"
 
@@ -8,7 +9,7 @@ namespace Game
     class Element
     {
     protected:
-        CollisionBox *collisionBox;
+        std::list<CollisionBox> collisionBoxes;
         int width = 0;
         int height = 0;
         Vector position;
@@ -20,6 +21,6 @@ namespace Game
 
         virtual void update();
         virtual void checkCollision(Element *other);
-        CollisionBox *getCollisionBox();
+        std::list<CollisionBox> getCollisionBoxes();
     };
 }

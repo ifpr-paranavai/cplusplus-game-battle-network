@@ -4,6 +4,9 @@ namespace Game
 {
     Player::Player() : Character(50, 70, "#00ADEF")
     {
+        LogManager::log("Creating collision box");
+        this->collisionBoxes.push_back(CollisionBox(this->position, this->width, this->height));
+        LogManager::log("Collision added to list");
     }
 
     void Player::handleMovement()
@@ -122,7 +125,10 @@ namespace Game
         this->checkProjectiles();
         this->handleMovement();
         this->handleAttack();
-        Character::update();
+        for (CollisionBox &collisionBox : this->collisionBoxes)
+        {
+            collisionBox.setPosition(this->position);
+        }
     }
 
     std::list<Projectile *> Player::getProjectiles()

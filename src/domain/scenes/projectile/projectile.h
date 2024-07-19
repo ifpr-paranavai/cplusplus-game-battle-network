@@ -1,4 +1,5 @@
 #pragma once
+#include "../../nodes/collision-box/collision-box.h"
 #include "../../../utils/global/global.h"
 #include "../../../utils/math/vector.h"
 #include "../../nodes/visual-element/visual-element.h"
