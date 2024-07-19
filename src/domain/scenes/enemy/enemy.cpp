@@ -72,10 +72,10 @@ namespace Game
 
     bool Enemy::checkIsWithinTileLimits(int rowIndex, int columnIndex)
     {
-        return rowIndex >= this->initialTileRowLimit &&
-               rowIndex <= this->finalTileRowLimit &&
-               columnIndex >= this->initialTileColumnLimit &&
-               columnIndex <= this->finalTileColumnLimit;
+        return rowIndex >= this->tileYLimit[0] &&
+               rowIndex <= this->tileYLimit[1] &&
+               columnIndex >= this->tileXLimit[0] &&
+               columnIndex <= this->tileXLimit[1];
     }
 
     void Enemy::update()

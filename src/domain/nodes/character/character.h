@@ -12,10 +12,8 @@ namespace Game
     {
     protected:
         Vector tilePosition;
-        int initialTileColumnLimit = 0;
-        int initialTileRowLimit = 0;
-        int finalTileColumnLimit = 0;
-        int finalTileRowLimit = 0;
+        Vector tileXLimit;
+        Vector tileYLimit;
         int life = 100;
 
         VisualElement sprite;
@@ -30,7 +28,8 @@ namespace Game
         int getWidth();
         int getHeight();
         void render();
-        void setTileLimits(int initialTileColumnIndex, int finalTileColumnIndex, int initialTileRowIndex, int finalTileRowIndex);
+        void setTileXLimit(Vector tileXLimit);
+        void setTileYLimit(Vector tileYLimit);
 
         virtual ~Character() = default;
     };

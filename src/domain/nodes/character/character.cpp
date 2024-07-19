@@ -30,24 +30,22 @@ namespace Game
         return this->height;
     }
 
-    void Character::setTileLimits(
-        int initialTileColumnIndex,
-        int finalTileColumnIndex,
-        int initialTileRowIndex,
-        int finalTileRowIndex)
-    {
-        this->initialTileColumnLimit = initialTileColumnIndex;
-        this->initialTileRowLimit = initialTileRowIndex;
-        this->finalTileColumnLimit = finalTileColumnIndex;
-        this->finalTileRowLimit = finalTileRowIndex;
-    }
-
     void Character::render()
     {
         this->sprite.setPosition(this->position);
         this->sprite.renderSprite();
         const Vector textPosition = Vector(this->position.x, this->position.y + this->height + 5);
         Global::adaptersInstance.renderer->renderText(std::to_string(this->life), textPosition);
+    }
+
+    void Character::setTileXLimit(Vector tileXLimit)
+    {
+        this->tileXLimit = tileXLimit;
+    }
+
+    void Character::setTileYLimit(Vector tileYLimit)
+    {
+        this->tileYLimit = tileYLimit;
     }
 
 }
