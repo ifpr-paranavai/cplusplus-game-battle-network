@@ -11,3 +11,13 @@
 
 - Incluir o "my-lib" ao projeto.
 - Alterado todas as posições e velocidades para utilizar o vetor.
+
+# 19/07/2024
+
+- Adicionar suporte a múltiplas collisionboxes
+- Trocar atributos de limit de tile para Vectorv
+- Criei DynamicBody e TileBasedBody
+- Add getters de tamanho do texto
+- Iniciar implementação de ataque de inimigos
+- Adicionando a lista de Character na Arena
+- Implementei o ProjectileService
