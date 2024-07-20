@@ -23,6 +23,8 @@ namespace Game
 
     public:
         SDLRendererAdapter();
+        int getTextHeight(std::string_view text) override;
+        int getTextWidth(std::string_view text) override;
         void renderElement(const RenderDataDTO &renderDataDTO) override;
         void updateScreen() override;
         void renderText(std::string_view text, Vector position) override;

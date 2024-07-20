@@ -85,6 +85,28 @@ namespace Game
         SDL_RenderPresent(this->getRenderer());
     }
 
+    int SDLRendererAdapter::getTextHeight(std::string_view text)
+    {
+        int textWidth, textHeight;
+        if (TTF_SizeText(this->font, text.data(), &textWidth, &textHeight) != 0)
+        {
+            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "TTF_SizeText failed: %s", TTF_GetError());
+            throw std::runtime_error(TTF_GetError());
+        }
+        return textHeight;
+    }
+
+    int SDLRendererAdapter::getTextWidth(std::string_view text)
+    {
+        int textWidth, textHeight;
+        if (TTF_SizeText(this->font, text.data(), &textWidth, &textHeight) != 0)
+        {
+            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "TTF_SizeText failed: %s", TTF_GetError());
+            throw std::runtime_error(TTF_GetError());
+        }
+        return textWidth;
+    }
+
     void SDLRendererAdapter::renderText(std::string_view text, Vector position)
     {
         SDL_Color textColor = {255, 255, 255, 255};

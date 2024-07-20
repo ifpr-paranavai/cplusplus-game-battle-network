@@ -19,11 +19,14 @@ namespace Game
     class Enemy : public Character
     {
     private:
-        float decisionTime = 1;
-        float decisionTimer = 0;
+        float movementDecisionTime = 1;
+        float movementDecisionTimer = 0;
+        float attackTimer = 0;
+        float attackTime = 1;
         bool dead = false;
 
         void handleMovement();
+        void handleAttack();
         bool tryMove(Direction direction);
         Direction getRandomDirection();
         void moveRandomlyWithinLimits();

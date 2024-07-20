@@ -20,6 +20,3 @@ EXECUTABLE = main
 $(EXECUTABLE): $(OBJECTS)
 	$(CXX) $(LDFLAGS) $(OBJECTS) $(LIBS) -o $@
 
-# Regra para limpar os arquivos intermediários e o executável
-clean:
-	rm -f $(OBJECTS) $(EXECUTABLE)

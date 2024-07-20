@@ -11,12 +11,12 @@ namespace Game
 
     void Enemy::handleMovement()
     {
-        this->decisionTimer += Global::adaptersInstance.timeManager->getDeltaTime();
-        if (this->decisionTimer < this->decisionTime)
+        this->movementDecisionTimer += Global::adaptersInstance.timeManager->getDeltaTime();
+        if (this->movementDecisionTimer < this->movementDecisionTime)
         {
             return;
         }
-        this->decisionTimer = 0;
+        this->movementDecisionTimer = 0;
 
         moveRandomlyWithinLimits();
     }
@@ -56,9 +56,22 @@ namespace Game
         }
     }
 
+    void Enemy::handleAttack()
+    {
+        this->attackTimer += Global::adaptersInstance.timeManager->getDeltaTime();
+        if (this->attackTimer < this->attackTime)
+        {
+            return;
+        }
+
+        this->attackTimer = 0;
+        std::cout << "Enemy attack" << std::endl;
+    }
+
     void Enemy::update()
     {
         this->handleMovement();
+        this->handleAttack();
         for (CollisionBox &collisionBox : this->collisionBoxes)
         {
             collisionBox.setPosition(this->position);
