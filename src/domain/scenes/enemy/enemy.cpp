@@ -41,41 +41,19 @@ namespace Game
 
     bool Enemy::tryMove(Direction direction)
     {
-        float newRowIndex = this->tilePosition.y;
-        float newColumnIndex = this->tilePosition.x;
-
         switch (direction)
         {
         case Direction::UP:
-            newRowIndex--;
-            break;
+            return this->tryMoveUp();
         case Direction::DOWN:
-            newRowIndex++;
-            break;
+            return this->tryMoveDown();
         case Direction::LEFT:
-            newColumnIndex--;
-            break;
+            return this->tryMoveLeft();
         case Direction::RIGHT:
-            newColumnIndex++;
-            break;
+            return this->tryMoveRight();
         default:
             throw std::runtime_error("Invalid direction");
         }
-
-        if (checkIsWithinTileLimits(newRowIndex, newColumnIndex))
-        {
-            this->setTilePosition({newColumnIndex, newRowIndex});
-            return true;
-        }
-        return false;
-    }
-
-    bool Enemy::checkIsWithinTileLimits(int rowIndex, int columnIndex)
-    {
-        return rowIndex >= this->tileYLimit[0] &&
-               rowIndex <= this->tileYLimit[1] &&
-               columnIndex >= this->tileXLimit[0] &&
-               columnIndex <= this->tileXLimit[1];
     }
 
     void Enemy::update()

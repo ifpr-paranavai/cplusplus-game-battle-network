@@ -3,8 +3,9 @@
 namespace Game
 {
     Projectile::Projectile(
-        Vector initialPosition) : Element(10, 10)
+        Vector initialPosition) : DynamicBody(10, 10)
     {
+        this->velocity = {1000, 0};
         this->sprite.setConfig("#FFFF00", initialPosition, this->width, this->height);
         this->position = initialPosition;
         this->collisionBoxes.push_back(CollisionBox(this->position, this->width, this->height));
@@ -12,8 +13,7 @@ namespace Game
 
     void Projectile::update()
     {
-        const float deltaTime = Global::adaptersInstance.timeManager->getDeltaTime();
-        this->position += this->velocity * deltaTime;
+        this->move();
         this->sprite.setPosition(this->position);
         if (this->position.x > Config::WINDOW_WIDTH)
         {

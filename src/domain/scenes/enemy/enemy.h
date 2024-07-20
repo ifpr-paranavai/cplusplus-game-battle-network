@@ -25,7 +25,6 @@ namespace Game
 
         void handleMovement();
         bool tryMove(Direction direction);
-        bool checkIsWithinTileLimits(int rowIndex, int columnIndex);
         Direction getRandomDirection();
         void moveRandomlyWithinLimits();
 

@@ -18,12 +18,7 @@ namespace Game
                 return;
             }
             this->movementKeyAlreadyPressed = true;
-
-            if (this->tilePosition.y - 1 < this->tileYLimit[0])
-            {
-                return;
-            }
-            this->setTilePosition({this->tilePosition.x, this->tilePosition.y - 1});
+            this->tryMoveUp();
             return;
         }
 
@@ -34,12 +29,7 @@ namespace Game
                 return;
             }
             this->movementKeyAlreadyPressed = true;
-
-            if (this->tilePosition.y + 1 > this->tileYLimit[1])
-            {
-                return;
-            }
-            this->setTilePosition({this->tilePosition.x, this->tilePosition.y + 1});
+            this->tryMoveDown();
             return;
         }
 
@@ -50,12 +40,7 @@ namespace Game
                 return;
             }
             this->movementKeyAlreadyPressed = true;
-
-            if (this->tilePosition.x - 1 < this->tileXLimit[0])
-            {
-                return;
-            }
-            this->setTilePosition({this->tilePosition.x - 1, this->tilePosition.y});
+            this->tryMoveLeft();
             return;
         }
 
@@ -66,13 +51,7 @@ namespace Game
                 return;
             }
             this->movementKeyAlreadyPressed = true;
-
-            if (this->tilePosition.x + 1 > this->tileXLimit[1])
-            {
-                return;
-            }
-
-            this->setTilePosition({this->tilePosition.x + 1, this->tilePosition.y});
+            this->tryMoveRight();
             return;
         }
 
