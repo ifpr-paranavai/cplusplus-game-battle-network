@@ -12,8 +12,7 @@ namespace Game
 
     void Arena::configureBackground()
     {
-        this->background = new VisualElement();
-        this->background->setConfig(
+        this->background.setConfig(
             this->backgroundColorHex,
             Vector(0, 0),
             Config::WINDOW_WIDTH,
@@ -26,7 +25,7 @@ namespace Game
         enemy->setTilePosition({4, 1});
         enemy->setTileXLimit({static_cast<float>(6 - this->tileMap->getEnemyColumnTilesCount()), 5});
         enemy->setTileYLimit({0, static_cast<float>(this->tileMap->getTilesRowsCount() - 1)});
-        this->enemies.push_back(enemy);
+        this->characters.push_back(std::move(enemy));
     }
 
     void Arena::setPlayer(Player *player)
@@ -35,44 +34,26 @@ namespace Game
         this->player->setTilePosition({1, 1});
         this->player->setTileXLimit({0, static_cast<float>(this->tileMap->getPlayerColumnTilesCount() - 1)});
         this->player->setTileYLimit({0, static_cast<float>(this->tileMap->getTilesRowsCount() - 1)});
+        this->characters.push_back(this->player);
     }
 
     void Arena::render()
     {
-        LogManager::log("Rendering Arena...");
-        this->player->update();
-        LogManager::log("Player updated!");
-        this->background->renderSprite();
-        LogManager::log("Background rendered!");
+
+        this->background.renderSprite();
         this->tileMap->render();
-        LogManager::log("TileMap rendered!");
-        this->player->render();
-        LogManager::log("Player rendered!");
-        for (Projectile *projectile : this->player->getProjectiles())
+        for (Character *character : this->characters)
         {
-            projectile->update();
-            LogManager::log("Projectile updated!");
-            for (Enemy *enemy : this->enemies)
-            {
-                projectile->checkCollision(enemy);
-                LogManager::log("Projectile collided with enemy!");
-            }
-            projectile->render();
-            LogManager::log("Projectile rendered!");
-        }
-        for (Enemy *enemy : this->enemies)
-        {
-            enemy->update();
-            LogManager::log("Enemy updated!");
+            character->update();
             for (Projectile *projectile : this->player->getProjectiles())
             {
-                enemy->checkCollision(projectile);
-                LogManager::log("Enemy collided with projectile!");
+                projectile->update();
+                projectile->checkCollision(character);
+                character->checkCollision(projectile);
+                projectile->render();
             }
-            enemy->render();
-            LogManager::log("Enemy rendered!");
+            character->render();
         }
-
         Global::adaptersInstance.renderer->updateScreen();
         LogManager::log("Screen updated!");
     }

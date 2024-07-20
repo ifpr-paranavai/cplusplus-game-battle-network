@@ -1,4 +1,6 @@
 #pragma once
+#include <memory>
+#include <list>
 #include "../../../config/config.h"
 #include "../player/player.h"
 #include "../../nodes/tile-map/tile-map.h"
@@ -10,11 +12,11 @@ namespace Game
     class Arena
     {
     private:
-        VisualElement *background;
+        VisualElement background;
         Player *player;
         TileMap *tileMap;
         std::string backgroundColorHex = "#87CEEB";
-        std::list<Enemy *> enemies;
+        std::list<Character *> characters;
 
         void configureBackground();
         void createEnemies();
