@@ -1,6 +1,6 @@
 #pragma once
 #include "../../nodes/collision-box/collision-box.h"
-#include "../../../utils/global/global.h"
+#include "../../../utils/global-adapters/global-adapters.h"
 #include "../../../utils/math/vector.h"
 #include "../../nodes/visual-element/visual-element.h"
 #include "../../../config/config.h"

@@ -1,7 +1,7 @@
 #pragma once
 #include "../element/element.h"
 #include "../../../utils/math/vector.h"
-#include "../../../utils/global/global.h"
+#include "../../../utils/global-adapters/global-adapters.h"
 
 namespace Game
 {

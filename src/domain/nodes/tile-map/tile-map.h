@@ -1,6 +1,6 @@
 #pragma once
 #include <list>
-#include "../../../utils/global/global.h"
+#include "../../../utils/global-adapters/global-adapters.h"
 #include "../../../utils/math/vector.h"
 #include "../visual-element/visual-element.h"
 #include "../../../config/config.h"

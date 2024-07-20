@@ -6,6 +6,7 @@
 #include "../../nodes/tile-map/tile-map.h"
 #include "../enemy/enemy.h"
 #include "../../../utils/log-manager/log-manager.h"
+#include "../../global/global-services/global-services.h"
 
 namespace Game
 {

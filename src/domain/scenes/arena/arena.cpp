@@ -42,18 +42,22 @@ namespace Game
 
         this->background.renderSprite();
         this->tileMap->render();
+        for (auto &projectile : Global::projectilesService->getProjectiles())
+        {
+            projectile->update();
+        }
         for (Character *character : this->characters)
         {
             character->update();
-            for (Projectile *projectile : this->player->getProjectiles())
+            for (auto &projectile : Global::projectilesService->getProjectiles())
             {
-                projectile->update();
                 projectile->checkCollision(character);
-                character->checkCollision(projectile);
+                character->checkCollision(projectile.get());
                 projectile->render();
             }
             character->render();
         }
+        Global::projectilesService->removeExpiredProjectiles();
         Global::adaptersInstance.renderer->updateScreen();
         LogManager::log("Screen updated!");
     }

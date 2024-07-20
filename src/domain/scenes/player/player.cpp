@@ -77,42 +77,21 @@ namespace Game
 
     void Player::attack()
     {
-        Projectile *projectile = new Projectile(
-            Vector(this->position.x + this->width,
-                   this->position.y + this->height / 2));
-        this->projectiles.push_back(projectile);
+        const Vector projectilePosition(
+            this->position.x + this->width,
+            this->position.y + this->height / 2);
+        std::unique_ptr<Projectile> projectile = std::make_unique<Projectile>(projectilePosition);
+        Global::projectilesService->addProjectile(std::move(projectile));
     }
 
-    void Player::checkProjectiles()
-    {
-        auto it = this->projectiles.begin();
-        while (it != this->projectiles.end())
-        {
-            if ((*it)->isDeleted())
-            {
-                delete *it;
-                it = this->projectiles.erase(it);
-            }
-            else
-            {
-                ++it;
-            }
-        }
-    }
     void Player::update()
     {
-        this->checkProjectiles();
         this->handleMovement();
         this->handleAttack();
         for (CollisionBox &collisionBox : this->collisionBoxes)
         {
             collisionBox.setPosition(this->position);
         }
-    }
-
-    std::list<Projectile *> Player::getProjectiles()
-    {
-        return this->projectiles;
     }
 
     void Player::onCollision(Element *other)

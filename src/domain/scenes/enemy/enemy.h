@@ -2,7 +2,7 @@
 #include <string>
 #include <random>
 #include <ctime>
-#include "../../../utils/global/global.h"
+#include "../../../utils/global-adapters/global-adapters.h"
 #include "../../nodes/character/character.h"
 #include "../../../utils/log-manager/log-manager.h"
 

@@ -5,7 +5,7 @@
 #include <iomanip>
 #include <vector>
 #include <SDL2/SDL_ttf.h>
-#include "../../../utils/global/global.h"
+#include "../../../utils/global-adapters/global-adapters.h"
 #include "../../../ports/renderer/renderer.h"
 #include "../window-manager/window-manager.h"
 

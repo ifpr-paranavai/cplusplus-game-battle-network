@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include "../../utils/global/global.h"
+#include "../../utils/global-adapters/global-adapters.h"
 #include "../../ports/window-manager/window-manager.h"
 #include "../../ports/keyboard-manager/keyboard-manager.h"
 #include "../../ports/renderer/renderer.h"

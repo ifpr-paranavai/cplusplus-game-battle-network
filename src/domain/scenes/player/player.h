@@ -1,11 +1,12 @@
 #pragma once
 #include <iostream>
 #include <ctime>
-#include "../../../utils/global/global.h"
+#include "../../../utils/global-adapters/global-adapters.h"
 #include "../../nodes/character/character.h"
 #include "../../../ports/keyboard-manager/keyboard-manager.h"
 #include "../projectile/projectile.h"
 #include "../../../utils/log-manager/log-manager.h"
+#include "../../global/global-services/global-services.h"
 
 namespace Game
 {
@@ -14,17 +15,14 @@ namespace Game
     private:
         bool movementKeyAlreadyPressed = false;
         bool attackKeyAlreadyPressed = false;
-        std::list<Projectile *> projectiles;
 
         void handleMovement();
         void handleAttack();
         void attack();
-        void checkProjectiles();
 
     public:
         Player();
         void update() override;
         void onCollision(Element *other) override;
-        std::list<Projectile *> getProjectiles();
     };
 }

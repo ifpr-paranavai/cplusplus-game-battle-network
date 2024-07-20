@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "src/application/game-engine/game-engine.h"
-#include "src/utils/global/global.h"
+#include "src/utils/global-adapters/global-adapters.h"
 #include "src/adapters/sdl/keyboard-manager/keyboard-manager.h"
 #include "src/adapters/sdl/window-manager/window-manager.h"
 #include "src/adapters/sdl/renderer/renderer.h"

@@ -1,5 +1,5 @@
 #pragma once
-#include "../../../utils/global/global.h"
+#include "../../../utils/global-adapters/global-adapters.h"
 #include "../../../utils/math/vector.h"
 #include "../../../dtos/render-data/render-data.h"
 #include "../../../ports/renderer/renderer.h"
