@@ -7,7 +7,6 @@ namespace Game
         int width,
         int height,
         std::string_view hexColor) : TileBasedBody(width, height)
-
     {
         this->width = width;
         this->height = height;

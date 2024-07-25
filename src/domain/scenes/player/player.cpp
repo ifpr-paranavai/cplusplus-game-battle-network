@@ -80,7 +80,7 @@ namespace Game
         const Vector projectilePosition(
             this->position.x + this->width,
             this->position.y + this->height / 2);
-        std::unique_ptr<Projectile> projectile = std::make_unique<Projectile>(projectilePosition);
+        std::unique_ptr<PlayerProjectile> projectile = std::make_unique<PlayerProjectile>(projectilePosition);
         Global::projectilesService->addProjectile(std::move(projectile));
     }
 
@@ -96,6 +96,15 @@ namespace Game
 
     void Player::onCollision(Element *other)
     {
+        if (dynamic_cast<PlayerProjectile *>(other))
+        {
+            return;
+        }
+
+        if (Projectile *projectile = dynamic_cast<Projectile *>(other))
+        {
+            this->life -= projectile->getDamage();
+        }
     }
 
 }

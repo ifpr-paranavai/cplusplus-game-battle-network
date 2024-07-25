@@ -3,7 +3,7 @@
 #include "../../ports/time-manager/time-manager.h"
 #include "../../ports/renderer/renderer.h"
 #include "../../ports/window-manager/window-manager.h"
-#include "../../domain/services/projectiles-service/projectiles-service.h"
+
 namespace Game
 {
 

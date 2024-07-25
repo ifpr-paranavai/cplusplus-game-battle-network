@@ -1,7 +1,7 @@
 #pragma once
 #include <list>
 #include <memory>
-#include "../../scenes/projectile/projectile.h"
+#include "../../nodes/projectile/projectile.h"
 
 namespace Game
 {
@@ -11,6 +11,7 @@ namespace Game
 
     public:
         ProjectilesService();
+
         void addProjectile(std::unique_ptr<Projectile> projectile);
         void removeExpiredProjectiles();
         std::list<std::unique_ptr<Projectile>> &getProjectiles();

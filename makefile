@@ -1,13 +1,16 @@
 # Flags do compilador
-CXXFLAGS = -I src/include -std=c++20
+CXXFLAGS = -I src/include -std=c++20 -MMD -MP
 LDFLAGS = -L src/lib -std=c++20
 LIBS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_ttf
 
 # Lista de arquivos fonte
-SOURCES = main.o $(wildcard src/application/*/*.cpp) $(wildcard src/adapters/*/*/*.cpp) $(wildcard src/domain/*/*/*.cpp) $(wildcard src/utils/*/*.cpp)
+SOURCES = main.cpp $(wildcard src/application/*/*.cpp) $(wildcard src/adapters/*/*/*.cpp) $(wildcard src/domain/*/*/*.cpp) $(wildcard src/utils/*/*.cpp)
 
 # Objetos gerados a partir dos arquivos fonte
 OBJECTS = $(SOURCES:.cpp=.o)
+
+# Arquivos de dependência
+DEPS = $(OBJECTS:.o=.d)
 
 # Nome do executável
 EXECUTABLE = main
@@ -20,3 +23,9 @@ EXECUTABLE = main
 $(EXECUTABLE): $(OBJECTS)
 	$(CXX) $(LDFLAGS) $(OBJECTS) $(LIBS) -o $@
 
+# Incluir arquivos de dependência
+-include $(DEPS)
+
+# Limpeza
+clean:
+	rm -f $(OBJECTS) $(EXECUTABLE) $(DEPS)

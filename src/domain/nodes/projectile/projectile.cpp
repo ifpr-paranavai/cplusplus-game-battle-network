@@ -6,16 +6,14 @@ namespace Game
         Vector initialPosition) : DynamicBody(10, 10)
     {
         this->velocity = {1000, 0};
-        this->sprite.setConfig("#FFFF00", initialPosition, this->width, this->height);
         this->position = initialPosition;
         this->collisionBoxes.push_back(CollisionBox(this->position, this->width, this->height));
     }
 
     void Projectile::update()
     {
-        this->move();
         this->sprite.setPosition(this->position);
-        if (this->position.x > Config::WINDOW_WIDTH)
+        if (this->position.x > Config::WINDOW_WIDTH || this->position.x < 0)
         {
             this->deleted = true;
         }
@@ -30,13 +28,4 @@ namespace Game
         this->sprite.renderSprite();
     }
 
-    void Projectile::onCollision(Element *other)
-    {
-        this->deleted = true;
-    }
-
-    bool Projectile::isDeleted()
-    {
-        return this->deleted;
-    }
 }

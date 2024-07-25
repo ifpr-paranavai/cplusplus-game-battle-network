@@ -65,7 +65,16 @@ namespace Game
         }
 
         this->attackTimer = 0;
-        std::cout << "Enemy attack" << std::endl;
+        this->attack();
+    }
+
+    void Enemy::attack()
+    {
+        const Vector projectilePosition(
+            this->position.x,
+            this->position.y + this->height / 2);
+        std::unique_ptr<EnemyProjectile> projectile = std::make_unique<EnemyProjectile>(projectilePosition);
+        Global::projectilesService->addProjectile(std::move(projectile));
     }
 
     void Enemy::update()
@@ -80,12 +89,16 @@ namespace Game
 
     void Enemy::onCollision(Element *other)
     {
-        if (this->dead)
+        if (this->dead || dynamic_cast<EnemyProjectile *>(other))
         {
             return;
         }
 
-        this->life -= 1;
+        if (Projectile *projectile = dynamic_cast<Projectile *>(other))
+        {
+            this->life -= projectile->getDamage();
+        }
+
         if (this->life <= 0)
         {
             this->dead = true;

@@ -10,9 +10,10 @@ namespace Game
 
     protected:
         Vector velocity = {0, 0};
-        void move();
 
     public:
         DynamicBody(int width, int height);
+
+        void move();
     };
 }

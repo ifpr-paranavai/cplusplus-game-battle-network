@@ -5,6 +5,8 @@
 #include "../../../utils/global-adapters/global-adapters.h"
 #include "../../nodes/character/character.h"
 #include "../../../utils/log-manager/log-manager.h"
+#include "../enemy-projectile/enemy-projectile.h"
+#include "../../global/global-services/global-services.h"
 
 namespace Game
 {
@@ -27,6 +29,7 @@ namespace Game
 
         void handleMovement();
         void handleAttack();
+        void attack();
         bool tryMove(Direction direction);
         Direction getRandomDirection();
         void moveRandomlyWithinLimits();

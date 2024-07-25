@@ -44,6 +44,7 @@ namespace Game
         this->tileMap->render();
         for (auto &projectile : Global::projectilesService->getProjectiles())
         {
+            projectile->move();
             projectile->update();
         }
         for (Character *character : this->characters)
