@@ -21,20 +21,23 @@ namespace Game
     class Enemy : public Character
     {
     private:
-        float movementDecisionTime = 1;
         float movementDecisionTimer = 0;
         float attackTimer = 0;
-        float attackTime = 1;
         bool dead = false;
 
         void handleMovement();
         void handleAttack();
-        void attack();
         bool tryMove(Direction direction);
         Direction getRandomDirection();
         void moveRandomlyWithinLimits();
 
     protected:
+        float movementDecisionTime = 1;
+        float attackTime = 1;
+        bool canMove = true;
+        bool canAttack = true;
+
+        virtual void attack() = 0;
         void onCollision(Element *other) override;
 
     public:

@@ -1,8 +1,8 @@
-#include "projectile.h"
+#include "dynamic-attack.h"
 
 namespace Game
 {
-    Projectile::Projectile(
+    DynamicAttack::DynamicAttack(
         Vector initialPosition) : DynamicBody(10, 10)
     {
         this->velocity = {1000, 0};
@@ -10,7 +10,7 @@ namespace Game
         this->collisionBoxes.push_back(CollisionBox(this->position, this->width, this->height));
     }
 
-    void Projectile::update()
+    void DynamicAttack::update()
     {
         this->sprite.setPosition(this->position);
         if (this->position.x > Config::WINDOW_WIDTH || this->position.x < 0)
@@ -23,7 +23,7 @@ namespace Game
         }
     }
 
-    void Projectile::render()
+    void DynamicAttack::render()
     {
         this->sprite.renderSprite();
     }

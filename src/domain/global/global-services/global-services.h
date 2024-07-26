@@ -5,6 +5,6 @@ namespace Game
 {
     namespace Global
     {
-        extern ProjectilesService *projectilesService;
+        extern AttacksService *attacksService;
     }
 }

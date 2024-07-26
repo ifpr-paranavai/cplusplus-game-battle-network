@@ -21,11 +21,11 @@ namespace Game
 
     void Arena::createEnemies()
     {
-        Enemy *enemy = new Enemy();
+        FiremanEnemy *enemy = new FiremanEnemy();
         enemy->setTilePosition({4, 1});
         enemy->setTileXLimit({static_cast<float>(6 - this->tileMap->getEnemyColumnTilesCount()), 5});
         enemy->setTileYLimit({0, static_cast<float>(this->tileMap->getTilesRowsCount() - 1)});
-        this->characters.push_back(std::move(enemy));
+        this->characters.push_back(enemy);
     }
 
     void Arena::setPlayer(Player *player)
@@ -39,26 +39,49 @@ namespace Game
 
     void Arena::render()
     {
-
+        LogManager::log("Rendering arena!");
         this->background.renderSprite();
+        LogManager::log("Arena rendered!");
         this->tileMap->render();
-        for (auto &projectile : Global::projectilesService->getProjectiles())
+        LogManager::log("TileMap rendered!");
+        for (auto &projectile : Global::attacksService->getDyanmicAttacks())
         {
             projectile->move();
+            LogManager::log("Projectile moved!");
             projectile->update();
+            LogManager::log("Projectile updated!");
+        }
+        for (auto &tileBasedAttack : Global::attacksService->getTileBasedAttacks())
+        {
+            tileBasedAttack->update();
+            LogManager::log("TileBasedAttack updated!");
         }
         for (Character *character : this->characters)
         {
             character->update();
-            for (auto &projectile : Global::projectilesService->getProjectiles())
+            LogManager::log("Character updated!");
+            character->render();
+            LogManager::log("Character rendered!");
+            for (auto &projectile : Global::attacksService->getDyanmicAttacks())
             {
                 projectile->checkCollision(character);
+                LogManager::log("Projectile checked collision!");
                 character->checkCollision(projectile.get());
+                LogManager::log("Character checked collision!");
                 projectile->render();
+                LogManager::log("Projectile rendered!");
             }
-            character->render();
+            for (auto &tileBasedAttack : Global::attacksService->getTileBasedAttacks())
+            {
+                tileBasedAttack->checkCollision(character);
+                LogManager::log("TileBasedAttack checked collision!");
+                character->checkCollision(tileBasedAttack.get());
+                LogManager::log("Character checked collision!");
+                tileBasedAttack->render();
+                LogManager::log("TileBasedAttack rendered!");
+            }
         }
-        Global::projectilesService->removeExpiredProjectiles();
+        Global::attacksService->removeExpiredAttacks();
         Global::adaptersInstance.renderer->updateScreen();
         LogManager::log("Screen updated!");
     }

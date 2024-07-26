@@ -2,27 +2,29 @@
 
 namespace Game
 {
-    ProjectilesService::ProjectilesService()
+    AttacksService::AttacksService()
     {
     }
 
-    void ProjectilesService::addProjectile(std::unique_ptr<Projectile> projectile)
+    void AttacksService::removeExpiredAttacks()
     {
-        this->projectiles.push_back(std::move(projectile));
-    }
-
-    std::list<std::unique_ptr<Projectile>> &ProjectilesService::getProjectiles()
-    {
-        return this->projectiles;
-    }
-
-    void ProjectilesService::removeExpiredProjectiles()
-    {
-        for (auto it = this->projectiles.begin(); it != this->projectiles.end();)
+        for (auto it = this->dynamicAttacks.begin(); it != this->dynamicAttacks.end();)
         {
             if ((*it)->isDeleted())
             {
-                it = this->projectiles.erase(it);
+                it = this->dynamicAttacks.erase(it);
+            }
+            else
+            {
+                it++;
+            }
+        }
+
+        for (auto it = this->tileBasedAttacks.begin(); it != this->tileBasedAttacks.end();)
+        {
+            if ((*it)->isDeleted())
+            {
+                it = this->tileBasedAttacks.erase(it);
             }
             else
             {

@@ -1,19 +1,39 @@
 #pragma once
 #include <list>
 #include <memory>
-#include "../../nodes/projectile/projectile.h"
+#include "../../nodes/dynamic-attack/dynamic-attack.h"
+#include "../../nodes/tile-based-attack/tile-based-attack.h"
 
 namespace Game
 {
-    class ProjectilesService
+    class AttacksService
     {
-        std::list<std::unique_ptr<Projectile>> projectiles;
+        std::list<std::unique_ptr<DynamicAttack>> dynamicAttacks;
+        std::list<std::unique_ptr<TileBasedAttack>> tileBasedAttacks;
 
     public:
-        ProjectilesService();
+        AttacksService();
 
-        void addProjectile(std::unique_ptr<Projectile> projectile);
-        void removeExpiredProjectiles();
-        std::list<std::unique_ptr<Projectile>> &getProjectiles();
+        void removeExpiredAttacks();
+
+        void addDynamicAttack(std::unique_ptr<DynamicAttack> projectile)
+        {
+            this->dynamicAttacks.push_back(std::move(projectile));
+        }
+
+        void addTileBasedAttack(std::unique_ptr<TileBasedAttack> tileBasedAttack)
+        {
+            this->tileBasedAttacks.push_back(std::move(tileBasedAttack));
+        }
+
+        auto &getDyanmicAttacks()
+        {
+            return this->dynamicAttacks;
+        }
+
+        auto &getTileBasedAttacks()
+        {
+            return this->tileBasedAttacks;
+        }
     };
 }

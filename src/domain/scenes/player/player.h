@@ -7,6 +7,7 @@
 #include "../player-projectile/player-projectile.h"
 #include "../../../utils/log-manager/log-manager.h"
 #include "../../global/global-services/global-services.h"
+#include "../../nodes/tile-based-attack/tile-based-attack.h"
 
 namespace Game
 {
@@ -15,6 +16,9 @@ namespace Game
     private:
         bool movementKeyAlreadyPressed = false;
         bool attackKeyAlreadyPressed = false;
+        bool invencible = false;
+        float invencibleTimer = 0;
+        float invencibleTime = 1;
 
         void handleMovement();
         void handleAttack();

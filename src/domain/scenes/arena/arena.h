@@ -4,7 +4,7 @@
 #include "../../../config/config.h"
 #include "../player/player.h"
 #include "../../nodes/tile-map/tile-map.h"
-#include "../enemy/enemy.h"
+#include "../enemies/fireman/fireman.h"
 #include "../../../utils/log-manager/log-manager.h"
 #include "../../global/global-services/global-services.h"
 

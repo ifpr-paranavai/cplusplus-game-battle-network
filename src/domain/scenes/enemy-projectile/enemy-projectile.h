@@ -1,9 +1,9 @@
 #pragma once
-#include "../../nodes/projectile/projectile.h"
+#include "../../nodes/dynamic-attack/dynamic-attack.h"
 
 namespace Game
 {
-    class EnemyProjectile : public Projectile
+    class EnemyProjectile : public DynamicAttack
     {
     protected:
         void onCollision(Element *other) override;

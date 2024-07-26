@@ -17,13 +17,16 @@ src/domain/scenes/arena/arena.o: src/domain/scenes/arena/arena.cpp \
  C:/Users/jonatas.oliveira/Projetos/Faculdade/battle-network/src/domain/nodes/collision-box/collision-box.h \
  C:/Users/jonatas.oliveira/Projetos/Faculdade/battle-network/src/domain/nodes/tile-map/tile-map.h \
  src/domain/scenes/arena/../player/../player-projectile/player-projectile.h \
- src/domain/scenes/arena/../player/../player-projectile/../../nodes/projectile/projectile.h \
+ src/domain/scenes/arena/../player/../player-projectile/../../nodes/dynamic-attack/dynamic-attack.h \
  C:/Users/jonatas.oliveira/Projetos/Faculdade/battle-network/src/domain/nodes/dynamic-body/dynamic-body.h \
  src/domain/scenes/arena/../player/../../../utils/log-manager/log-manager.h \
  src/domain/scenes/arena/../player/../../global/global-services/global-services.h \
  src/domain/scenes/arena/../player/../../global/global-services/../../services/projectiles-service/projectiles-service.h \
- src/domain/scenes/arena/../enemy/enemy.h \
- src/domain/scenes/arena/../enemy/../enemy-projectile/enemy-projectile.h
+ C:/Users/jonatas.oliveira/Projetos/Faculdade/battle-network/src/domain/nodes/tile-based-attack/tile-based-attack.h \
+ src/domain/scenes/arena/../enemies/fireman/fireman.h \
+ src/domain/scenes/arena/../enemies/fireman/../../enemy/enemy.h \
+ src/domain/scenes/arena/../enemies/fireman/../../enemy/../enemy-projectile/enemy-projectile.h \
+ src/domain/scenes/arena/../enemies/fireman/../../flamethrower/flamethrower.h
 src/domain/scenes/arena/arena.h:
 src/domain/scenes/arena/../../../config/config.h:
 src/domain/scenes/arena/../player/player.h:
@@ -43,10 +46,13 @@ C:/Users/jonatas.oliveira/Projetos/Faculdade/battle-network/src/domain/nodes/ele
 C:/Users/jonatas.oliveira/Projetos/Faculdade/battle-network/src/domain/nodes/collision-box/collision-box.h:
 C:/Users/jonatas.oliveira/Projetos/Faculdade/battle-network/src/domain/nodes/tile-map/tile-map.h:
 src/domain/scenes/arena/../player/../player-projectile/player-projectile.h:
-src/domain/scenes/arena/../player/../player-projectile/../../nodes/projectile/projectile.h:
+src/domain/scenes/arena/../player/../player-projectile/../../nodes/dynamic-attack/dynamic-attack.h:
 C:/Users/jonatas.oliveira/Projetos/Faculdade/battle-network/src/domain/nodes/dynamic-body/dynamic-body.h:
 src/domain/scenes/arena/../player/../../../utils/log-manager/log-manager.h:
 src/domain/scenes/arena/../player/../../global/global-services/global-services.h:
 src/domain/scenes/arena/../player/../../global/global-services/../../services/projectiles-service/projectiles-service.h:
-src/domain/scenes/arena/../enemy/enemy.h:
-src/domain/scenes/arena/../enemy/../enemy-projectile/enemy-projectile.h:
+C:/Users/jonatas.oliveira/Projetos/Faculdade/battle-network/src/domain/nodes/tile-based-attack/tile-based-attack.h:
+src/domain/scenes/arena/../enemies/fireman/fireman.h:
+src/domain/scenes/arena/../enemies/fireman/../../enemy/enemy.h:
+src/domain/scenes/arena/../enemies/fireman/../../enemy/../enemy-projectile/enemy-projectile.h:
+src/domain/scenes/arena/../enemies/fireman/../../flamethrower/flamethrower.h:

@@ -8,7 +8,7 @@
 
 namespace Game
 {
-    class Projectile : public DynamicBody
+    class DynamicAttack : public DynamicBody
     {
     protected:
         VisualElement sprite;
@@ -16,7 +16,7 @@ namespace Game
         int damage;
 
     public:
-        Projectile(Vector initialPosition);
+        DynamicAttack(Vector initialPosition);
 
         void update();
         void render();

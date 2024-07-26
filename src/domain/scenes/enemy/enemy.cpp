@@ -5,12 +5,17 @@ namespace Game
     Enemy::Enemy() : Character(50, 50, "#FF0000")
     {
         std::srand(static_cast<unsigned int>(std::time(0)));
-        this->life = 100;
         this->collisionBoxes.push_back(CollisionBox(this->position, this->width, this->height));
     }
 
     void Enemy::handleMovement()
     {
+        if (!this->canMove)
+        {
+            this->movementDecisionTimer = 0;
+            return;
+        }
+
         this->movementDecisionTimer += Global::adaptersInstance.timeManager->getDeltaTime();
         if (this->movementDecisionTimer < this->movementDecisionTime)
         {
@@ -58,6 +63,12 @@ namespace Game
 
     void Enemy::handleAttack()
     {
+        if (!this->canAttack)
+        {
+            this->attackTimer = 0;
+            return;
+        }
+
         this->attackTimer += Global::adaptersInstance.timeManager->getDeltaTime();
         if (this->attackTimer < this->attackTime)
         {
@@ -66,15 +77,6 @@ namespace Game
 
         this->attackTimer = 0;
         this->attack();
-    }
-
-    void Enemy::attack()
-    {
-        const Vector projectilePosition(
-            this->position.x,
-            this->position.y + this->height / 2);
-        std::unique_ptr<EnemyProjectile> projectile = std::make_unique<EnemyProjectile>(projectilePosition);
-        Global::projectilesService->addProjectile(std::move(projectile));
     }
 
     void Enemy::update()
@@ -94,7 +96,7 @@ namespace Game
             return;
         }
 
-        if (Projectile *projectile = dynamic_cast<Projectile *>(other))
+        if (DynamicAttack *projectile = dynamic_cast<DynamicAttack *>(other))
         {
             this->life -= projectile->getDamage();
         }

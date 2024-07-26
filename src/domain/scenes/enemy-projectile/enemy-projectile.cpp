@@ -3,7 +3,7 @@
 
 namespace Game
 {
-    EnemyProjectile::EnemyProjectile(Vector initialPosition) : Projectile(initialPosition)
+    EnemyProjectile::EnemyProjectile(Vector initialPosition) : DynamicAttack(initialPosition)
     {
         this->velocity = {-1000, 0};
         this->damage = 10;

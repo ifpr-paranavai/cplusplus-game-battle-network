@@ -16,11 +16,12 @@ src/domain/scenes/player/player.o: src/domain/scenes/player/player.cpp \
  src/domain/scenes/player/../../nodes/character/../tile-based-body/../tile-map/tile-map.h \
  C:/Users/jonatas.oliveira/Projetos/Faculdade/battle-network/src/config/config.h \
  src/domain/scenes/player/../player-projectile/player-projectile.h \
- src/domain/scenes/player/../player-projectile/../../nodes/projectile/projectile.h \
- src/domain/scenes/player/../player-projectile/../../nodes/projectile/../dynamic-body/dynamic-body.h \
+ src/domain/scenes/player/../player-projectile/../../nodes/dynamic-attack/dynamic-attack.h \
+ src/domain/scenes/player/../player-projectile/../../nodes/dynamic-attack/../dynamic-body/dynamic-body.h \
  src/domain/scenes/player/../../../utils/log-manager/log-manager.h \
  src/domain/scenes/player/../../global/global-services/global-services.h \
- src/domain/scenes/player/../../global/global-services/../../services/projectiles-service/projectiles-service.h
+ src/domain/scenes/player/../../global/global-services/../../services/projectiles-service/projectiles-service.h \
+ C:/Users/jonatas.oliveira/Projetos/Faculdade/battle-network/src/domain/nodes/tile-based-attack/tile-based-attack.h
 src/domain/scenes/player/player.h:
 src/domain/scenes/player/../../../utils/global-adapters/global-adapters.h:
 src/domain/scenes/player/../../../utils/global-adapters/../../ports/keyboard-manager/keyboard-manager.h:
@@ -39,8 +40,9 @@ C:/Users/jonatas.oliveira/Projetos/Faculdade/battle-network/src/domain/nodes/col
 src/domain/scenes/player/../../nodes/character/../tile-based-body/../tile-map/tile-map.h:
 C:/Users/jonatas.oliveira/Projetos/Faculdade/battle-network/src/config/config.h:
 src/domain/scenes/player/../player-projectile/player-projectile.h:
-src/domain/scenes/player/../player-projectile/../../nodes/projectile/projectile.h:
-src/domain/scenes/player/../player-projectile/../../nodes/projectile/../dynamic-body/dynamic-body.h:
+src/domain/scenes/player/../player-projectile/../../nodes/dynamic-attack/dynamic-attack.h:
+src/domain/scenes/player/../player-projectile/../../nodes/dynamic-attack/../dynamic-body/dynamic-body.h:
 src/domain/scenes/player/../../../utils/log-manager/log-manager.h:
 src/domain/scenes/player/../../global/global-services/global-services.h:
 src/domain/scenes/player/../../global/global-services/../../services/projectiles-service/projectiles-service.h:
+C:/Users/jonatas.oliveira/Projetos/Faculdade/battle-network/src/domain/nodes/tile-based-attack/tile-based-attack.h:

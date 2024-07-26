@@ -4,6 +4,6 @@ namespace Game
 {
     namespace Global
     {
-        ProjectilesService *projectilesService = new ProjectilesService();
+        AttacksService *attacksService = new AttacksService();
     }
 }
