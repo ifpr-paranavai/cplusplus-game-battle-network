@@ -17,6 +17,8 @@ namespace Game
             SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "TTF_OpenFont failed: %s", TTF_GetError());
             throw std::runtime_error(TTF_GetError());
         }
+
+        IMG_Init(IMG_INIT_PNG);
     }
 
     SDL_Renderer *SDLRendererAdapter::getRenderer()
@@ -169,6 +171,21 @@ namespace Game
         SDL_RenderCopy(this->getRenderer(), textTexture, NULL, &textRect);
         SDL_FreeSurface(textSurface);
         SDL_DestroyTexture(textTexture);
+    }
+
+    void SDLRendererAdapter::renderSprite(const std::string &path, float x, float y, float width, float height)
+    {
+        SDL_Surface *surface = IMG_Load(path.c_str());
+        if (!surface)
+        {
+            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "IMG_Load failed: %s", SDL_GetError());
+            throw std::runtime_error(SDL_GetError());
+        }
+
+        SDL_Texture *texture = SDL_CreateTextureFromSurface(this->getRenderer(), surface);
+        SDL_FreeSurface(surface);
+        SDL_Rect dstRect = {x, y, width, height};
+        SDL_RenderCopy(this->getRenderer(), texture, NULL, &dstRect);
     }
 
     void SDLRendererAdapter::destroyRenderer()

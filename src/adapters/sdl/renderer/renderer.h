@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <vector>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
 #include "../../../utils/global-adapters/global-adapters.h"
 #include "../../../ports/renderer/renderer.h"
 #include "../window-manager/window-manager.h"
@@ -29,5 +30,6 @@ namespace Game
         void updateScreen() override;
         void renderText(std::string_view text, Vector position) override;
         void destroyRenderer() override;
+        void renderSprite(const std::string &path, float x, float y, float width, float height) override;
     };
 }

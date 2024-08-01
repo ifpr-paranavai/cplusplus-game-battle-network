@@ -5,28 +5,25 @@ namespace Game
 
     void GameEngine::startGame()
     {
-        LogManager::log("Starting game...");
-        Global::adaptersInstance.windowManager->createWindow(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT);
-        LogManager::log("Window created");
-        std::unique_ptr<Player> player = std::make_unique<Player>();
-        LogManager::log("Player created");
-        std::unique_ptr<Arena> arena = std::make_unique<Arena>();
-        LogManager::log("Arena created");
-        arena->setPlayer(player.get());
-        LogManager::log("Game started");
+        auto &windowManager = Global::adaptersInstance.windowManager;
+        auto &keyboardManager = Global::adaptersInstance.keyboardManager;
+        auto &timeManager = Global::adaptersInstance.timeManager;
+        auto &renderer = Global::adaptersInstance.renderer;
 
-        while (!Global::adaptersInstance.keyboardManager->exitEventIsCalled())
+        windowManager->createWindow(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT);
+        std::unique_ptr<Player> player = std::make_unique<Player>();
+        std::unique_ptr<Arena> arena = std::make_unique<Arena>();
+        arena->setPlayer(player.get());
+
+        while (!keyboardManager->exitEventIsCalled())
         {
-            LogManager::log("Updating game...");
-            Global::adaptersInstance.timeManager->updateTime();
-            LogManager::log("Time Manager updated");
+            timeManager->updateTime();
             arena->render();
-            Global::adaptersInstance.renderer->updateScreen();
-            LogManager::log("Arena rendered");
+            renderer->updateScreen();
         }
 
-        Global::adaptersInstance.renderer->destroyRenderer();
-        Global::adaptersInstance.windowManager->destroyWindow();
+        renderer->destroyRenderer();
+        windowManager->destroyWindow();
     }
 
 }

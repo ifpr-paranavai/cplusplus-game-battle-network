@@ -2,75 +2,67 @@
 
 namespace Game
 {
-    Player::Player() : Character(50, 70, "#00ADEF")
+    Player::Player() : Character(96, 96, "#00ADEF")
     {
+        this->sprite.useSprite = true;
         this->collisionBoxes.push_back(CollisionBox(this->position, this->width, this->height));
     }
 
     void Player::handleMovement()
     {
-        if (Global::adaptersInstance.keyboardManager->isKeyPressed(KeyCode::ARROW_UP))
+        auto &keyboardManager = Global::adaptersInstance.keyboardManager;
+        if (keyboardManager->isKeyPressed(KeyCode::ARROW_UP))
         {
-            if (this->movementKeyAlreadyPressed)
+            if (!this->movementKeyAlreadyPressed)
             {
-                return;
+                this->movementKeyAlreadyPressed = true;
+                this->tryMoveUp();
             }
-            this->movementKeyAlreadyPressed = true;
-            this->tryMoveUp();
-            return;
         }
-
-        if (Global::adaptersInstance.keyboardManager->isKeyPressed(KeyCode::ARROW_DOWN))
+        else if (keyboardManager->isKeyPressed(KeyCode::ARROW_DOWN))
         {
-            if (this->movementKeyAlreadyPressed)
+            if (!this->movementKeyAlreadyPressed)
             {
-                return;
+                this->movementKeyAlreadyPressed = true;
+                this->tryMoveDown();
             }
-            this->movementKeyAlreadyPressed = true;
-            this->tryMoveDown();
-            return;
         }
-
-        if (Global::adaptersInstance.keyboardManager->isKeyPressed(KeyCode::ARROW_LEFT))
+        else if (keyboardManager->isKeyPressed(KeyCode::ARROW_LEFT))
         {
-            if (this->movementKeyAlreadyPressed)
+            if (!this->movementKeyAlreadyPressed)
             {
-                return;
+                this->movementKeyAlreadyPressed = true;
+                this->tryMoveLeft();
             }
-            this->movementKeyAlreadyPressed = true;
-            this->tryMoveLeft();
-            return;
         }
-
-        if (Global::adaptersInstance.keyboardManager->isKeyPressed(KeyCode::ARROW_RIGHT))
+        else if (keyboardManager->isKeyPressed(KeyCode::ARROW_RIGHT))
         {
-            if (this->movementKeyAlreadyPressed)
+            if (!this->movementKeyAlreadyPressed)
             {
-                return;
+                this->movementKeyAlreadyPressed = true;
+                this->tryMoveRight();
             }
-            this->movementKeyAlreadyPressed = true;
-            this->tryMoveRight();
-            return;
         }
-
-        this->movementKeyAlreadyPressed = false;
+        else
+        {
+            this->movementKeyAlreadyPressed = false;
+        }
     }
 
     void Player::handleAttack()
     {
         if (Global::adaptersInstance.keyboardManager->isKeyPressed(KeyCode::X))
         {
-            if (this->attackKeyAlreadyPressed)
+            if (!this->attackKeyAlreadyPressed)
             {
-                return;
+                this->attackKeyAlreadyPressed = true;
+                this->attack();
             }
-
-            this->attackKeyAlreadyPressed = true;
-            this->attack();
-            return;
         }
-
-        this->attackKeyAlreadyPressed = false;
+        else
+        {
+            this->attackKeyAlreadyPressed = false;
+        }
     }
 
     void Player::attack()
@@ -110,12 +102,7 @@ namespace Game
 
     void Player::onCollision(Element *other)
     {
-        if (dynamic_cast<PlayerProjectile *>(other) || this->invencible)
-        {
-            return;
-        }
-
-        if (this->life <= 0)
+        if (dynamic_cast<PlayerProjectile *>(other) || this->invencible || this->life <= 0)
         {
             return;
         }
@@ -131,5 +118,4 @@ namespace Game
             this->invencible = true;
         }
     }
-
 }

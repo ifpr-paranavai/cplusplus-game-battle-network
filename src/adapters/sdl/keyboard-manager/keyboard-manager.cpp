@@ -1,4 +1,5 @@
 #include "keyboard-manager.h"
+#include <SDL2/SDL.h>
 
 namespace Game
 {
@@ -19,7 +20,7 @@ namespace Game
         case KeyCode::ARROW_RIGHT:
             return SDLK_RIGHT;
         case KeyCode::X:
-            return SDLK_x;
+            return SDLK_x; // Certifique-se de usar o SDL_Keycode correto para "X"
         default:
             return SDLK_UNKNOWN;
         }
@@ -28,14 +29,13 @@ namespace Game
     bool SDLKeyboardManagerAdapter::exitEventIsCalled()
     {
         SDL_Event windowEvent;
-        if (SDL_PollEvent(&windowEvent))
+        while (SDL_PollEvent(&windowEvent)) // Use um loop para processar todos os eventos pendentes
         {
-            if (SDL_QUIT == windowEvent.type)
+            if (windowEvent.type == SDL_QUIT)
             {
                 return true;
             }
         }
-
         return false;
     }
 
@@ -44,9 +44,6 @@ namespace Game
         SDL_Keycode sdlKeyCode = convertKeycode(keycode);
         SDL_Scancode sdlScancode = SDL_GetScancodeFromKey(sdlKeyCode);
         const Uint8 *currentState = SDL_GetKeyboardState(NULL);
-        bool isPressed = currentState[sdlScancode] != 0;
-
-        return isPressed;
+        return currentState[sdlScancode] != 0;
     }
-
 }

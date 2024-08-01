@@ -2,9 +2,8 @@
 
 namespace Game
 {
-    Arena::Arena()
+    Arena::Arena() : tileMap(new TileMap())
     {
-        this->tileMap = new TileMap();
         this->tileMap->init();
         this->configureBackground();
         this->createEnemies();
@@ -21,7 +20,7 @@ namespace Game
 
     void Arena::createEnemies()
     {
-        FiremanEnemy *enemy = new FiremanEnemy();
+        auto *enemy = new FiremanEnemy();
         enemy->setTilePosition({4, 1});
         enemy->setTileXLimit({static_cast<float>(6 - this->tileMap->getEnemyColumnTilesCount()), 5});
         enemy->setTileYLimit({0, static_cast<float>(this->tileMap->getTilesRowsCount() - 1)});
@@ -39,6 +38,10 @@ namespace Game
 
     void Arena::render()
     {
+        for (Character *character : this->characters)
+        {
+            character->update();
+        }
         for (auto &projectile : Global::attacksService->getDyanmicAttacks())
         {
             projectile->move();
@@ -48,11 +51,6 @@ namespace Game
         for (auto &tileBasedAttack : Global::attacksService->getTileBasedAttacks())
         {
             tileBasedAttack->update();
-        }
-
-        for (Character *character : this->characters)
-        {
-            character->update();
         }
 
         for (auto &projectile : Global::attacksService->getDyanmicAttacks())
@@ -93,5 +91,4 @@ namespace Game
 
         Global::attacksService->removeExpiredAttacks();
     }
-
 }

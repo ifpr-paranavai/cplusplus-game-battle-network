@@ -19,5 +19,6 @@ namespace Game
         void renderSprite();
         void setConfig(std::string_view hexColor, Vector position, int width, int height);
         void setPosition(Vector position);
+        bool useSprite = false;
     };
 }

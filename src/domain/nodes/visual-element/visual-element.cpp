@@ -6,6 +6,16 @@ namespace Game
 
     void VisualElement::renderSprite()
     {
+        if (this->useSprite)
+        {
+            Global::adaptersInstance.renderer->renderSprite(
+                "assets/sprites/player/idle/0.png",
+                this->position.x,
+                this->position.y,
+                this->width,
+                this->height);
+            return;
+        }
         Global::adaptersInstance.renderer->renderElement(RenderDataDTO{
             position = this->position,
             width = this->width,
