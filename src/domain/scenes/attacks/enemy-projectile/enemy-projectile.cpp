@@ -1,5 +1,5 @@
 #include "enemy-projectile.h"
-#include "../enemy/enemy.h"
+#include "../../enemy/enemy.h"
 
 namespace Game
 {

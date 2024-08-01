@@ -82,20 +82,24 @@ namespace Game
         Global::attacksService->addDynamicAttack(std::move(projectile));
     }
 
-    void Player::update()
+    void Player::checkInvincibility()
     {
         if (!this->invencible)
         {
+            return;
+        }
+
+        this->invencibleTimer -= Global::adaptersInstance.timeManager->getDeltaTime();
+        if (this->invencibleTimer <= 0)
+        {
+            this->invencible = false;
             this->invencibleTimer = this->invencibleTime;
         }
-        else
-        {
-            this->invencibleTimer -= Global::adaptersInstance.timeManager->getDeltaTime();
-            if (this->invencibleTimer <= 0)
-            {
-                this->invencible = false;
-            }
-        }
+    }
+
+    void Player::update()
+    {
+        this->checkInvincibility();
         this->handleMovement();
         this->handleAttack();
         for (CollisionBox &collisionBox : this->collisionBoxes)
@@ -111,18 +115,20 @@ namespace Game
             return;
         }
 
-        if (DynamicAttack *projectile = dynamic_cast<DynamicAttack *>(other))
+        if (this->life <= 0)
         {
-            this->life -= projectile->getDamage();
-            this->invencible = true;
             return;
         }
 
-        if (TileBasedAttack *tileBasedAttack = dynamic_cast<TileBasedAttack *>(other))
+        if (auto attack = dynamic_cast<DynamicAttack *>(other))
+        {
+            this->life -= attack->getDamage();
+            this->invencible = true;
+        }
+        else if (auto tileBasedAttack = dynamic_cast<TileBasedAttack *>(other))
         {
             this->life -= tileBasedAttack->getDamage();
             this->invencible = true;
-            return;
         }
     }
 

@@ -1,7 +1,8 @@
 #pragma once
 #include "../../enemy/enemy.h"
-#include "../../flamethrower/flamethrower.h"
+#include "../../attacks/flamethrower-attack/flamethrower-attack.h"
 #include "../../../global/global-services/global-services.h"
+#include "../../attacks/bomb-attack/bomb-attack.h"
 
 namespace Game
 {
@@ -21,6 +22,7 @@ namespace Game
 
     protected:
         void attack() override;
+        void onCollision(Element *other) override;
 
     public:
         FiremanEnemy();

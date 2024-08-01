@@ -39,50 +39,59 @@ namespace Game
 
     void Arena::render()
     {
-        LogManager::log("Rendering arena!");
-        this->background.renderSprite();
-        LogManager::log("Arena rendered!");
-        this->tileMap->render();
-        LogManager::log("TileMap rendered!");
         for (auto &projectile : Global::attacksService->getDyanmicAttacks())
         {
             projectile->move();
-            LogManager::log("Projectile moved!");
             projectile->update();
-            LogManager::log("Projectile updated!");
         }
+
         for (auto &tileBasedAttack : Global::attacksService->getTileBasedAttacks())
         {
             tileBasedAttack->update();
-            LogManager::log("TileBasedAttack updated!");
         }
+
         for (Character *character : this->characters)
         {
             character->update();
-            LogManager::log("Character updated!");
-            character->render();
-            LogManager::log("Character rendered!");
-            for (auto &projectile : Global::attacksService->getDyanmicAttacks())
+        }
+
+        for (auto &projectile : Global::attacksService->getDyanmicAttacks())
+        {
+            for (Character *character : this->characters)
             {
                 projectile->checkCollision(character);
-                LogManager::log("Projectile checked collision!");
                 character->checkCollision(projectile.get());
-                LogManager::log("Character checked collision!");
-                projectile->render();
-                LogManager::log("Projectile rendered!");
-            }
-            for (auto &tileBasedAttack : Global::attacksService->getTileBasedAttacks())
-            {
-                tileBasedAttack->checkCollision(character);
-                LogManager::log("TileBasedAttack checked collision!");
-                character->checkCollision(tileBasedAttack.get());
-                LogManager::log("Character checked collision!");
-                tileBasedAttack->render();
-                LogManager::log("TileBasedAttack rendered!");
             }
         }
+
+        for (auto &tileBasedAttack : Global::attacksService->getTileBasedAttacks())
+        {
+            for (Character *character : this->characters)
+            {
+                tileBasedAttack->checkCollision(character);
+                character->checkCollision(tileBasedAttack.get());
+            }
+        }
+
+        this->background.renderSprite();
+        this->tileMap->render();
+
+        for (auto &projectile : Global::attacksService->getDyanmicAttacks())
+        {
+            projectile->render();
+        }
+
+        for (auto &tileBasedAttack : Global::attacksService->getTileBasedAttacks())
+        {
+            tileBasedAttack->render();
+        }
+
+        for (Character *character : this->characters)
+        {
+            character->render();
+        }
+
         Global::attacksService->removeExpiredAttacks();
-        Global::adaptersInstance.renderer->updateScreen();
-        LogManager::log("Screen updated!");
     }
+
 }

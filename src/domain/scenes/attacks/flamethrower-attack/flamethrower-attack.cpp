@@ -1,15 +1,15 @@
-#include "flamethrower.h"
+#include "flamethrower-attack.h"
 
 namespace Game
 {
 
-    Flamethrower::Flamethrower(Vector elementPosition) : TileBasedAttack(50, 75)
+    FlamethrowerAttack::FlamethrowerAttack(Vector elementPosition) : TileBasedAttack(50, 75)
     {
         this->damage = 10;
         this->tilePosition = elementPosition;
     }
 
-    void Flamethrower::handleFlameIncrease()
+    void FlamethrowerAttack::handleFlameIncrease()
     {
         this->increaseFlameTimer += Global::adaptersInstance.timeManager->getDeltaTime();
         if (this->increaseFlameTimer < this->increaseFlameTime)
@@ -21,7 +21,7 @@ namespace Game
         this->increaseFlame();
     }
 
-    void Flamethrower::increaseFlame()
+    void FlamethrowerAttack::increaseFlame()
     {
         if (this->tilePosition.x - 1 < 0)
         {
@@ -36,12 +36,12 @@ namespace Game
         this->collisionBoxes.push_back(CollisionBox(this->position, this->width, 10));
     }
 
-    void Flamethrower::update()
+    void FlamethrowerAttack::update()
     {
         this->handleFlameIncrease();
     }
 
-    void Flamethrower::render()
+    void FlamethrowerAttack::render()
     {
         for (VisualElement &flame : this->flames)
         {
@@ -49,7 +49,7 @@ namespace Game
         }
     }
 
-    void Flamethrower::onCollision(Element *other)
+    void FlamethrowerAttack::onCollision(Element *other)
     {
     }
 

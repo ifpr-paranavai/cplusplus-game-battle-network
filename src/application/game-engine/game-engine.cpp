@@ -21,6 +21,7 @@ namespace Game
             Global::adaptersInstance.timeManager->updateTime();
             LogManager::log("Time Manager updated");
             arena->render();
+            Global::adaptersInstance.renderer->updateScreen();
             LogManager::log("Arena rendered");
         }
 

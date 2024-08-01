@@ -1,5 +1,5 @@
 #pragma once
-#include "../../nodes/dynamic-attack/dynamic-attack.h"
+#include "../../../nodes/dynamic-attack/dynamic-attack.h"
 
 namespace Game
 {

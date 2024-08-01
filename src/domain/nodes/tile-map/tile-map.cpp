@@ -32,7 +32,7 @@ namespace Game
     {
         const int heightAdjust = elementHeight < TileMap::tileHeight ? (TileMap::tileHeight - elementHeight) : 0;
         const int posX = tilePosition.x * (tileWidth + tileSpacing) + tileSpacing + (tileWidth - elementWidth) / 2;
-        const int posY = tilesStartY + tilePosition.y * (tileHeight + tileSpacing) - tileHeight / 2 + heightAdjust;
+        const int posY = TileMap::tilesStartY + tilePosition.y * (tileHeight + tileSpacing) - tileHeight / 2 + heightAdjust;
         return Vector(posX, posY);
     }
 

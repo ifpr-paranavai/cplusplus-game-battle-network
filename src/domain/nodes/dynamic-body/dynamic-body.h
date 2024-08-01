@@ -9,6 +9,10 @@ namespace Game
     {
 
     protected:
+        float downForce = 0;
+        float movementTime = 0;
+        float movementTimer = 0;
+        bool movementFinished = false;
         Vector velocity = {0, 0};
 
     public:

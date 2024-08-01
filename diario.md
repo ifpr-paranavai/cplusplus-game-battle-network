@@ -21,3 +21,11 @@
 - Iniciar implementação de ataque de inimigos
 - Adicionando a lista de Character na Arena
 - Implementei o ProjectileService
+
+# 26/07/2024
+
+- Inicio de implementação de ataque de bomba (não commmitei)
+
+# 31/07/2024
+
+- Implementado todo o ataque com bomba
