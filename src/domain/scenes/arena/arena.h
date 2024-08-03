@@ -18,9 +18,14 @@ namespace Game
         TileMap *tileMap;
         std::string backgroundColorHex = "#87CEEB";
         std::list<Character *> characters;
+        std::list<VisualElement> backgroundSprites;
 
         void configureBackground();
         void createEnemies();
+        void renderAttacks();
+        void updateAttacks();
+        void renderPlayerLife();
+        void renderBackground();
 
     public:
         Arena();

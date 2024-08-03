@@ -4,12 +4,13 @@ namespace Game
 {
     BombAttack::BombAttack(Vector elementTilePosition) : DynamicAttack(elementTilePosition)
     {
-        this->width = 20;
-        this->height = 20;
+        this->width = 32;
+        this->height = 32;
         this->movementTime = 1.0f;
         this->damage = 15;
         this->calculatePositions(elementTilePosition);
         this->defineVelocity();
+        this->sprite.setSpritePath("assets/sprites/attacks/bomb/0.png");
         this->sprite.setConfig("#FFFF00", this->initialPosition, this->width, this->height);
     }
 

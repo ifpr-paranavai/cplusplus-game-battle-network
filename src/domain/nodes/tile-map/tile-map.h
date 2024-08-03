@@ -1,8 +1,8 @@
 #pragma once
 #include <list>
+#include "../tile/tile.h"
 #include "../../../utils/global-adapters/global-adapters.h"
 #include "../../../utils/math/vector.h"
-#include "../visual-element/visual-element.h"
 #include "../../../config/config.h"
 
 namespace Game
@@ -17,7 +17,7 @@ namespace Game
         static const int tileHeight = TileMap::tileWidth / 2.5;
         static const int tilesStartY = Config::WINDOW_HEIGHT - (TileMap::tilesRowsCount * (TileMap::tileHeight + TileMap::tileSpacing));
 
-        std::list<VisualElement *> tiles;
+        std::list<Tile> tiles;
         int playerColumnTilesCount = 3;
         int enemyColumnTilesCount = TileMap::tilesColumnsCount - this->playerColumnTilesCount;
         std::string playerTileColor = "#FF4500";

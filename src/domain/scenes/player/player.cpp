@@ -4,8 +4,8 @@ namespace Game
 {
     Player::Player() : Character(96, 96, "#00ADEF")
     {
-        this->sprite.useSprite = true;
-        this->collisionBoxes.push_back(CollisionBox(this->position, this->width, this->height));
+        this->sprite.setSpritePath("assets/sprites/player/idle/0.png");
+        this->collisionBoxes.push_back(CollisionBox(this->position, 50, 70));
     }
 
     void Player::handleMovement()
@@ -69,7 +69,7 @@ namespace Game
     {
         const Vector projectilePosition(
             this->position.x + this->width,
-            this->position.y + this->height / 2);
+            this->position.y + this->height / 3);
         std::unique_ptr<PlayerProjectile> projectile = std::make_unique<PlayerProjectile>(projectilePosition);
         Global::attacksService->addDynamicAttack(std::move(projectile));
     }

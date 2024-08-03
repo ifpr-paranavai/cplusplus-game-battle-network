@@ -1,4 +1,5 @@
 #include "arena.h"
+#include <SDL2/SDL.h>
 
 namespace Game
 {
@@ -11,11 +12,21 @@ namespace Game
 
     void Arena::configureBackground()
     {
-        this->background.setConfig(
+        VisualElement background, clouds;
+        background.setSpritePath("assets/sprites/background/bg.png");
+        background.setConfig(
             this->backgroundColorHex,
             Vector(0, 0),
             Config::WINDOW_WIDTH,
             Config::WINDOW_HEIGHT);
+        clouds.setSpritePath("assets/sprites/background/clouds.png");
+        clouds.setConfig(
+            this->backgroundColorHex,
+            Vector(0, 0),
+            Config::WINDOW_WIDTH,
+            Config::WINDOW_HEIGHT);
+        this->backgroundSprites.push_back(background);
+        this->backgroundSprites.push_back(clouds);
     }
 
     void Arena::createEnemies()
@@ -36,12 +47,8 @@ namespace Game
         this->characters.push_back(this->player);
     }
 
-    void Arena::render()
+    void Arena::updateAttacks()
     {
-        for (Character *character : this->characters)
-        {
-            character->update();
-        }
         for (auto &projectile : Global::attacksService->getDyanmicAttacks())
         {
             projectile->move();
@@ -70,9 +77,33 @@ namespace Game
                 character->checkCollision(tileBasedAttack.get());
             }
         }
+    }
 
-        this->background.renderSprite();
-        this->tileMap->render();
+    void Arena::renderBackground()
+    {
+        for (VisualElement bgSprite : this->backgroundSprites)
+        {
+            bgSprite.renderSprite();
+        }
+    }
+
+    void Arena::renderPlayerLife()
+    {
+        const std::string lifeStr = std::to_string(this->player->getLife());
+        const int textHeight = Global::adaptersInstance.renderer->getTextHeight(lifeStr);
+        const int textWidth = Global::adaptersInstance.renderer->getTextWidth(lifeStr);
+
+        Global::adaptersInstance.renderer->renderElement({
+            {10, 10},
+            100,
+            textHeight + 10,
+            "#000000",
+        });
+        Global::adaptersInstance.renderer->renderText(lifeStr, {10 + 100 - textWidth, 15});
+    }
+
+    void Arena::renderAttacks()
+    {
 
         for (auto &projectile : Global::attacksService->getDyanmicAttacks())
         {
@@ -83,12 +114,40 @@ namespace Game
         {
             tileBasedAttack->render();
         }
+    }
+
+    void Arena::render()
+    {
+        std::cout << "Arena::render() - " << SDL_GetTicks() << std::endl;
+        for (Character *character : this->characters)
+        {
+            character->update();
+        }
+        std::cout << "character->update() - " << SDL_GetTicks() << std::endl;
+
+        this->updateAttacks();
+        std::cout << "updateAttacks() - " << SDL_GetTicks() << std::endl;
+
+        this->renderBackground();
+        std::cout << "renderBackground() - " << SDL_GetTicks() << std::endl;
+        this->tileMap->render();
+        std::cout << "tileMap->render() - " << SDL_GetTicks() << std::endl;
+        this->renderPlayerLife();
+        std::cout << "renderPlayerLife() - " << SDL_GetTicks() << std::endl;
 
         for (Character *character : this->characters)
         {
             character->render();
         }
 
+        std::cout << "character->render() - " << SDL_GetTicks() << std::endl;
+
+        this->renderAttacks();
+
+        std::cout << "renderAttacks - " << SDL_GetTicks() << std::endl;
+
         Global::attacksService->removeExpiredAttacks();
+
+        std::cout << "attacksService->removeExpiredAttacks() - " << SDL_GetTicks() << std::endl;
     }
 }

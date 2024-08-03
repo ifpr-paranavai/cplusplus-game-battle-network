@@ -10,11 +10,9 @@ namespace Game
         {
             for (int j = 0; j < this->tilesRowsCount; ++j)
             {
-                VisualElement *tile = new VisualElement();
                 const int posX = i * (tileWidth + tileSpacing) + tileSpacing;
                 const int posY = this->tilesStartY + (j * (this->tileHeight + this->tileSpacing));
-                std::string_view hexColor = i < this->playerColumnTilesCount ? this->playerTileColor : this->enemyTileColor;
-                tile->setConfig(hexColor, Vector(posX, posY), this->tileWidth, this->tileHeight);
+                Tile tile = Tile(this->tileWidth, this->tileHeight, Vector(posX, posY));
                 this->tiles.push_back(tile);
             }
         }
@@ -22,9 +20,9 @@ namespace Game
 
     void TileMap::render()
     {
-        for (VisualElement *tile : this->tiles)
+        for (const Tile &tile : this->tiles)
         {
-            tile->renderSprite();
+            tile.renderSprites();
         }
     }
 

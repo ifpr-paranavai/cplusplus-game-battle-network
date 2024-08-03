@@ -20,9 +20,22 @@ namespace Game
             int height,
             std::string_view hexColor);
 
-        int getWidth();
-        int getHeight();
-        void render();
+        virtual void render();
+
+        int getWidth()
+        {
+            return this->width;
+        }
+
+        int getHeight()
+        {
+            return this->height;
+        }
+
+        int getLife()
+        {
+            return this->life;
+        }
 
         virtual ~Character() = default;
     };

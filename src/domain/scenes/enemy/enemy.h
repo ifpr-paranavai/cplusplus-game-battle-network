@@ -41,7 +41,8 @@ namespace Game
         void onCollision(Element *other) override;
 
     public:
-        Enemy();
+        Enemy(int width, int height);
         void update() override;
+        void render() override;
     };
 }

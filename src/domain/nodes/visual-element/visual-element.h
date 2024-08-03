@@ -3,6 +3,7 @@
 #include "../../../utils/math/vector.h"
 #include "../../../dtos/render-data/render-data.h"
 #include "../../../ports/renderer/renderer.h"
+#include "../../../utils/color/color.h"
 
 namespace Game
 {
@@ -12,13 +13,34 @@ namespace Game
         Vector position;
         int width = 0;
         int height = 0;
+        bool flipSpriteHorizontally = false;
         std::string_view hexColor;
+        std::string spritePath = "";
+        Color spriteColorFilter = {255, 255, 255, 255};
 
     public:
         VisualElement();
-        void renderSprite();
+        void renderSprite() const;
         void setConfig(std::string_view hexColor, Vector position, int width, int height);
-        void setPosition(Vector position);
-        bool useSprite = false;
+
+        void setPosition(Vector position)
+        {
+            this->position = position;
+        }
+
+        void setSpritePath(std::string_view spritePath)
+        {
+            this->spritePath = spritePath;
+        }
+
+        void setFlipSpriteHorizontally(bool flipSpriteHorizontally)
+        {
+            this->flipSpriteHorizontally = flipSpriteHorizontally;
+        }
+
+        void setSpriteColorFilter(Color spriteColorFilter)
+        {
+            this->spriteColorFilter = spriteColorFilter;
+        }
     };
 }

@@ -2,10 +2,11 @@
 
 namespace Game
 {
-    Enemy::Enemy() : Character(50, 50, "#FF0000")
+    Enemy::Enemy(int width, int height) : Character(width, height, "#FF0000")
     {
         std::srand(static_cast<unsigned int>(std::time(0)));
         this->collisionBoxes.push_back(CollisionBox(this->position, this->width, this->height));
+        this->sprite.setFlipSpriteHorizontally(true);
     }
 
     void Enemy::handleMovement()
@@ -105,5 +106,12 @@ namespace Game
         {
             this->dead = true;
         }
+    }
+
+    void Enemy::render()
+    {
+        Character::render();
+        const Vector textPosition = {this->position.x, this->position.y + this->height + 5};
+        Global::adaptersInstance.renderer->renderText(std::to_string(this->life), textPosition);
     }
 }

@@ -48,7 +48,6 @@ namespace Game
             hex = hex.substr(1);
         }
 
-        // Converte o valor hexadecimal para um valor inteiro
         std::stringstream ss;
         ss << std::hex << hex;
         unsigned int hexValue;
@@ -63,22 +62,20 @@ namespace Game
         Uint8 g = (color >> 8) & 0xFF;
         Uint8 b = color & 0xFF;
 
-        // Renderizar a borda
         SDL_Rect borderRect = {
             static_cast<int>(std::round(renderDataDTO.position.x)) - 2,
             static_cast<int>(std::round(renderDataDTO.position.y)) - 2,
             renderDataDTO.width + 2 * 2,
             renderDataDTO.height + 2 * 2};
-        SDL_SetRenderDrawColor(this->getRenderer(), 50, 50, 50, 255); // Cor preta para a borda
+        SDL_SetRenderDrawColor(this->getRenderer(), 50, 50, 50, 255);
         SDL_RenderFillRect(this->getRenderer(), &borderRect);
 
-        // Renderizar o retângulo interno (conteúdo)
         SDL_Rect fillRect = {
             static_cast<int>(std::round(renderDataDTO.position.x)),
             static_cast<int>(std::round(renderDataDTO.position.y)),
             renderDataDTO.width,
             renderDataDTO.height};
-        SDL_SetRenderDrawColor(this->getRenderer(), r, g, b, 255); // Cor interna do elemento
+        SDL_SetRenderDrawColor(this->getRenderer(), r, g, b, 255);
         SDL_RenderFillRect(this->getRenderer(), &fillRect);
     }
 
@@ -115,7 +112,6 @@ namespace Game
         SDL_Color borderColor = {0, 0, 0, 255};
         int borderSize = 2;
 
-        // Create the text surface for the main text
         SDL_Surface *textSurface = TTF_RenderText_Solid(this->font, text.data(), textColor);
         if (!textSurface)
         {
@@ -135,12 +131,10 @@ namespace Game
         textRect.y = position.y;
         SDL_QueryTexture(textTexture, NULL, NULL, &textRect.w, &textRect.h);
 
-        // Render the border by rendering the text in black in all surrounding positions
         for (int dx = -borderSize; dx <= borderSize; ++dx)
         {
             for (int dy = -borderSize; dy <= borderSize; ++dy)
             {
-                // Skip the center position
                 if (dx == 0 && dy == 0)
                     continue;
 
@@ -167,27 +161,44 @@ namespace Game
             }
         }
 
-        // Render the actual text on top
         SDL_RenderCopy(this->getRenderer(), textTexture, NULL, &textRect);
         SDL_FreeSurface(textSurface);
         SDL_DestroyTexture(textTexture);
     }
 
-    void SDLRendererAdapter::renderSprite(const std::string &path, float x, float y, float width, float height)
+    void SDLRendererAdapter::renderSprite(const std::string &path, float x, float y, float width, float height, bool flipHorizontal)
     {
-        SDL_Surface *surface = IMG_Load(path.c_str());
-        if (!surface)
+        SDL_Texture *texture = IMG_LoadTexture(this->getRenderer(), path.c_str());
+        if (!texture)
         {
-            SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "IMG_Load failed: %s", SDL_GetError());
-            throw std::runtime_error(SDL_GetError());
+            std::cerr << "Failed to load texture: " << IMG_GetError() << std::endl;
+            return;
+        }
+        SDL_Texture *texture = nullptr;
+
+        // Verifica se a textura está no cache
+        auto it = textureCache.find(path);
+        if (it != textureCache.end())
+        {
+            texture = it->second;
+        }
+        else
+        {
+            texture = IMG_LoadTexture(this->getRenderer(), path.c_str());
+            if (!texture)
+            {
+                std::cerr << "Failed to load texture: " << IMG_GetError() << std::endl;
+                return;
+            }
+            textureCache[path] = texture;
         }
 
-        SDL_Texture *texture = SDL_CreateTextureFromSurface(this->getRenderer(), surface);
-        SDL_FreeSurface(surface);
-        SDL_Rect dstRect = {x, y, width, height};
-        SDL_RenderCopy(this->getRenderer(), texture, NULL, &dstRect);
+        SDL_Rect dstRect = {static_cast<int>(x), static_cast<int>(y), static_cast<int>(width), static_cast<int>(height)};
+        SDL_RendererFlip flip = flipHorizontal ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
+        // SDL_SetTextureColorMod(texture, colorFilter.r, colorFilter.g, colorFilter.b);
+        // SDL_SetTextureAlphaMod(texture, colorFilter.a);
+        SDL_RenderCopyEx(this->getRenderer(), texture, nullptr, &dstRect, 0, nullptr, flip);
     }
-
     void SDLRendererAdapter::destroyRenderer()
     {
         this->sdlRenderer = nullptr;

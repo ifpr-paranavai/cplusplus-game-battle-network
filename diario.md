@@ -29,3 +29,8 @@
 # 31/07/2024
 
 - Implementado todo o ataque com bomba
+- Iniciando a adição de sprites
+
+# 02/08/2024
+
+- Implementado todo o esquema de sprite inicial

@@ -3,7 +3,7 @@
 namespace Game
 {
 
-    FlamethrowerAttack::FlamethrowerAttack(Vector elementPosition) : TileBasedAttack(50, 75)
+    FlamethrowerAttack::FlamethrowerAttack(Vector elementPosition) : TileBasedAttack(60, 80)
     {
         this->damage = 10;
         this->tilePosition = elementPosition;
@@ -31,6 +31,7 @@ namespace Game
 
         this->setTilePosition({this->tilePosition.x - 1, this->tilePosition.y});
         VisualElement flame;
+        flame.setSpritePath("assets/sprites/attacks/fire/0.png");
         flame.setConfig("#FFD700", this->position, this->width, this->height);
         this->flames.push_back(flame);
         this->collisionBoxes.push_back(CollisionBox(this->position, this->width, 10));

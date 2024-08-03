@@ -2,10 +2,11 @@
 
 namespace Game
 {
-    FiremanEnemy::FiremanEnemy() : Enemy()
+    FiremanEnemy::FiremanEnemy() : Enemy(96, 96)
     {
         this->attackTime = 3;
         this->life = 300;
+        this->sprite.setSpritePath("assets/sprites/enemies/fireman/idle/0.png");
     }
 
     void FiremanEnemy::attack()
