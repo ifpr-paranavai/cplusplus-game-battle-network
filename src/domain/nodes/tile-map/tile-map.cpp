@@ -12,7 +12,8 @@ namespace Game
             {
                 const int posX = i * (tileWidth + tileSpacing) + tileSpacing;
                 const int posY = this->tilesStartY + (j * (this->tileHeight + this->tileSpacing));
-                Tile tile = Tile(this->tileWidth, this->tileHeight, Vector(posX, posY));
+                const bool isPlayerTile = i < this->playerColumnTilesCount;
+                Tile tile = Tile(this->tileWidth, this->tileHeight, Vector(posX, posY), isPlayerTile);
                 this->tiles.push_back(tile);
             }
         }

@@ -55,7 +55,7 @@ namespace Game
         return hexValue;
     }
 
-    void SDLRendererAdapter::renderElement(const RenderDataDTO &renderDataDTO)
+    void SDLRendererAdapter::renderElement(const RenderElementData &renderDataDTO)
     {
         unsigned int color = this->getHexColorValue(renderDataDTO.hexColor);
         Uint8 r = (color >> 16) & 0xFF;
@@ -166,37 +166,39 @@ namespace Game
         SDL_DestroyTexture(textTexture);
     }
 
-    void SDLRendererAdapter::renderSprite(const std::string &path, float x, float y, float width, float height, bool flipHorizontal)
+    void SDLRendererAdapter::renderSprite(const RenderSpriteData &renderSpriteData)
     {
-        SDL_Texture *texture = IMG_LoadTexture(this->getRenderer(), path.c_str());
-        if (!texture)
-        {
-            std::cerr << "Failed to load texture: " << IMG_GetError() << std::endl;
-            return;
-        }
         SDL_Texture *texture = nullptr;
 
-        // Verifica se a textura está no cache
-        auto it = textureCache.find(path);
+        auto it = textureCache.find(renderSpriteData.path);
         if (it != textureCache.end())
         {
             texture = it->second;
         }
         else
         {
-            texture = IMG_LoadTexture(this->getRenderer(), path.c_str());
+            texture = IMG_LoadTexture(this->getRenderer(), renderSpriteData.path.c_str());
             if (!texture)
             {
                 std::cerr << "Failed to load texture: " << IMG_GetError() << std::endl;
                 return;
             }
-            textureCache[path] = texture;
+            textureCache[renderSpriteData.path] = texture;
         }
 
-        SDL_Rect dstRect = {static_cast<int>(x), static_cast<int>(y), static_cast<int>(width), static_cast<int>(height)};
-        SDL_RendererFlip flip = flipHorizontal ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
-        // SDL_SetTextureColorMod(texture, colorFilter.r, colorFilter.g, colorFilter.b);
-        // SDL_SetTextureAlphaMod(texture, colorFilter.a);
+        SDL_Rect dstRect = {
+            static_cast<int>(renderSpriteData.x),
+            static_cast<int>(renderSpriteData.y),
+            static_cast<int>(renderSpriteData.width),
+            static_cast<int>(renderSpriteData.height)};
+        SDL_RendererFlip flip = renderSpriteData.flipHorizontal ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
+
+        if (renderSpriteData.colorFilter.has_value())
+        {
+            Color colorFilter = renderSpriteData.colorFilter.value();
+            SDL_SetTextureColorMod(texture, colorFilter.r, colorFilter.g, colorFilter.b);
+            SDL_SetTextureAlphaMod(texture, colorFilter.a);
+        }
         SDL_RenderCopyEx(this->getRenderer(), texture, nullptr, &dstRect, 0, nullptr, flip);
     }
     void SDLRendererAdapter::destroyRenderer()

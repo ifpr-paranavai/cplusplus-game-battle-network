@@ -1,7 +1,6 @@
 #pragma once
 #include "../../../utils/global-adapters/global-adapters.h"
 #include "../../../utils/math/vector.h"
-#include "../../../dtos/render-data/render-data.h"
 #include "../../../ports/renderer/renderer.h"
 #include "../../../utils/color/color.h"
 
@@ -11,8 +10,8 @@ namespace Game
     {
     protected:
         Vector position;
-        int width = 0;
-        int height = 0;
+        float width = 0;
+        float height = 0;
         bool flipSpriteHorizontally = false;
         std::string_view hexColor;
         std::string spritePath = "";

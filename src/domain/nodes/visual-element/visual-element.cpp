@@ -8,16 +8,16 @@ namespace Game
     {
         if (this->spritePath != "")
         {
-            Global::adaptersInstance.renderer->renderSprite(
-                this->spritePath,
-                this->position.x,
-                this->position.y,
-                this->width,
-                this->height,
-                this->flipSpriteHorizontally);
+            Global::adaptersInstance.renderer->renderSprite({this->spritePath,
+                                                             this->position.x,
+                                                             this->position.y,
+                                                             this->width,
+                                                             this->height,
+                                                             this->flipSpriteHorizontally,
+                                                             this->spriteColorFilter});
             return;
         }
-        Global::adaptersInstance.renderer->renderElement(RenderDataDTO{
+        Global::adaptersInstance.renderer->renderElement(RenderElementData{
             this->position,
             this->width,
             this->height,

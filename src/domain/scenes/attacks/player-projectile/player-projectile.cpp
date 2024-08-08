@@ -11,6 +11,7 @@ namespace Game
         this->width = 30.5;
         this->height = 29.75;
         this->sprite.setConfig("#FFFF00", initialPosition, this->width, this->height);
+        Global::adaptersInstance.audioManager->playWavSoundEffect("assets/sounds/player-projectile.wav");
     }
 
     void PlayerProjectile::onCollision(Element *other)

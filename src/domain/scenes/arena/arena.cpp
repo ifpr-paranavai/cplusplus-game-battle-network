@@ -8,6 +8,7 @@ namespace Game
         this->tileMap->init();
         this->configureBackground();
         this->createEnemies();
+        Global::adaptersInstance.audioManager->playMp3Music("assets/music/battle-music.mp3");
     }
 
     void Arena::configureBackground()
@@ -105,12 +106,12 @@ namespace Game
     void Arena::renderAttacks()
     {
 
-        for (auto &projectile : Global::attacksService->getDyanmicAttacks())
+        for (const auto &projectile : Global::attacksService->getDyanmicAttacks())
         {
             projectile->render();
         }
 
-        for (auto &tileBasedAttack : Global::attacksService->getTileBasedAttacks())
+        for (const auto &tileBasedAttack : Global::attacksService->getTileBasedAttacks())
         {
             tileBasedAttack->render();
         }
@@ -118,36 +119,24 @@ namespace Game
 
     void Arena::render()
     {
-        std::cout << "Arena::render() - " << SDL_GetTicks() << std::endl;
         for (Character *character : this->characters)
         {
             character->update();
         }
-        std::cout << "character->update() - " << SDL_GetTicks() << std::endl;
 
         this->updateAttacks();
-        std::cout << "updateAttacks() - " << SDL_GetTicks() << std::endl;
 
         this->renderBackground();
-        std::cout << "renderBackground() - " << SDL_GetTicks() << std::endl;
         this->tileMap->render();
-        std::cout << "tileMap->render() - " << SDL_GetTicks() << std::endl;
         this->renderPlayerLife();
-        std::cout << "renderPlayerLife() - " << SDL_GetTicks() << std::endl;
 
         for (Character *character : this->characters)
         {
             character->render();
         }
 
-        std::cout << "character->render() - " << SDL_GetTicks() << std::endl;
-
         this->renderAttacks();
 
-        std::cout << "renderAttacks - " << SDL_GetTicks() << std::endl;
-
         Global::attacksService->removeExpiredAttacks();
-
-        std::cout << "attacksService->removeExpiredAttacks() - " << SDL_GetTicks() << std::endl;
     }
 }

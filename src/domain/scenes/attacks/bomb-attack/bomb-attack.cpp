@@ -12,6 +12,7 @@ namespace Game
         this->defineVelocity();
         this->sprite.setSpritePath("assets/sprites/attacks/bomb/0.png");
         this->sprite.setConfig("#FFFF00", this->initialPosition, this->width, this->height);
+        Global::adaptersInstance.audioManager->playWavSoundEffect("assets/sounds/grenade-throwing.wav");
     }
 
     void BombAttack::calculatePositions(Vector elementTilePosition)
@@ -54,6 +55,7 @@ namespace Game
         if (this->inTileTimer <= 0)
         {
             this->deleted = true;
+            Global::adaptersInstance.audioManager->playWavSoundEffect("assets/sounds/explosion.wav");
         }
     }
 

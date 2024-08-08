@@ -28,10 +28,10 @@ namespace Game
         SDLRendererAdapter();
         int getTextHeight(std::string_view text) override;
         int getTextWidth(std::string_view text) override;
-        void renderElement(const RenderDataDTO &renderDataDTO) override;
+        void renderElement(const RenderElementData &renderDataDTO) override;
         void updateScreen() override;
         void renderText(std::string_view text, Vector position) override;
         void destroyRenderer() override;
-        void renderSprite(const std::string &path, float x, float y, float width, float height, bool flipHorizontal = false) override;
+        void renderSprite(const RenderSpriteData &renderSpriteData) override;
     };
 }

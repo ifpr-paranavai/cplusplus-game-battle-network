@@ -6,6 +6,7 @@
 #include "src/adapters/sdl/window-manager/window-manager.h"
 #include "src/adapters/sdl/renderer/renderer.h"
 #include "src/adapters/sdl/time-manager/time-manager.h"
+#include "src/adapters/sdl/audio-manager/audio-manager.h"
 
 int main(int argc, char *argv[])
 {
@@ -13,6 +14,7 @@ int main(int argc, char *argv[])
     Game::Global::adaptersInstance.renderer = new Game::SDLRendererAdapter();
     Game::Global::adaptersInstance.keyboardManager = new Game::SDLKeyboardManagerAdapter();
     Game::Global::adaptersInstance.timeManager = new Game::SDLTimeManagerAdapter();
+    Game::Global::adaptersInstance.audioManager = new Game::SDLAudioManagerAdapter();
 
     Game::GameEngine gameEngine;
     gameEngine.startGame();
