@@ -30,9 +30,7 @@ namespace Game
         }
 
         this->setTilePosition({this->tilePosition.x - 1, this->tilePosition.y});
-        VisualElement flame;
-        flame.setSpritePath("assets/sprites/attacks/fire/0.png");
-        flame.setConfig("#FFD700", this->position, this->width, this->height);
+        Flame flame = Flame(this->tilePosition);
         this->flames.push_back(flame);
         this->collisionBoxes.push_back(CollisionBox(this->position, this->width, 10));
     }
@@ -44,7 +42,7 @@ namespace Game
 
     void FlamethrowerAttack::render()
     {
-        for (VisualElement &flame : this->flames)
+        for (Flame &flame : this->flames)
         {
             flame.renderSprite();
         }

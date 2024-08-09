@@ -2,7 +2,7 @@
 #include <list>
 #include "../tile/tile.h"
 #include "../../../utils/global-adapters/global-adapters.h"
-#include "../../../utils/math/vector.h"
+#include "../../dto/vector/vector.h"
 #include "../../../config/config.h"
 
 namespace Game

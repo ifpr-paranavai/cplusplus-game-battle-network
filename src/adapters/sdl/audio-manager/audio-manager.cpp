@@ -10,24 +10,9 @@ namespace Game
         }
     }
 
-    void SDLAudioManagerAdapter::playWavSoundEffect(std::string_view path)
+    void SDLAudioManagerAdapter::playWavSoundEffect(const SoundEffect &soundEffect)
     {
-        Mix_Chunk *sound = nullptr;
-
-        auto it = soundCache.find(path.data());
-        if (it != soundCache.end())
-        {
-            sound = it->second;
-        }
-        else
-        {
-            sound = Mix_LoadWAV(path.data());
-            if (sound == nullptr)
-            {
-                throw std::runtime_error("Failed to load sound: " + std::string(Mix_GetError()));
-            }
-            soundCache[path.data()] = sound;
-        }
+        Mix_Chunk *sound = std::any_cast<Mix_Chunk *>(soundEffect.data);
 
         if (Mix_PlayChannel(-1, sound, 0) == -1)
         {
@@ -36,27 +21,41 @@ namespace Game
         }
     }
 
-    void SDLAudioManagerAdapter::playMp3Music(std::string_view path)
+    void SDLAudioManagerAdapter::playMusic(const Music &music)
     {
-        Mix_Music *newMusic = Mix_LoadMUS(path.data());
-        if (newMusic == nullptr)
-        {
-            throw std::runtime_error("Failed to load music: " + std::string(Mix_GetError()));
-        }
-
-        // Se houver música atual, pare-a antes de carregar a nova
         if (this->currentMusic != nullptr)
         {
             Mix_FreeMusic(this->currentMusic);
         }
 
-        this->currentMusic = newMusic;
+        this->currentMusic = std::any_cast<Mix_Music *>(music.data);
 
-        // Tocar a música em loop (-1 significa loop infinito)
         if (Mix_PlayMusic(this->currentMusic, -1) == -1)
         {
             throw std::runtime_error("Failed to play music: " + std::string(Mix_GetError()));
         }
+    }
+
+    SoundEffect SDLAudioManagerAdapter::initSoundEffect(std::string_view soundEffectPath)
+    {
+        Mix_Chunk *sound = Mix_LoadWAV(soundEffectPath.data());
+        if (sound == nullptr)
+        {
+            throw std::runtime_error("Failed to load sound: " + std::string(Mix_GetError()));
+        }
+
+        return SoundEffect{std::make_any<Mix_Chunk *>(sound)};
+    }
+
+    Music SDLAudioManagerAdapter::initMusic(std::string_view musicPath)
+    {
+        Mix_Music *music = Mix_LoadMUS(musicPath.data());
+        if (music == nullptr)
+        {
+            throw std::runtime_error("Failed to load music: " + std::string(Mix_GetError()));
+        }
+
+        return Music{std::make_any<Mix_Music *>(music)};
     }
 
 }

@@ -20,7 +20,7 @@ namespace Game
         case KeyCode::ARROW_RIGHT:
             return SDLK_RIGHT;
         case KeyCode::X:
-            return SDLK_x; // Certifique-se de usar o SDL_Keycode correto para "X"
+            return SDLK_x;
         default:
             return SDLK_UNKNOWN;
         }

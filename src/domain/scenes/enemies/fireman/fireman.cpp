@@ -6,7 +6,11 @@ namespace Game
     {
         this->attackTime = 3;
         this->life = 300;
-        this->sprite.setSpritePath("assets/sprites/enemies/fireman/idle/0.png");
+        this->sprites.push_back(Sprite({this->width,
+                                        this->height,
+                                        "assets/sprites/enemies/fireman/idle/0.png",
+                                        true},
+                                       Vector(0, 0)));
     }
 
     void FiremanEnemy::attack()

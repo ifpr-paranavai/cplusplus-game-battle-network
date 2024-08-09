@@ -2,9 +2,9 @@
 #include <list>
 #include <string>
 #include <array>
-#include "../../../utils/math/vector.h"
-#include "../visual-element/visual-element.h"
+#include "../../dto/vector/vector.h"
 #include "../element/element.h"
+#include "../sprite/sprite.h"
 
 namespace Game
 {
@@ -14,7 +14,7 @@ namespace Game
         virtual void onCollision(Element *other) {}
 
     private:
-        std::list<VisualElement> sprites;
+        std::list<Sprite> sprites;
         bool isPlayerTile = false;
 
         void configureSprites();

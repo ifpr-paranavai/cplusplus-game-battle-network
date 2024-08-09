@@ -2,19 +2,27 @@
 
 namespace Game
 {
-    VisualElement::VisualElement() {}
+    VisualElement::VisualElement()
+    {
+    }
+
+    void VisualElement::initSpriteTexture()
+    {
+        if (this->spritePath != "")
+        {
+            this->spriteTexture = Global::adaptersInstance.renderer->getSpriteTexture({this->spritePath,
+                                                                                       this->width,
+                                                                                       this->height,
+                                                                                       this->flipSpriteHorizontally,
+                                                                                       this->spriteColorFilter});
+        }
+    }
 
     void VisualElement::renderSprite() const
     {
         if (this->spritePath != "")
         {
-            Global::adaptersInstance.renderer->renderSprite({this->spritePath,
-                                                             this->position.x,
-                                                             this->position.y,
-                                                             this->width,
-                                                             this->height,
-                                                             this->flipSpriteHorizontally,
-                                                             this->spriteColorFilter});
+            Global::adaptersInstance.renderer->renderSprite(this->spriteTexture, this->position);
             return;
         }
         Global::adaptersInstance.renderer->renderElement(RenderElementData{
@@ -24,11 +32,16 @@ namespace Game
             this->hexColor});
     }
 
-    void VisualElement::setConfig(std::string_view hexColor, Vector position, int width, int height)
+    void VisualElement::setConfig(const VisualElementConfig &config)
     {
-        this->hexColor = hexColor;
-        this->position = position;
-        this->width = width;
-        this->height = height;
+        this->hexColor = config.hexColor;
+        this->position = config.position;
+        this->width = config.width;
+        this->height = config.height;
+        if (config.spritePath.has_value())
+        {
+            this->spritePath = config.spritePath.value();
+            this->initSpriteTexture();
+        }
     }
 }

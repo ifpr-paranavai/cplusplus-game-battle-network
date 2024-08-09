@@ -1,5 +1,5 @@
 #pragma once
-#include "../../../utils/math/vector.h"
+#include "../../dto/vector/vector.h"
 
 namespace Game
 {

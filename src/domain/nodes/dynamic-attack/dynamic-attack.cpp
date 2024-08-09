@@ -12,7 +12,6 @@ namespace Game
 
     void DynamicAttack::update()
     {
-        this->sprite.setPosition(this->position);
         if (this->position.x > Config::WINDOW_WIDTH || this->position.x < 0 || this->position.y > Config::WINDOW_HEIGHT || this->position.y < 0)
         {
             this->deleted = true;
@@ -25,7 +24,10 @@ namespace Game
 
     void DynamicAttack::render()
     {
-        this->sprite.renderSprite();
+        for (const Sprite &sprite : this->sprites)
+        {
+            sprite.renderSprite(this->position);
+        }
     }
 
 }

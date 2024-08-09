@@ -2,11 +2,10 @@
 
 namespace Game
 {
-    Enemy::Enemy(int width, int height) : Character(width, height, "#FF0000")
+    Enemy::Enemy(int width, int height) : Character(width, height)
     {
         std::srand(static_cast<unsigned int>(std::time(0)));
         this->collisionBoxes.push_back(CollisionBox(this->position, this->width, this->height));
-        this->sprite.setFlipSpriteHorizontally(true);
     }
 
     void Enemy::handleMovement()
@@ -92,7 +91,7 @@ namespace Game
 
     void Enemy::onCollision(Element *other)
     {
-        if (this->dead || dynamic_cast<EnemyProjectile *>(other))
+        if (this->dead)
         {
             return;
         }

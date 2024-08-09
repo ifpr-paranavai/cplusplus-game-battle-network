@@ -13,12 +13,13 @@ namespace Game
     class SDLAudioManagerAdapter : public AudioManagerPort
     {
     private:
-        std::unordered_map<std::string, Mix_Chunk *> soundCache;
         Mix_Music *currentMusic;
 
     public:
         SDLAudioManagerAdapter();
-        virtual void playWavSoundEffect(std::string_view path) override;
-        virtual void playMp3Music(std::string_view path) override;
+        void playWavSoundEffect(const SoundEffect &soundEffect) override;
+        void playMusic(const Music &music) override;
+        SoundEffect initSoundEffect(std::string_view soundEffectPath) override;
+        Music initMusic(std::string_view musicPath) override;
     };
 }

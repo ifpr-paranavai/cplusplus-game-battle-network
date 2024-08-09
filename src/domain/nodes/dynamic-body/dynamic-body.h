@@ -1,6 +1,6 @@
 #pragma once
 #include "../element/element.h"
-#include "../../../utils/math/vector.h"
+#include "../../dto/vector/vector.h"
 #include "../../../utils/global-adapters/global-adapters.h"
 
 namespace Game

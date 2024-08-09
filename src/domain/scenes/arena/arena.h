@@ -7,18 +7,20 @@
 #include "../enemies/fireman/fireman.h"
 #include "../../../utils/log-manager/log-manager.h"
 #include "../../global/global-services/global-services.h"
+#include "../../dto/music/music.h"
+#include "../../nodes/sprite/sprite.h"
 
 namespace Game
 {
     class Arena
     {
     private:
-        VisualElement background;
         Player *player;
         TileMap *tileMap;
         std::string backgroundColorHex = "#87CEEB";
         std::list<Character *> characters;
-        std::list<VisualElement> backgroundSprites;
+        std::list<Sprite> backgroundSprites;
+        const Music music = Global::adaptersInstance.audioManager->initMusic("assets/music/battle-music.mp3");
 
         void configureBackground();
         void createEnemies();

@@ -5,7 +5,6 @@
 #include "../../../utils/global-adapters/global-adapters.h"
 #include "../../nodes/character/character.h"
 #include "../../../utils/log-manager/log-manager.h"
-#include "../attacks/enemy-projectile/enemy-projectile.h"
 #include "../../global/global-services/global-services.h"
 
 namespace Game

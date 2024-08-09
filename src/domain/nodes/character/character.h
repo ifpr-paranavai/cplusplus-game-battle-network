@@ -1,9 +1,10 @@
 #pragma once
 #include <string>
+#include <list>
 #include "../../../utils/global-adapters/global-adapters.h"
-#include "../../../utils/math/vector.h"
-#include "../visual-element/visual-element.h"
+#include "../../dto/vector/vector.h"
 #include "../tile-based-body/tile-based-body.h"
+#include "../sprite/sprite.h"
 
 namespace Game
 {
@@ -11,14 +12,12 @@ namespace Game
     {
     protected:
         int life = 100;
-
-        VisualElement sprite;
+        std::list<Sprite> sprites;
 
     public:
         Character(
             int width,
-            int height,
-            std::string_view hexColor);
+            int height);
 
         virtual void render();
 

@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 #include <list>
-#include "../../../utils/math/vector.h"
+#include "../../dto/vector/vector.h"
 #include "../collision-box/collision-box.h"
 
 namespace Game
@@ -10,8 +10,8 @@ namespace Game
     {
     protected:
         std::list<CollisionBox> collisionBoxes;
-        int width = 0;
-        int height = 0;
+        float width = 0;
+        float height = 0;
         Vector position;
 
         virtual void onCollision(Element *other) = 0;

@@ -5,27 +5,24 @@ namespace Game
 {
     Arena::Arena() : tileMap(new TileMap())
     {
+        Global::adaptersInstance.audioManager->playMusic(this->music);
         this->tileMap->init();
         this->configureBackground();
         this->createEnemies();
-        Global::adaptersInstance.audioManager->playMp3Music("assets/music/battle-music.mp3");
     }
 
     void Arena::configureBackground()
     {
-        VisualElement background, clouds;
-        background.setSpritePath("assets/sprites/background/bg.png");
-        background.setConfig(
-            this->backgroundColorHex,
-            Vector(0, 0),
-            Config::WINDOW_WIDTH,
-            Config::WINDOW_HEIGHT);
-        clouds.setSpritePath("assets/sprites/background/clouds.png");
-        clouds.setConfig(
-            this->backgroundColorHex,
-            Vector(0, 0),
-            Config::WINDOW_WIDTH,
-            Config::WINDOW_HEIGHT);
+        Sprite background = Sprite({Config::WINDOW_WIDTH,
+                                    Config::WINDOW_HEIGHT,
+                                    "assets/sprites/background/bg.png",
+                                    false},
+                                   Vector(0, 0));
+        Sprite clouds = Sprite({Config::WINDOW_WIDTH,
+                                Config::WINDOW_HEIGHT,
+                                "assets/sprites/background/clouds.png",
+                                false},
+                               Vector(0, 0));
         this->backgroundSprites.push_back(background);
         this->backgroundSprites.push_back(clouds);
     }
@@ -82,9 +79,9 @@ namespace Game
 
     void Arena::renderBackground()
     {
-        for (VisualElement bgSprite : this->backgroundSprites)
+        for (const Sprite &bgSprite : this->backgroundSprites)
         {
-            bgSprite.renderSprite();
+            bgSprite.renderSprite(Vector(0, 0));
         }
     }
 

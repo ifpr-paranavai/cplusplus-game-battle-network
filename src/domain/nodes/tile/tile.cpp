@@ -11,8 +11,8 @@ namespace Game
 
     void Tile::configureSprites()
     {
-        const float spriteWidth = this->width / 4;
-        const float spriteHeight = this->height / 3;
+        const float spriteWidth = std::round(this->width / 4);
+        const float spriteHeight = std::round(this->height / 3);
         const std::string initialSpritePath = "assets/sprites/tilemap/";
         const std::array<std::string, 12> spritePaths = {
             initialSpritePath + "left-top.png",
@@ -49,19 +49,20 @@ namespace Game
 
     void Tile::createSprite(std::string_view path, const Vector &position, float width, float height)
     {
-        const Vector absolutePosition = this->position + position;
-        VisualElement sprite;
-        sprite.setSpritePath(path);
-        sprite.setSpriteColorFilter(this->isPlayerTile ? Color{255, 69, 0, 255} : Color{65, 105, 225, 255});
-        sprite.setConfig("#FFFFFF", absolutePosition, width, height);
+        const Sprite sprite = Sprite({width,
+                                      height,
+                                      path,
+                                      false,
+                                      this->isPlayerTile ? Color{255, 69, 0, 255} : Color{65, 105, 225, 255}},
+                                     position);
         this->sprites.emplace_back(std::move(sprite));
     }
 
     void Tile::renderSprites() const
     {
-        for (const VisualElement &sprite : this->sprites)
+        for (const Sprite &sprite : this->sprites)
         {
-            sprite.renderSprite();
+            sprite.renderSprite(this->position);
         }
     }
 }

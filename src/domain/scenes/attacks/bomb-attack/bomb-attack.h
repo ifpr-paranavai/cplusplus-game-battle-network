@@ -2,6 +2,7 @@
 #include "../../../global/global-services/global-services.h"
 #include "../../../nodes/dynamic-attack/dynamic-attack.h"
 #include "../../../nodes/tile-map/tile-map.h"
+#include "../../../dto/sound-effect/sound-effect.h"
 
 namespace Game
 {
@@ -14,6 +15,8 @@ namespace Game
         float xDistance;
         Vector initialPosition;
         Vector targetPosition;
+        const SoundEffect grenadeThrowingSFX = Global::adaptersInstance.audioManager->initSoundEffect("assets/sounds/grenade-throwing.wav");
+        const SoundEffect bombExplosionSFX = Global::adaptersInstance.audioManager->initSoundEffect("assets/sounds/explosion.wav");
 
         void calculatePositions(Vector elementTilePosition);
         void defineVelocity();

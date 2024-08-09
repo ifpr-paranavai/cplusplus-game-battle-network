@@ -1,26 +1,41 @@
 #pragma once
+#include <optional>
+#include <string_view>
 #include "../../../utils/global-adapters/global-adapters.h"
-#include "../../../utils/math/vector.h"
+#include "../../dto/vector/vector.h"
 #include "../../../ports/renderer/renderer.h"
-#include "../../../utils/color/color.h"
+#include "../../dto/color/color.h"
 
 namespace Game
 {
+
+    struct VisualElementConfig
+    {
+        std::string_view hexColor;
+        Vector position;
+        float width;
+        float height;
+        std::optional<std::string_view> spritePath;
+    };
+
     class VisualElement
     {
-    protected:
+    private:
+        SpriteTexture spriteTexture;
         Vector position;
         float width = 0;
         float height = 0;
         bool flipSpriteHorizontally = false;
         std::string_view hexColor;
-        std::string spritePath = "";
+        std::string_view spritePath = "";
         Color spriteColorFilter = {255, 255, 255, 255};
+
+        void initSpriteTexture();
 
     public:
         VisualElement();
         void renderSprite() const;
-        void setConfig(std::string_view hexColor, Vector position, int width, int height);
+        void setConfig(const VisualElementConfig &config);
 
         void setPosition(Vector position)
         {
@@ -30,6 +45,7 @@ namespace Game
         void setSpritePath(std::string_view spritePath)
         {
             this->spritePath = spritePath;
+            this->initSpriteTexture();
         }
 
         void setFlipSpriteHorizontally(bool flipSpriteHorizontally)

@@ -166,45 +166,40 @@ namespace Game
         SDL_DestroyTexture(textTexture);
     }
 
-    void SDLRendererAdapter::renderSprite(const RenderSpriteData &renderSpriteData)
+    void SDLRendererAdapter::renderSprite(const SpriteTexture &spriteTexture, Vector position)
     {
-        SDL_Texture *texture = nullptr;
-
-        auto it = textureCache.find(renderSpriteData.path);
-        if (it != textureCache.end())
-        {
-            texture = it->second;
-        }
-        else
-        {
-            texture = IMG_LoadTexture(this->getRenderer(), renderSpriteData.path.c_str());
-            if (!texture)
-            {
-                std::cerr << "Failed to load texture: " << IMG_GetError() << std::endl;
-                return;
-            }
-            textureCache[renderSpriteData.path] = texture;
-        }
-
+        SDL_Texture *texture = std::any_cast<SDL_Texture *>(spriteTexture.data);
         SDL_Rect dstRect = {
-            static_cast<int>(renderSpriteData.x),
-            static_cast<int>(renderSpriteData.y),
-            static_cast<int>(renderSpriteData.width),
-            static_cast<int>(renderSpriteData.height)};
-        SDL_RendererFlip flip = renderSpriteData.flipHorizontal ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
-
-        if (renderSpriteData.colorFilter.has_value())
-        {
-            Color colorFilter = renderSpriteData.colorFilter.value();
-            SDL_SetTextureColorMod(texture, colorFilter.r, colorFilter.g, colorFilter.b);
-            SDL_SetTextureAlphaMod(texture, colorFilter.a);
-        }
+            static_cast<int>(position.x),
+            static_cast<int>(position.y),
+            static_cast<int>(spriteTexture.width),
+            static_cast<int>(spriteTexture.height)};
+        SDL_RendererFlip flip = spriteTexture.flipHorizontally ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
         SDL_RenderCopyEx(this->getRenderer(), texture, nullptr, &dstRect, 0, nullptr, flip);
     }
+
     void SDLRendererAdapter::destroyRenderer()
     {
         this->sdlRenderer = nullptr;
         SDL_DestroyRenderer(this->getRenderer());
+    }
+
+    SpriteTexture SDLRendererAdapter::getSpriteTexture(const RenderSpriteData2 &renderSpriteData)
+    {
+        SDL_Texture *texture = IMG_LoadTexture(this->getRenderer(), renderSpriteData.path.data());
+        if (!texture)
+        {
+            throw std::runtime_error(IMG_GetError());
+        }
+
+        if (renderSpriteData.colorFilter)
+        {
+            const Color &colorFilter = renderSpriteData.colorFilter.value();
+            SDL_SetTextureColorMod(texture, colorFilter.r, colorFilter.g, colorFilter.b);
+            SDL_SetTextureAlphaMod(texture, colorFilter.a);
+        }
+
+        return SpriteTexture{std::make_any<SDL_Texture *>(texture), renderSpriteData.width, renderSpriteData.height, renderSpriteData.flipHorizontal};
     }
 
 }

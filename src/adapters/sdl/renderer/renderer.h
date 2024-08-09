@@ -32,6 +32,7 @@ namespace Game
         void updateScreen() override;
         void renderText(std::string_view text, Vector position) override;
         void destroyRenderer() override;
-        void renderSprite(const RenderSpriteData &renderSpriteData) override;
+        void renderSprite(const SpriteTexture &spriteTexture, Vector position) override;
+        SpriteTexture getSpriteTexture(const RenderSpriteData2 &renderSpriteData) override;
     };
 }

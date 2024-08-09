@@ -5,13 +5,16 @@ namespace Game
 {
     PlayerProjectile::PlayerProjectile(Vector initialPosition) : DynamicAttack(initialPosition)
     {
-        this->sprite.setSpritePath("assets/sprites/attacks/projectile/0.png");
         this->velocity = {1000, 0};
         this->damage = 1;
         this->width = 30.5;
         this->height = 29.75;
-        this->sprite.setConfig("#FFFF00", initialPosition, this->width, this->height);
-        Global::adaptersInstance.audioManager->playWavSoundEffect("assets/sounds/player-projectile.wav");
+        this->sprites.push_back(Sprite({this->width,
+                                        this->height,
+                                        "assets/sprites/attacks/projectile/0.png",
+                                        false},
+                                       Vector(0, 0)));
+        Global::adaptersInstance.audioManager->playWavSoundEffect(this->projectileSFX);
     }
 
     void PlayerProjectile::onCollision(Element *other)
