@@ -4,12 +4,8 @@ namespace Game
 {
     Player::Player() : Character(96, 96)
     {
-        this->sprites.push_back(Sprite({this->width,
-                                        this->height,
-                                        "assets/sprites/player/idle/0.png",
-                                        false},
-                                       Vector(0, 0)));
-        this->collisionBoxes.push_back(CollisionBox(this->position, 50, 70));
+        this->updateCurrentAnimatedSprite(&this->idleSprite);
+        this->collisionBoxes.emplace_back(this->position, 50, 70);
     }
 
     void Player::handleMovement()

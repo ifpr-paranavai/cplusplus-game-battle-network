@@ -5,7 +5,7 @@ namespace Game
     Enemy::Enemy(int width, int height) : Character(width, height)
     {
         std::srand(static_cast<unsigned int>(std::time(0)));
-        this->collisionBoxes.push_back(CollisionBox(this->position, this->width, this->height));
+        this->collisionBoxes.emplace_back(this->position, this->width, this->height);
     }
 
     void Enemy::handleMovement()

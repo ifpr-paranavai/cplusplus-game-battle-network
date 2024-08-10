@@ -7,7 +7,7 @@ namespace Game
     {
         this->velocity = {1000, 0};
         this->position = initialPosition;
-        this->collisionBoxes.push_back(CollisionBox(this->position, this->width, this->height));
+        this->collisionBoxes.emplace_back(this->position, this->width, this->height);
     }
 
     void DynamicAttack::update()

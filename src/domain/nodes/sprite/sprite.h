@@ -15,6 +15,7 @@ namespace Game
         float height;
         std::string_view spritePath;
         bool flipHorizontal;
+        Vector initialRelativePosition;
         std::optional<Color> spriteColorFilter;
     };
 
@@ -25,7 +26,7 @@ namespace Game
         Vector relativePosition;
 
     public:
-        Sprite(const SpriteConfig &spriteConfig, Vector initialRelativePosition);
+        Sprite(const SpriteConfig &spriteConfig);
 
         void renderSprite(Vector elementPosition) const
         {

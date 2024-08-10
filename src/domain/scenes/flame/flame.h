@@ -1,13 +1,14 @@
 #pragma once
-#include "../../nodes/sprite/sprite.h"
 #include "../../nodes/tile-based-attack/tile-based-attack.h"
+#include "../../nodes/animated-sprited/animated-sprited.h"
+#include "../../global/global-services/global-services.h"
 
 namespace Game
 {
     class Flame : public TileBasedBody
     {
     private:
-        const Sprite sprite;
+        AnimatedSprite animatedSprite;
 
     protected:
         void onCollision(Element *other) {};
@@ -17,7 +18,7 @@ namespace Game
 
         void renderSprite() const
         {
-            this->sprite.renderSprite(this->position);
+            this->animatedSprite.renderSprite(this->position);
         }
     };
 }

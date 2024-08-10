@@ -10,11 +10,11 @@ namespace Game
         this->damage = 15;
         this->calculatePositions(elementTilePosition);
         this->defineVelocity();
-        this->sprites.push_back(Sprite({this->width,
-                                        this->height,
-                                        "assets/sprites/attacks/bomb/0.png",
-                                        false},
-                                       Vector(0, 0)));
+        this->sprites.emplace_back(SpriteConfig{this->width,
+                                                this->height,
+                                                "assets/sprites/attacks/bomb/0.png",
+                                                false,
+                                                Vector(0, 0)});
         Global::adaptersInstance.audioManager->playWavSoundEffect(this->grenadeThrowingSFX);
     }
 
@@ -47,18 +47,36 @@ namespace Game
         }
     }
 
-    void BombAttack::checkInTileTimer()
+    void BombAttack::checkExplosionTimer()
     {
-        if (!this->inTile)
+        if (!this->inTile || this->alreadyExploded)
         {
             return;
         }
 
-        this->inTileTimer -= Global::adaptersInstance.timeManager->getDeltaTime();
-        if (this->inTileTimer <= 0)
+        this->timeToExplosion -= Global::adaptersInstance.timeManager->getDeltaTime();
+        if (this->timeToExplosion <= 0)
+        {
+            this->alreadyExploded = true;
+            this->sprites.clear();
+            Global::adaptersInstance.audioManager->playWavSoundEffect(this->bombExplosionSFX);
+            this->currentSprite = &this->explosionSprite;
+            Global::animationService->addAnimatedSprite(&this->explosionSprite);
+        }
+    }
+
+    void BombAttack::checkDeleteTimer()
+    {
+        if (!this->alreadyExploded)
+        {
+            return;
+        }
+
+        this->timeToDelete -= Global::adaptersInstance.timeManager->getDeltaTime();
+        if (this->timeToDelete <= 0)
         {
             this->deleted = true;
-            Global::adaptersInstance.audioManager->playWavSoundEffect(this->bombExplosionSFX);
+            Global::animationService->removeAnimatedSprite(&this->explosionSprite);
         }
     }
 
@@ -66,7 +84,17 @@ namespace Game
     {
         DynamicAttack::update();
         this->handleTargetReached();
-        this->checkInTileTimer();
+        this->checkExplosionTimer();
+        this->checkDeleteTimer();
+    }
+
+    void BombAttack::render()
+    {
+        if (this->currentSprite != nullptr)
+        {
+            this->currentSprite->renderSprite(this->position);
+        }
+        DynamicAttack::render();
     }
 
     void BombAttack::onCollision(Element *other)

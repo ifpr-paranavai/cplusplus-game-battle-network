@@ -16,13 +16,13 @@ namespace Game
         Sprite background = Sprite({Config::WINDOW_WIDTH,
                                     Config::WINDOW_HEIGHT,
                                     "assets/sprites/background/bg.png",
-                                    false},
-                                   Vector(0, 0));
+                                    false,
+                                    Vector(0, 0)});
         Sprite clouds = Sprite({Config::WINDOW_WIDTH,
                                 Config::WINDOW_HEIGHT,
                                 "assets/sprites/background/clouds.png",
-                                false},
-                               Vector(0, 0));
+                                false,
+                                Vector(0, 0)});
         this->backgroundSprites.push_back(background);
         this->backgroundSprites.push_back(clouds);
     }
@@ -77,6 +77,11 @@ namespace Game
         }
     }
 
+    void Arena::updateAnimations()
+    {
+        Global::animationService->updateAnimatedSprites();
+    }
+
     void Arena::renderBackground()
     {
         for (const Sprite &bgSprite : this->backgroundSprites)
@@ -116,6 +121,8 @@ namespace Game
 
     void Arena::render()
     {
+        this->updateAnimations();
+
         for (Character *character : this->characters)
         {
             character->update();

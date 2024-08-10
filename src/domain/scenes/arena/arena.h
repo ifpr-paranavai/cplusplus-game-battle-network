@@ -26,6 +26,7 @@ namespace Game
         void createEnemies();
         void renderAttacks();
         void updateAttacks();
+        void updateAnimations();
         void renderPlayerLife();
         void renderBackground();
 

@@ -20,7 +20,7 @@ namespace Game
         DynamicAttack(Vector initialPosition);
 
         void update();
-        void render();
+        virtual void render();
 
         bool isDeleted()
         {

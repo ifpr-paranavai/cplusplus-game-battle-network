@@ -2,24 +2,32 @@
 #include <string>
 #include <list>
 #include "../../../utils/global-adapters/global-adapters.h"
+#include "../../global/global-services/global-services.h"
 #include "../../dto/vector/vector.h"
 #include "../tile-based-body/tile-based-body.h"
-#include "../sprite/sprite.h"
+#include "../animated-sprited/animated-sprited.h"
 
 namespace Game
 {
     class Character : public TileBasedBody
     {
+    private:
+        AnimatedSprite *currentAnimatedSprite = nullptr;
+
     protected:
         int life = 100;
-        std::list<Sprite> sprites;
+
+        void updateCurrentAnimatedSprite(AnimatedSprite *newAnimatedSprite);
 
     public:
         Character(
             int width,
             int height);
 
-        virtual void render();
+        virtual void render()
+        {
+            this->currentAnimatedSprite->renderSprite(this->position);
+        }
 
         int getWidth()
         {

@@ -2,9 +2,8 @@
 
 namespace Game
 {
-    Tile::Tile(int width, int height, Vector position, bool isPlayerTile) : Element(width, height)
+    Tile::Tile(int width, int height, Vector position, bool _isPlayerTile) : Element(width, height), isPlayerTile(_isPlayerTile)
     {
-        this->isPlayerTile = isPlayerTile;
         this->position = position;
         this->configureSprites();
     }
@@ -53,8 +52,8 @@ namespace Game
                                       height,
                                       path,
                                       false,
-                                      this->isPlayerTile ? Color{255, 69, 0, 255} : Color{65, 105, 225, 255}},
-                                     position);
+                                      position,
+                                      this->isPlayerTile ? this->playerTileColor : this->enemyTileColor});
         this->sprites.emplace_back(std::move(sprite));
     }
 

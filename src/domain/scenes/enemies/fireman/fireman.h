@@ -15,6 +15,16 @@ namespace Game
     class FiremanEnemy : public Enemy
     {
     private:
+        AnimatedSprite idleSprite = AnimatedSprite({0.2f,
+                                                    {"assets/sprites/enemies/fireman/idle/0.png",
+                                                     "assets/sprites/enemies/fireman/idle/1.png",
+                                                     "assets/sprites/enemies/fireman/idle/2.png",
+                                                     "assets/sprites/enemies/fireman/idle/3.png",
+                                                     "assets/sprites/enemies/fireman/idle/4.png"},
+                                                    this->width,
+                                                    this->height,
+                                                    true,
+                                                    Vector(0, 0)});
         float attackDelayTime = 0;
         float attackDelayTimer = 0;
         void flamethrowerAttack();

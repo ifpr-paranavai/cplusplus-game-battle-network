@@ -14,6 +14,16 @@ namespace Game
     class Player : public Character
     {
     private:
+        AnimatedSprite idleSprite = AnimatedSprite({0.2f,
+                                                    {"assets/sprites/player/idle/0.png",
+                                                     "assets/sprites/player/idle/1.png",
+                                                     "assets/sprites/player/idle/2.png",
+                                                     "assets/sprites/player/idle/3.png",
+                                                     "assets/sprites/player/idle/4.png"},
+                                                    this->width,
+                                                    this->height,
+                                                    false,
+                                                    Vector(0, 0)});
         bool movementKeyAlreadyPressed = false;
         bool attackKeyAlreadyPressed = false;
         bool invencible = false;

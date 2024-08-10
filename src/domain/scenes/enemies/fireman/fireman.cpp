@@ -6,11 +6,7 @@ namespace Game
     {
         this->attackTime = 3;
         this->life = 300;
-        this->sprites.push_back(Sprite({this->width,
-                                        this->height,
-                                        "assets/sprites/enemies/fireman/idle/0.png",
-                                        true},
-                                       Vector(0, 0)));
+        this->updateCurrentAnimatedSprite(&this->idleSprite);
     }
 
     void FiremanEnemy::attack()

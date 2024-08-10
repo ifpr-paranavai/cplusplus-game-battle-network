@@ -11,11 +11,14 @@ namespace Game
         this->height = height;
     }
 
-    void Character::render()
+    void Character::updateCurrentAnimatedSprite(AnimatedSprite *sprite)
     {
-        for (const Sprite &sprite : this->sprites)
+        if (this->currentAnimatedSprite != nullptr)
         {
-            sprite.renderSprite(this->position);
+            Global::animationService->removeAnimatedSprite(this->currentAnimatedSprite);
         }
+        this->currentAnimatedSprite = sprite;
+        Global::animationService->addAnimatedSprite(sprite);
     }
+
 }
