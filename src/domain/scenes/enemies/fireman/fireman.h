@@ -15,16 +15,32 @@ namespace Game
     class FiremanEnemy : public Enemy
     {
     private:
+        const float spriteWidth = 264;
+        const float spriteHeight = 248;
+        const Vector spritePosition = Vector(
+            -((this->spriteWidth - this->width) / 2) - 62,
+            -((this->spriteHeight - this->height) / 2) - 92);
         AnimatedSprite idleSprite = AnimatedSprite({0.2f,
-                                                    {"assets/sprites/enemies/fireman/idle/0.png",
-                                                     "assets/sprites/enemies/fireman/idle/1.png",
-                                                     "assets/sprites/enemies/fireman/idle/2.png",
-                                                     "assets/sprites/enemies/fireman/idle/3.png",
-                                                     "assets/sprites/enemies/fireman/idle/4.png"},
-                                                    this->width,
-                                                    this->height,
-                                                    true,
-                                                    Vector(0, 0)});
+                                                    "assets/sprites/enemies/fireman/idle",
+                                                    7,
+                                                    this->spriteWidth,
+                                                    this->spriteHeight,
+                                                    false,
+                                                    this->spritePosition});
+        AnimatedSprite fireAttackAnimation = AnimatedSprite({0.2f,
+                                                             "assets/sprites/enemies/fireman/fire-attack",
+                                                             12,
+                                                             this->spriteWidth,
+                                                             this->spriteHeight,
+                                                             false,
+                                                             this->spritePosition});
+        AnimatedSprite throwingAttackAnimation = AnimatedSprite({0.2f,
+                                                                 "assets/sprites/enemies/fireman/throwing-attack",
+                                                                 12,
+                                                                 this->spriteWidth,
+                                                                 this->spriteHeight,
+                                                                 false,
+                                                                 this->spritePosition});
         float attackDelayTime = 0;
         float attackDelayTimer = 0;
         void flamethrowerAttack();

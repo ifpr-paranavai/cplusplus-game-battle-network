@@ -5,7 +5,7 @@ namespace Game
     Player::Player() : Character(96, 96)
     {
         this->updateCurrentAnimatedSprite(&this->idleSprite);
-        this->collisionBoxes.emplace_back(this->position, 50, 70);
+        this->collisionBoxes.emplace_back(this->position, this->width, this->height);
     }
 
     void Player::handleMovement()
@@ -72,6 +72,7 @@ namespace Game
             this->position.y + this->height / 3);
         std::unique_ptr<PlayerProjectile> projectile = std::make_unique<PlayerProjectile>(projectilePosition);
         Global::attacksService->addDynamicAttack(std::move(projectile));
+        this->pistol.attack();
     }
 
     void Player::checkInvincibility()
@@ -117,5 +118,11 @@ namespace Game
             this->life -= tileBasedAttack->getDamage();
             this->invencible = true;
         }
+    }
+
+    void Player::render()
+    {
+        Character::render();
+        this->pistol.render(this->position);
     }
 }

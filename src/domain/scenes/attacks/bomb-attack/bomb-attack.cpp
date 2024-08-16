@@ -32,9 +32,8 @@ namespace Game
 
     void BombAttack::defineVelocity()
     {
-        const float verticalDistance = 50.0f;
         this->velocity.x = -this->xDistance / this->movementTime;
-        this->downForce = 8 * verticalDistance / (this->movementTime * this->movementTime / 4);
+        this->downForce = 8 * this->verticalDistance / (this->movementTime * this->movementTime / 4);
         this->velocity.y = -this->downForce * this->movementTime / 2;
     }
 
@@ -60,8 +59,8 @@ namespace Game
             this->alreadyExploded = true;
             this->sprites.clear();
             Global::adaptersInstance.audioManager->playWavSoundEffect(this->bombExplosionSFX);
-            this->currentSprite = &this->explosionSprite;
-            Global::animationService->addAnimatedSprite(&this->explosionSprite);
+            this->currentSprite = &this->explosionAnimation;
+            Global::animationService->addAnimatedSprite(&this->explosionAnimation);
         }
     }
 
@@ -76,7 +75,7 @@ namespace Game
         if (this->timeToDelete <= 0)
         {
             this->deleted = true;
-            Global::animationService->removeAnimatedSprite(&this->explosionSprite);
+            Global::animationService->removeAnimatedSprite(&this->explosionAnimation);
         }
     }
 

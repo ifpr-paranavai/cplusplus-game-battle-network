@@ -62,21 +62,39 @@ namespace Game
         Uint8 g = (color >> 8) & 0xFF;
         Uint8 b = color & 0xFF;
 
-        SDL_Rect borderRect = {
+        SDL_SetRenderDrawColor(this->getRenderer(), r, g, b, 255);
+
+        // Draw top border
+        SDL_Rect topBorder = {
             static_cast<int>(std::round(renderDataDTO.position.x)) - 2,
             static_cast<int>(std::round(renderDataDTO.position.y)) - 2,
             renderDataDTO.width + 2 * 2,
-            renderDataDTO.height + 2 * 2};
-        SDL_SetRenderDrawColor(this->getRenderer(), 50, 50, 50, 255);
-        SDL_RenderFillRect(this->getRenderer(), &borderRect);
+            2};
+        SDL_RenderFillRect(this->getRenderer(), &topBorder);
 
-        SDL_Rect fillRect = {
-            static_cast<int>(std::round(renderDataDTO.position.x)),
-            static_cast<int>(std::round(renderDataDTO.position.y)),
-            renderDataDTO.width,
-            renderDataDTO.height};
-        SDL_SetRenderDrawColor(this->getRenderer(), r, g, b, 255);
-        SDL_RenderFillRect(this->getRenderer(), &fillRect);
+        // Draw bottom border
+        SDL_Rect bottomBorder = {
+            static_cast<int>(std::round(renderDataDTO.position.x)) - 2,
+            static_cast<int>(std::round(renderDataDTO.position.y)) + renderDataDTO.height,
+            renderDataDTO.width + 2 * 2,
+            2};
+        SDL_RenderFillRect(this->getRenderer(), &bottomBorder);
+
+        // Draw left border
+        SDL_Rect leftBorder = {
+            static_cast<int>(std::round(renderDataDTO.position.x)) - 2,
+            static_cast<int>(std::round(renderDataDTO.position.y)) - 2,
+            2,
+            renderDataDTO.height + 2 * 2};
+        SDL_RenderFillRect(this->getRenderer(), &leftBorder);
+
+        // Draw right border
+        SDL_Rect rightBorder = {
+            static_cast<int>(std::round(renderDataDTO.position.x)) + renderDataDTO.width,
+            static_cast<int>(std::round(renderDataDTO.position.y)) - 2,
+            2,
+            renderDataDTO.height + 2 * 2};
+        SDL_RenderFillRect(this->getRenderer(), &rightBorder);
     }
 
     void SDLRendererAdapter::updateScreen()

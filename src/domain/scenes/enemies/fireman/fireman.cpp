@@ -7,6 +7,10 @@ namespace Game
         this->attackTime = 3;
         this->life = 300;
         this->updateCurrentAnimatedSprite(&this->idleSprite);
+        this->fireAttackAnimation.addOnAnimationEndCallback([this]()
+                                                            { this->updateCurrentAnimatedSprite(&this->idleSprite); });
+        this->throwingAttackAnimation.addOnAnimationEndCallback([this]()
+                                                                { this->updateCurrentAnimatedSprite(&this->idleSprite); });
     }
 
     void FiremanEnemy::attack()
@@ -16,7 +20,7 @@ namespace Game
         switch (choicedAttack)
         {
         case Attacks::FLAMETHROWER:
-            this->flamethrowerAttack();
+            this->bombAttack();
             break;
         case Attacks::BOMB:
             this->bombAttack();
@@ -29,7 +33,7 @@ namespace Game
     void FiremanEnemy::flamethrowerAttack()
     {
         this->attackDelayTime = 3;
-
+        this->updateCurrentAnimatedSprite(&this->fireAttackAnimation);
         const float yTileDecision = std::rand() % 3;
         this->setTilePosition({this->tileXLimit[0], yTileDecision});
         Global::attacksService->addTileBasedAttack(std::make_unique<FlamethrowerAttack>(this->tilePosition));
@@ -38,6 +42,7 @@ namespace Game
     void FiremanEnemy::bombAttack()
     {
         this->attackDelayTime = 1;
+        this->updateCurrentAnimatedSprite(&this->throwingAttackAnimation);
         const float yTileDecision = std::rand() % 3;
         this->setTilePosition({this->tileXLimit[1], yTileDecision});
         Global::attacksService->addDynamicAttack(std::make_unique<BombAttack>(this->tilePosition));

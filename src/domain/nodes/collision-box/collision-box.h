@@ -1,5 +1,7 @@
 #pragma once
 #include "../../dto/vector/vector.h"
+#include "../../../config/config.h"
+#include "../../../utils/global-adapters/global-adapters.h"
 
 namespace Game
 {
@@ -17,5 +19,18 @@ namespace Game
         Vector getPosition();
         int getWidth();
         int getHeight();
+
+        void renderCollisionBox() const
+        {
+            if (Game::Config::SHOW_HITBOXES)
+            {
+                Global::adaptersInstance.renderer->renderElement({
+                    {this->position.x, this->position.y},
+                    this->width + 0.0f,
+                    this->height + 0.0f,
+                    "#000000",
+                });
+            }
+        }
     };
 }

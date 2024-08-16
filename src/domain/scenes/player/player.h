@@ -8,22 +8,21 @@
 #include "../../../utils/log-manager/log-manager.h"
 #include "../../global/global-services/global-services.h"
 #include "../../nodes/tile-based-attack/tile-based-attack.h"
+#include "../pistol/pistol.h"
 
 namespace Game
 {
     class Player : public Character
     {
     private:
-        AnimatedSprite idleSprite = AnimatedSprite({0.2f,
-                                                    {"assets/sprites/player/idle/0.png",
-                                                     "assets/sprites/player/idle/1.png",
-                                                     "assets/sprites/player/idle/2.png",
-                                                     "assets/sprites/player/idle/3.png",
-                                                     "assets/sprites/player/idle/4.png"},
-                                                    this->width,
-                                                    this->height,
+        AnimatedSprite idleSprite = AnimatedSprite({0.1f,
+                                                    "assets/sprites/player/idle",
+                                                    8,
+                                                    120,
+                                                    120,
                                                     false,
-                                                    Vector(0, 0)});
+                                                    Vector(-((120 - this->width) / 2), -((120 - this->height) / 2))});
+        Pistol pistol = Pistol({39, 28});
         bool movementKeyAlreadyPressed = false;
         bool attackKeyAlreadyPressed = false;
         bool invencible = false;
@@ -39,5 +38,6 @@ namespace Game
         Player();
         void update() override;
         void onCollision(Element *other) override;
+        void render() override;
     };
 }

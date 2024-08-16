@@ -30,9 +30,16 @@ namespace Game
 
         this->currentMusic = std::any_cast<Mix_Music *>(music.data);
 
-        if (Mix_PlayMusic(this->currentMusic, -1) == -1)
+        if (this->currentMusic != nullptr)
         {
-            throw std::runtime_error("Failed to play music: " + std::string(Mix_GetError()));
+            if (Mix_PlayMusic(this->currentMusic, -1) == -1)
+            {
+                throw std::runtime_error("Failed to play music: " + std::string(Mix_GetError()));
+            }
+        }
+        else
+        {
+            throw std::runtime_error("Invalid music data.");
         }
     }
 

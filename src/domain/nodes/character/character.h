@@ -27,6 +27,10 @@ namespace Game
         virtual void render()
         {
             this->currentAnimatedSprite->renderSprite(this->position);
+            for (const CollisionBox &collisionBox : this->collisionBoxes)
+            {
+                collisionBox.renderCollisionBox();
+            }
         }
 
         int getWidth()

@@ -13,7 +13,7 @@ namespace Game
     class SDLAudioManagerAdapter : public AudioManagerPort
     {
     private:
-        Mix_Music *currentMusic;
+        Mix_Music *currentMusic = nullptr;
 
     public:
         SDLAudioManagerAdapter();

@@ -121,8 +121,6 @@ namespace Game
 
     void Arena::render()
     {
-        this->updateAnimations();
-
         for (Character *character : this->characters)
         {
             character->update();
@@ -130,6 +128,7 @@ namespace Game
 
         this->updateAttacks();
 
+        this->updateAnimations();
         this->renderBackground();
         this->tileMap->render();
         this->renderPlayerLife();
