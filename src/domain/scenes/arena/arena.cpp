@@ -33,6 +33,7 @@ namespace Game
         enemy->setTilePosition({4, 1});
         enemy->setTileXLimit({static_cast<float>(6 - this->tileMap->getEnemyColumnTilesCount()), 5});
         enemy->setTileYLimit({0, static_cast<float>(this->tileMap->getTilesRowsCount() - 1)});
+        enemy->subscribeToDeath(&this->victoryObserver);
         this->characters.push_back(enemy);
     }
 
@@ -42,6 +43,7 @@ namespace Game
         this->player->setTilePosition({1, 1});
         this->player->setTileXLimit({0, static_cast<float>(this->tileMap->getPlayerColumnTilesCount() - 1)});
         this->player->setTileYLimit({0, static_cast<float>(this->tileMap->getTilesRowsCount() - 1)});
+        this->player->subscribeToDeath(&this->gameOverObserver);
         this->characters.push_back(this->player);
     }
 

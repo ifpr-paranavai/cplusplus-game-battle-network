@@ -102,6 +102,11 @@ namespace Game
             this->life -= tileBasedAttack->getDamage();
             this->invencible = true;
         }
+
+        if (this->life <= 0)
+        {
+            this->onDeath.next();
+        }
     }
 
     void Player::render()

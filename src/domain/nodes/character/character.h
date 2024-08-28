@@ -6,55 +6,64 @@
 #include "../../dto/vector/vector.h"
 #include "../tile-based-body/tile-based-body.h"
 #include "../animated-sprited/animated-sprited.h"
+#include "../../../utils/subject/subject.h"
 
 namespace Game
 {
-    class Character : public TileBasedBody
-    {
-    private:
-        AnimatedSprite *currentAnimation = nullptr;
-        AnimatedSprite *pendingAnimation = nullptr;
+	class Character : public TileBasedBody
+	{
+	private:
+		AnimatedSprite *currentAnimation = nullptr;
+		AnimatedSprite *pendingAnimation = nullptr;
 
-        void applyPendingAnimation();
+		void applyPendingAnimation();
 
-    protected:
-        int life = 100;
+	protected:
+		Subject onDeath;
+		int life = 100;
 
-        void queueAnimationChange(AnimatedSprite *newAnimation)
-        {
-            this->pendingAnimation = newAnimation;
-        }
+		void queueAnimationChange(AnimatedSprite *newAnimation)
+		{
+			this->pendingAnimation = newAnimation;
+		}
 
-    public:
-        Character(
-            int width,
-            int height);
+	public:
+		Character(const int width, const int height);
 
-        void update() override
-        {
-            this->applyPendingAnimation();
-        }
+		virtual ~Character() = default;
 
-        virtual void render()
-        {
-            this->currentAnimation->renderSprite(this->position);
-        }
+		void update() override
+		{
+			this->applyPendingAnimation();
+		}
 
-        int getWidth()
-        {
-            return this->width;
-        }
+		virtual void render()
+		{
+			this->currentAnimation->renderSprite(this->position);
+		}
 
-        int getHeight()
-        {
-            return this->height;
-        }
+		int getWidth()
+		{
+			return this->width;
+		}
 
-        int getLife()
-        {
-            return this->life;
-        }
+		int getHeight()
+		{
+			return this->height;
+		}
 
-        virtual ~Character() = default;
-    };
+		int getLife()
+		{
+			return this->life;
+		}
+
+		void subscribeToDeath(Observer* observer) {
+        onDeath.subscribe(observer);
+    }
+
+    void unsubscribeFromDeath(Observer* observer) {
+        onDeath.unsubscribe(observer);
+    }
+
+	};
 }

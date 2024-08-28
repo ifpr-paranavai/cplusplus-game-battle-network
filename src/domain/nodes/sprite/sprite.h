@@ -9,33 +9,33 @@
 namespace Game
 {
 
-    struct SpriteConfig
+  struct SpriteConfig
+  {
+    float width;
+    float height;
+    std::string_view spritePath;
+    bool flipHorizontal;
+    Vector initialRelativePosition;
+    std::optional<Color> spriteColorFilter;
+  };
+
+  class Sprite
+  {
+  private:
+    const SpriteTexture spriteTexture;
+    Vector relativePosition;
+
+  public:
+    Sprite(const SpriteConfig &spriteConfig);
+
+    void renderSprite(const Vector elementPosition) const
     {
-        float width;
-        float height;
-        std::string_view spritePath;
-        bool flipHorizontal;
-        Vector initialRelativePosition;
-        std::optional<Color> spriteColorFilter;
-    };
+      Global::adaptersInstance.renderer->renderSprite(this->spriteTexture, elementPosition + this->relativePosition);
+    }
 
-    class Sprite
+    void setRelativePosition(Vector relativePosition)
     {
-    private:
-        const SpriteTexture spriteTexture;
-        Vector relativePosition;
-
-    public:
-        Sprite(const SpriteConfig &spriteConfig);
-
-        void renderSprite(Vector elementPosition) const
-        {
-            Global::adaptersInstance.renderer->renderSprite(this->spriteTexture, elementPosition + this->relativePosition);
-        }
-
-        void setRelativePosition(Vector relativePosition)
-        {
-            this->relativePosition = relativePosition;
-        }
-    };
+      this->relativePosition = relativePosition;
+    }
+  };
 }

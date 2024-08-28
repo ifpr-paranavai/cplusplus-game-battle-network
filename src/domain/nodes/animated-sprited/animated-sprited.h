@@ -9,35 +9,35 @@
 
 namespace Game
 {
-    struct AnimatedSpriteConfig
+  struct AnimatedSpriteConfig
+  {
+    float spriteDisplayTime;
+    std::string_view animationFolderPath;
+    int animationFramesCount;
+    float width;
+    float height;
+    bool flipHorizontal;
+    Vector initialRelativePosition;
+    std::optional<Color> spriteColorFilter;
+  };
+
+  class AnimatedSprite
+  {
+  private:
+    std::vector<Sprite> sprites;
+    size_t currentSpriteIndex = 0;
+    float spriteDisplayTime;
+    float elapsedTime = 0;
+    std::list<std::function<void()>> callbacks;
+
+  public:
+    AnimatedSprite(const AnimatedSpriteConfig &config);
+    void update();
+    void renderSprite(const Vector elementPosition) const;
+
+    void addOnAnimationEndCallback(const std::function<void()> &callback)
     {
-        float spriteDisplayTime;
-        std::string_view animationFolderPath;
-        int animationFramesCount;
-        float width;
-        float height;
-        bool flipHorizontal;
-        Vector initialRelativePosition;
-        std::optional<Color> spriteColorFilter;
-    };
-
-    class AnimatedSprite
-    {
-    private:
-        std::vector<Sprite> sprites;
-        size_t currentSpriteIndex = 0;
-        float spriteDisplayTime;
-        float elapsedTime = 0;
-        std::list<std::function<void()>> callbacks;
-
-    public:
-        AnimatedSprite(const AnimatedSpriteConfig &config);
-        void update();
-        void renderSprite(Vector elementPosition) const;
-
-        void addOnAnimationEndCallback(const std::function<void()> &callback)
-        {
-            this->callbacks.push_back(callback);
-        }
-    };
+      this->callbacks.push_back(callback);
+    }
+  };
 }

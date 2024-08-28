@@ -9,30 +9,46 @@
 #include "../../global/global-services/global-services.h"
 #include "../../dto/music/music.h"
 #include "../../nodes/sprite/sprite.h"
+#include "../../../utils/observer/observer.h"
 
 namespace Game
 {
-    class Arena
-    {
-    private:
-        Player *player;
-        TileMap *tileMap;
-        std::string backgroundColorHex = "#87CEEB";
-        std::list<Character *> characters;
-        std::list<Sprite> backgroundSprites;
-        const Music music = Global::adaptersInstance.audioManager->initMusic("assets/music/battle-music.mp3");
+  class GameOverObserver: public Observer 
+  {
+    void next() override {
+      std::cout << "GAME OVER" << std::endl;
+    }
+  };
 
-        void configureBackground();
-        void createEnemies();
-        void renderAttacks();
-        void updateAttacks();
-        void updateAnimations();
-        void renderPlayerLife();
-        void renderBackground();
+  class VictoryObserver: public Observer
+  {
+    void next() override {
+      std::cout << "VICTORY" << std::endl;
+    }
+  };
 
-    public:
-        Arena();
-        void render();
-        void setPlayer(Player *_player);
-    };
+  class Arena
+  {
+  private:
+    Player *player;
+    TileMap *tileMap;
+    GameOverObserver gameOverObserver;
+    VictoryObserver victoryObserver;
+    std::list<Character *> characters;
+    std::list<Sprite> backgroundSprites;
+    const Music music = Global::adaptersInstance.audioManager->initMusic("assets/music/battle-music.mp3");
+
+    void configureBackground();
+    void createEnemies();
+    void renderAttacks();
+    void updateAttacks();
+    void updateAnimations();
+    void renderPlayerLife();
+    void renderBackground();
+
+  public:
+    Arena();
+    void render();
+    void setPlayer(Player *_player);
+  };
 }
