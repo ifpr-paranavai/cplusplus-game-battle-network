@@ -4,48 +4,28 @@ namespace Game
 {
     Player::Player() : Character(96, 96)
     {
-        this->updateCurrentAnimatedSprite(&this->idleSprite);
+        this->queueAnimationChange(&this->idleSprite);
         this->collisionBoxes.emplace_back(this->position, this->width, this->height);
     }
 
     void Player::handleMovement()
     {
-        auto &keyboardManager = Global::adaptersInstance.keyboardManager;
+        const auto &keyboardManager = Global::adaptersInstance.keyboardManager;
         if (keyboardManager->isKeyPressed(KeyCode::ARROW_UP))
         {
-            if (!this->movementKeyAlreadyPressed)
-            {
-                this->movementKeyAlreadyPressed = true;
-                this->tryMoveUp();
-            }
+            this->tryMoveUp();
         }
         else if (keyboardManager->isKeyPressed(KeyCode::ARROW_DOWN))
         {
-            if (!this->movementKeyAlreadyPressed)
-            {
-                this->movementKeyAlreadyPressed = true;
-                this->tryMoveDown();
-            }
+            this->tryMoveDown();
         }
         else if (keyboardManager->isKeyPressed(KeyCode::ARROW_LEFT))
         {
-            if (!this->movementKeyAlreadyPressed)
-            {
-                this->movementKeyAlreadyPressed = true;
-                this->tryMoveLeft();
-            }
+            this->tryMoveLeft();
         }
         else if (keyboardManager->isKeyPressed(KeyCode::ARROW_RIGHT))
         {
-            if (!this->movementKeyAlreadyPressed)
-            {
-                this->movementKeyAlreadyPressed = true;
-                this->tryMoveRight();
-            }
-        }
-        else
-        {
-            this->movementKeyAlreadyPressed = false;
+            this->tryMoveRight();
         }
     }
 
@@ -53,26 +33,8 @@ namespace Game
     {
         if (Global::adaptersInstance.keyboardManager->isKeyPressed(KeyCode::X))
         {
-            if (!this->attackKeyAlreadyPressed)
-            {
-                this->attackKeyAlreadyPressed = true;
-                this->attack();
-            }
+            this->currentWeapon->attack(this->position, this->tilePosition);
         }
-        else
-        {
-            this->attackKeyAlreadyPressed = false;
-        }
-    }
-
-    void Player::attack()
-    {
-        const Vector projectilePosition(
-            this->position.x + this->width,
-            this->position.y + this->height / 3);
-        std::unique_ptr<PlayerProjectile> projectile = std::make_unique<PlayerProjectile>(projectilePosition);
-        Global::attacksService->addDynamicAttack(std::move(projectile));
-        this->pistol.attack();
     }
 
     void Player::checkInvincibility()
@@ -90,20 +52,42 @@ namespace Game
         }
     }
 
+    void Player::handleChangeWeapon()
+    {
+        if (Global::adaptersInstance.keyboardManager->isKeyPressed(KeyCode::C))
+        {
+            if (this->currentWeapon == &this->pistol)
+            {
+                this->currentWeapon = &this->sniper;
+            }
+            else if (this->currentWeapon == &this->sniper)
+            {
+                this->currentWeapon = &this->sword;
+            }
+            else
+            {
+                this->currentWeapon = &this->pistol;
+            }
+        }
+    }
+
     void Player::update()
     {
         this->checkInvincibility();
         this->handleMovement();
         this->handleAttack();
+        this->handleChangeWeapon();
         for (CollisionBox &collisionBox : this->collisionBoxes)
         {
             collisionBox.setPosition(this->position);
         }
+        this->currentWeapon->update();
+        Character::update();
     }
 
     void Player::onCollision(Element *other)
     {
-        if (dynamic_cast<PlayerProjectile *>(other) || this->invencible || this->life <= 0)
+        if (dynamic_cast<Projectile *>(other) || this->invencible || this->life <= 0)
         {
             return;
         }
@@ -123,6 +107,6 @@ namespace Game
     void Player::render()
     {
         Character::render();
-        this->pistol.render(this->position);
+        this->currentWeapon->render(this->position);
     }
 }

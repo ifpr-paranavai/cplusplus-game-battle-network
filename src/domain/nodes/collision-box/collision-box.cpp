@@ -2,34 +2,28 @@
 
 namespace Game
 {
-    CollisionBox::CollisionBox(Vector position, int with, int height)
+    CollisionBox::CollisionBox(const Vector _position, const int _width, const int _height) : position(_position),
+                                                                                              width(_width),
+                                                                                              height(_height)
+    {
+    }
+
+    void CollisionBox::setPosition(const Vector position)
     {
         this->position = position;
-        this->width = with;
-        this->height = height;
     }
 
-    void CollisionBox::setPosition(Vector position)
+    void CollisionBox::renderCollisionBox() const
     {
-        this->position = position;
+        Global::adaptersInstance.renderer->renderElement({
+            {this->position.x, this->position.y},
+            this->width + 0.0f,
+            this->height + 0.0f,
+            "#000000",
+        });
     }
 
-    Vector CollisionBox::getPosition()
-    {
-        return this->position;
-    }
-
-    int CollisionBox::getWidth()
-    {
-        return this->width;
-    }
-
-    int CollisionBox::getHeight()
-    {
-        return this->height;
-    }
-
-    bool CollisionBox::collidesWith(CollisionBox &other)
+    bool CollisionBox::collidesWith(const CollisionBox &other)
     {
         Vector otherPosition = other.getPosition();
 

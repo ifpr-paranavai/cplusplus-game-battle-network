@@ -1,12 +1,12 @@
-#include "player-projectile.h"
+#include "projectile.h"
 #include "../../player/player.h"
 
 namespace Game
 {
-    PlayerProjectile::PlayerProjectile(Vector initialPosition) : DynamicAttack(initialPosition)
+    Projectile::Projectile(const Vector initialPosition, const int damage) : DynamicAttack(initialPosition)
     {
         this->velocity = {1000, 0};
-        this->damage = 1;
+        this->damage = damage;
         this->width = 30.5;
         this->height = 29.75;
         this->sprites.emplace_back(SpriteConfig{this->width,
@@ -14,12 +14,11 @@ namespace Game
                                                 "assets/sprites/attacks/projectile/0.png",
                                                 false,
                                                 Vector(0, 0)});
-        Global::adaptersInstance.audioManager->playWavSoundEffect(this->projectileSFX);
     }
 
-    void PlayerProjectile::onCollision(Element *other)
+    void Projectile::onCollision(Element *other)
     {
-        if (dynamic_cast<Player *>(other) || dynamic_cast<PlayerProjectile *>(other))
+        if (dynamic_cast<Player *>(other) || dynamic_cast<Projectile *>(other))
         {
             return;
         }

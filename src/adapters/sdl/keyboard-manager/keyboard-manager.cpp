@@ -9,21 +9,21 @@ namespace Game
 
     SDL_Keycode SDLKeyboardManagerAdapter::convertKeycode(KeyCode keycode)
     {
-        switch (keycode)
+        static const std::unordered_map<KeyCode, SDL_Keycode> keycodeMap = {
+            {KeyCode::ARROW_UP, SDLK_UP},
+            {KeyCode::ARROW_DOWN, SDLK_DOWN},
+            {KeyCode::ARROW_LEFT, SDLK_LEFT},
+            {KeyCode::ARROW_RIGHT, SDLK_RIGHT},
+            {KeyCode::X, SDLK_x},
+            {KeyCode::C, SDLK_c},
+        };
+
+        auto it = keycodeMap.find(keycode);
+        if (it != keycodeMap.end())
         {
-        case KeyCode::ARROW_UP:
-            return SDLK_UP;
-        case KeyCode::ARROW_DOWN:
-            return SDLK_DOWN;
-        case KeyCode::ARROW_LEFT:
-            return SDLK_LEFT;
-        case KeyCode::ARROW_RIGHT:
-            return SDLK_RIGHT;
-        case KeyCode::X:
-            return SDLK_x;
-        default:
-            return SDLK_UNKNOWN;
+            return it->second;
         }
+        return SDLK_UNKNOWN;
     }
 
     bool SDLKeyboardManagerAdapter::exitEventIsCalled()
@@ -41,9 +41,29 @@ namespace Game
 
     bool SDLKeyboardManagerAdapter::isKeyPressed(KeyCode keycode)
     {
-        SDL_Keycode sdlKeyCode = convertKeycode(keycode);
-        SDL_Scancode sdlScancode = SDL_GetScancodeFromKey(sdlKeyCode);
+        const SDL_Keycode sdlKeyCode = convertKeycode(keycode);
+        if (sdlKeyCode == SDLK_UNKNOWN)
+        {
+            return false;
+        }
+
+        const SDL_Scancode sdlScancode = SDL_GetScancodeFromKey(sdlKeyCode);
         const Uint8 *currentState = SDL_GetKeyboardState(NULL);
-        return currentState[sdlScancode] != 0;
+        const bool isPressed = currentState[sdlScancode] != 0;
+
+        if (isPressed && keyStates[sdlKeyCode] == false)
+        {
+            keyStates[sdlKeyCode] = true;
+            return true;
+        }
+        else if (!isPressed && keyStates[sdlKeyCode] == true)
+        {
+            keyStates[sdlKeyCode] = false;
+            return false;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

@@ -22,7 +22,7 @@ namespace Game
 
     void AnimatedSprite::update()
     {
-        if (this->spriteDisplayTime == 0)
+        if (this->spriteDisplayTime == 0 || this->sprites.empty())
         {
             return;
         }
@@ -45,7 +45,10 @@ namespace Game
 
     void AnimatedSprite::renderSprite(Vector elementPosition) const
     {
-        this->sprites[currentSpriteIndex].renderSprite(elementPosition);
+        if (!this->sprites.empty() && currentSpriteIndex < this->sprites.size())
+        {
+            this->sprites[currentSpriteIndex].renderSprite(elementPosition);
+        }
     }
 
 }

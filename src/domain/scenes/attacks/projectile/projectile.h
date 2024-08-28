@@ -5,15 +5,12 @@
 
 namespace Game
 {
-    class PlayerProjectile : public DynamicAttack
+    class Projectile : public DynamicAttack
     {
-    private:
-        const SoundEffect projectileSFX = Global::adaptersInstance.audioManager->initSoundEffect("assets/sounds/player-projectile.wav");
-
     protected:
         void onCollision(Element *other) override;
 
     public:
-        PlayerProjectile(Vector initialPosition);
+        Projectile(const Vector initialPosition, const int damage);
     };
 }

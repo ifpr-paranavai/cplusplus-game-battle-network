@@ -87,6 +87,7 @@ namespace Game
         {
             collisionBox.setPosition(this->position);
         }
+        Character::update();
     }
 
     void Enemy::onCollision(Element *other)
@@ -99,6 +100,11 @@ namespace Game
         if (DynamicAttack *projectile = dynamic_cast<DynamicAttack *>(other))
         {
             this->life -= projectile->getDamage();
+        }
+
+        if (TileBasedAttack *tileBasedAttack = dynamic_cast<TileBasedAttack *>(other))
+        {
+            this->life -= tileBasedAttack->getDamage();
         }
 
         if (this->life <= 0)

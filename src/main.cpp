@@ -1,12 +1,12 @@
 #include <iostream>
 
-#include "src/application/game-engine/game-engine.h"
-#include "src/utils/global-adapters/global-adapters.h"
-#include "src/adapters/sdl/keyboard-manager/keyboard-manager.h"
-#include "src/adapters/sdl/window-manager/window-manager.h"
-#include "src/adapters/sdl/renderer/renderer.h"
-#include "src/adapters/sdl/time-manager/time-manager.h"
-#include "src/adapters/sdl/audio-manager/audio-manager.h"
+#include "application/game-engine/game-engine.h"
+#include "utils/global-adapters/global-adapters.h"
+#include "adapters/sdl/keyboard-manager/keyboard-manager.h"
+#include "adapters/sdl/window-manager/window-manager.h"
+#include "adapters/sdl/renderer/renderer.h"
+#include "adapters/sdl/time-manager/time-manager.h"
+#include "adapters/sdl/audio-manager/audio-manager.h"
 
 int main(int argc, char *argv[])
 {

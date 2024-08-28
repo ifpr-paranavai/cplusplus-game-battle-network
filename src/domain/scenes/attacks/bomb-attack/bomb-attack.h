@@ -16,7 +16,14 @@ namespace Game
                                                             64,
                                                             false,
                                                             Vector(-16, -32)});
-        AnimatedSprite *currentSprite = nullptr;
+        AnimatedSprite projectile = AnimatedSprite({0,
+                                                    "assets/sprites/attacks/bomb",
+                                                    1,
+                                                    32,
+                                                    32,
+                                                    false,
+                                                    Vector(0, 0)});
+        AnimatedSprite *currentSprite = &this->projectile;
         const float maxHeight = 100;
         float timeToExplosion = 1;
         float timeToDelete = 1.2f;

@@ -12,25 +12,32 @@ namespace Game
     class Character : public TileBasedBody
     {
     private:
-        AnimatedSprite *currentAnimatedSprite = nullptr;
+        AnimatedSprite *currentAnimation = nullptr;
+        AnimatedSprite *pendingAnimation = nullptr;
+
+        void applyPendingAnimation();
 
     protected:
         int life = 100;
 
-        void updateCurrentAnimatedSprite(AnimatedSprite *newAnimatedSprite);
+        void queueAnimationChange(AnimatedSprite *newAnimation)
+        {
+            this->pendingAnimation = newAnimation;
+        }
 
     public:
         Character(
             int width,
             int height);
 
+        void update() override
+        {
+            this->applyPendingAnimation();
+        }
+
         virtual void render()
         {
-            this->currentAnimatedSprite->renderSprite(this->position);
-            for (const CollisionBox &collisionBox : this->collisionBoxes)
-            {
-                collisionBox.renderCollisionBox();
-            }
+            this->currentAnimation->renderSprite(this->position);
         }
 
         int getWidth()

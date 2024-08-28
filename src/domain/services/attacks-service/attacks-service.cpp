@@ -1,11 +1,7 @@
-#include "projectiles-service.h"
+#include "attacks-service.h"
 
 namespace Game
 {
-    AttacksService::AttacksService()
-    {
-    }
-
     void AttacksService::removeExpiredAttacks()
     {
         for (auto it = this->dynamicAttacks.begin(); it != this->dynamicAttacks.end();)

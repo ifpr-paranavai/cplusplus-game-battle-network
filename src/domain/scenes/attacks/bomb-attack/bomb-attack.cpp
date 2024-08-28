@@ -10,11 +10,6 @@ namespace Game
         this->damage = 15;
         this->calculatePositions(elementTilePosition);
         this->defineVelocity();
-        this->sprites.emplace_back(SpriteConfig{this->width,
-                                                this->height,
-                                                "assets/sprites/attacks/bomb/0.png",
-                                                false,
-                                                Vector(0, 0)});
         Global::adaptersInstance.audioManager->playWavSoundEffect(this->grenadeThrowingSFX);
     }
 
@@ -93,7 +88,6 @@ namespace Game
         {
             this->currentSprite->renderSprite(this->position);
         }
-        DynamicAttack::render();
     }
 
     void BombAttack::onCollision(Element *other)

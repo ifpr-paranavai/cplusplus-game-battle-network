@@ -1,5 +1,5 @@
 #pragma once
-#include "../../services/projectiles-service/projectiles-service.h"
+#include "../../services/attacks-service/attacks-service.h"
 #include "../../services/animation-service/animation-service.h"
 
 namespace Game

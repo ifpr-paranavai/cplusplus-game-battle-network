@@ -1,19 +1,17 @@
 #pragma once
 #include <iostream>
-#include "../../nodes/animated-sprited/animated-sprited.h"
-#include "../../global/global-services/global-services.h"
-#include "../../nodes/element/element.h"
-#include "../../dto/vector/vector.h"
-#include "../attacks/player-projectile/player-projectile.h"
+#include "../../../nodes/weapon/weapon.h"
+#include "../../../nodes/animated-sprited/animated-sprited.h"
+#include "../../attacks/projectile/projectile.h"
 
 namespace Game
 {
-    class Pistol
+    class Pistol : public Weapon
     {
     private:
-        const Vector relativePosition;
         const float spriteWidth = 100;
         const float spriteHeight = 60;
+        const SoundEffect projectileSFX = Global::adaptersInstance.audioManager->initSoundEffect("assets/sounds/projectile.wav");
         AnimatedSprite idleAnimation = AnimatedSprite({0,
                                                        "assets/sprites/weapons/pistol/idle",
                                                        1,
@@ -28,18 +26,11 @@ namespace Game
                                                         this->spriteHeight,
                                                         false,
                                                         Vector(0, 0)});
-        AnimatedSprite *currentAnimation = nullptr;
-
-        void updateCurrentAnimation(AnimatedSprite *newAnimation);
+        bool canAttack = true;
 
     public:
-        Pistol(Vector relativePosition);
+        Pistol(const Vector relativePosition);
 
-        void attack();
-
-        void render(Vector position)
-        {
-            this->currentAnimation->renderSprite(position + this->relativePosition);
-        }
+        void attack(const Vector initialPosition, const Vector elementTilePosition) override;
     };
 }

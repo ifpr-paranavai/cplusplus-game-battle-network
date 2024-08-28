@@ -11,14 +11,20 @@ namespace Game
         this->height = height;
     }
 
-    void Character::updateCurrentAnimatedSprite(AnimatedSprite *sprite)
+    void Character::applyPendingAnimation()
     {
-        if (this->currentAnimatedSprite != nullptr)
+        if (this->pendingAnimation == nullptr)
         {
-            Global::animationService->removeAnimatedSprite(this->currentAnimatedSprite);
+            return;
         }
-        this->currentAnimatedSprite = sprite;
-        Global::animationService->addAnimatedSprite(sprite);
-    }
 
+        if (this->currentAnimation != nullptr)
+        {
+            Global::animationService->removeAnimatedSprite(this->currentAnimation);
+        }
+
+        this->currentAnimation = this->pendingAnimation;
+        this->pendingAnimation = nullptr;
+        Global::animationService->addAnimatedSprite(this->currentAnimation);
+    }
 }

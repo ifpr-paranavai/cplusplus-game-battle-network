@@ -139,7 +139,6 @@ namespace Game
         }
 
         this->renderAttacks();
-
         Global::attacksService->removeExpiredAttacks();
     }
 }

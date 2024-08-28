@@ -11,6 +11,14 @@ namespace Game
         std::list<AnimatedSprite *> animatedSprites;
 
     public:
+        ~AnimationService()
+        {
+            for (auto animatedSprite : this->animatedSprites)
+            {
+                delete animatedSprite;
+            }
+        }
+
         void addAnimatedSprite(AnimatedSprite *animatedSprite)
         {
             this->animatedSprites.push_back(animatedSprite);

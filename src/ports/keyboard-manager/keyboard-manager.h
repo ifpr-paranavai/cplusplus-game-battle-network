@@ -7,7 +7,8 @@ namespace Game
         ARROW_DOWN,
         ARROW_LEFT,
         ARROW_RIGHT,
-        X
+        X,
+        C
     };
 
     class KeyboardManagerPort

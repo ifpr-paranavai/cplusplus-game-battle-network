@@ -13,24 +13,25 @@ namespace Game
         Vector position;
 
     public:
-        CollisionBox(Vector position, int with, int height);
-        void setPosition(Vector position);
-        bool collidesWith(CollisionBox &other);
-        Vector getPosition();
-        int getWidth();
-        int getHeight();
+        CollisionBox(const Vector position, const int with, const int height);
+        void setPosition(const Vector position);
+        bool collidesWith(const CollisionBox &other);
 
-        void renderCollisionBox() const
+        Vector getPosition() const
         {
-            if (Game::Config::SHOW_HITBOXES)
-            {
-                Global::adaptersInstance.renderer->renderElement({
-                    {this->position.x, this->position.y},
-                    this->width + 0.0f,
-                    this->height + 0.0f,
-                    "#000000",
-                });
-            }
+            return this->position;
         }
+
+        int getWidth() const
+        {
+            return this->width;
+        }
+
+        int getHeight() const
+        {
+            return this->height;
+        }
+
+        void renderCollisionBox() const;
     };
 }
