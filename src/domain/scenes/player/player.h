@@ -27,7 +27,7 @@ namespace Game
         Pistol pistol = Pistol({39, 28});
         Sniper sniper = Sniper({39, 28});
         Sword sword = Sword({59, 38});
-        Weapon *currentWeapon = &this->sword;
+        Weapon *currentWeapon = &this->pistol;
         bool invencible = false;
         float invencibleTimer = 0;
         float invencibleTime = 1;

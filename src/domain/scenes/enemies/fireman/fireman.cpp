@@ -7,10 +7,9 @@ namespace Game
         this->attackTime = 3;
         this->life = 300;
         this->queueAnimationChange(&this->idleSprite);
-        this->fireAttackAnimation.addOnAnimationEndCallback([this]()
-                                                            { this->queueAnimationChange(&this->idleSprite); });
-        this->throwingAttackAnimation.addOnAnimationEndCallback([this]()
-                                                                { this->queueAnimationChange(&this->idleSprite); });
+        auto idleAnimationHandler = new IdleAnimationHandler(*this);
+        this->fireAttackAnimation.subscribeToAnimationEnd(idleAnimationHandler);
+        this->throwingAttackAnimation.subscribeToAnimationEnd(idleAnimationHandler);
     }
 
     void FiremanEnemy::attack()

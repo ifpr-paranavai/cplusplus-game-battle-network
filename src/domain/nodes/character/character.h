@@ -19,7 +19,7 @@ namespace Game
 		void applyPendingAnimation();
 
 	protected:
-		Subject onDeath;
+		Subject<int> onDeath;
 		int life = 100;
 
 		void queueAnimationChange(AnimatedSprite *newAnimation)
@@ -57,11 +57,11 @@ namespace Game
 			return this->life;
 		}
 
-		void subscribeToDeath(Observer* observer) {
+		void subscribeToDeath(Observer<int>* observer) {
         onDeath.subscribe(observer);
     }
 
-    void unsubscribeFromDeath(Observer* observer) {
+    void unsubscribeFromDeath(Observer<int>* observer) {
         onDeath.unsubscribe(observer);
     }
 

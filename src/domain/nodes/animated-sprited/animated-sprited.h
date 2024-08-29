@@ -6,7 +6,7 @@
 #include <functional>
 #include "../sprite/sprite.h"
 #include "../../../utils/global-adapters/global-adapters.h"
-
+#include "../../../utils/subject/subject.h"
 namespace Game
 {
   struct AnimatedSpriteConfig
@@ -24,20 +24,20 @@ namespace Game
   class AnimatedSprite
   {
   private:
+    Subject<int> onAnimationEnd;
     std::vector<Sprite> sprites;
     size_t currentSpriteIndex = 0;
     float spriteDisplayTime;
     float elapsedTime = 0;
-    std::list<std::function<void()>> callbacks;
 
   public:
     AnimatedSprite(const AnimatedSpriteConfig &config);
     void update();
     void renderSprite(const Vector elementPosition) const;
 
-    void addOnAnimationEndCallback(const std::function<void()> &callback)
+    void subscribeToAnimationEnd(Observer<int> *observer)
     {
-      this->callbacks.push_back(callback);
+      this->onAnimationEnd.subscribe(observer);
     }
   };
 }

@@ -1,30 +1,33 @@
 #pragma once
-#include <vector>
+#include <list>
+#include <algorithm>
 #include "../observer/observer.h"
 
-namespace Game {
+namespace Game
+{
+  template <typename T>
   class Subject
   {
-    private:
-      std::vector<Observer*> observers;
+  private:
+    std::list<Observer<T> *> observers;
 
-    public:
-      void subscribe(Observer *observer)
+  public:
+    void subscribe(Observer<T> *observer)
+    {
+      observers.push_back(observer);
+    }
+
+    void unsubscribe(Observer<T> *observer)
+    {
+      observers.remove(observer);
+    }
+
+    void next(const T &value)
+    {
+      for (auto observer : observers)
       {
-        observers.push_back(observer);
+        observer->next(value);
       }
-
-      void unsubscribe(Observer *observer)
-      {
-        observers.erase(std::remove(observers.begin(), observers.end(), observer), observers.end());
-      } 
-
-      void next()
-      {
-        for (auto observer : observers)
-        {
-          observer->next();
-        }
-      }
+    }
   };
 }

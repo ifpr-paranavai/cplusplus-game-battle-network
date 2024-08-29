@@ -105,7 +105,7 @@ namespace Game
 
         if (this->life <= 0)
         {
-            this->onDeath.next();
+            this->onDeath.next(0);
         }
     }
 

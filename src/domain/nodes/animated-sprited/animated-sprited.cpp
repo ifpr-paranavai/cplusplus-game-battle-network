@@ -33,12 +33,9 @@ namespace Game
       this->elapsedTime -= this->spriteDisplayTime;
       this->currentSpriteIndex = (this->currentSpriteIndex + 1) % this->sprites.size();
 
-      if (this->currentSpriteIndex == 0 && !this->callbacks.empty())
+      if (this->currentSpriteIndex == 0)
       {
-        for (const auto &callback : this->callbacks)
-        {
-          callback();
-        }
+        this->onAnimationEnd.next(0);
       }
     }
   }

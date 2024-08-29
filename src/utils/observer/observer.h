@@ -2,10 +2,11 @@
 
 namespace Game
 {
+  template <typename T>
   class Observer
   {
     public:
-      virtual void next() = 0;
+      virtual void next(const T& value) = 0;
       virtual ~Observer() {}
   };
 }

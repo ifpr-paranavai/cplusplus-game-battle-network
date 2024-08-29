@@ -13,16 +13,16 @@
 
 namespace Game
 {
-  class GameOverObserver: public Observer 
+  class GameOverObserver: public Observer<int> 
   {
-    void next() override {
+    void next(const int& value) override {
       std::cout << "GAME OVER" << std::endl;
     }
   };
 
-  class VictoryObserver: public Observer
+  class VictoryObserver: public Observer<int>
   {
-    void next() override {
+    void next(const int& value) override {
       std::cout << "VICTORY" << std::endl;
     }
   };

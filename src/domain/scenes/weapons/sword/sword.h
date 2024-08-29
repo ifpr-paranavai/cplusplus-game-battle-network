@@ -8,16 +8,19 @@ namespace Game
 {
     class Sword : public Weapon
     {
-    private:
-        AnimatedSprite idleAnimation = AnimatedSprite({
-            0,
-            "assets/sprites/weapons/sword/idle",
-            1,
-            102,
-            20,
-            false,
-            Vector(0, 0),
-        });
+    private:  
+        class SwordIdleModeHandler : public WeaponIdleModeHandler {
+            private:
+                Sword &sword;
+            public:
+                SwordIdleModeHandler(Sword &_sword) : WeaponIdleModeHandler(_sword), sword(_sword) {}
+
+                void next(const int &value) override {
+                    WeaponIdleModeHandler::next(value);
+                    Global::attacksService->removeTileBasedAttack(this->sword.stabAttackIt);
+                }
+        };
+
         AnimatedSprite stabAnimation = AnimatedSprite({
             0.1f,
             "assets/sprites/weapons/sword/stab",
@@ -28,7 +31,6 @@ namespace Game
             Vector(0, 0),
         });
         std::list<std::unique_ptr<TileBasedAttack>>::iterator stabAttackIt;
-        bool canAttack = true;
 
     public:
         Sword(const Vector relativePosition);

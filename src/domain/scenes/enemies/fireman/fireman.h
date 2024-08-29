@@ -15,6 +15,19 @@ namespace Game
     class FiremanEnemy : public Enemy
     {
     private:
+        class IdleAnimationHandler : public Observer<int>
+        {
+        private:
+            FiremanEnemy &firemanEnemy;
+
+        public:
+            IdleAnimationHandler(FiremanEnemy &firemanEnemy) : firemanEnemy(firemanEnemy) {}
+
+            void next(const int &value) override {
+                this->firemanEnemy.queueAnimationChange(&firemanEnemy.idleSprite);
+            }
+        };
+
         const float spriteWidth = 264;
         const float spriteHeight = 248;
         const Vector spritePosition = Vector(
