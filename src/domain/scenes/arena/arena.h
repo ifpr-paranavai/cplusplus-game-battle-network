@@ -11,6 +11,7 @@
 #include "../../nodes/sprite/sprite.h"
 #include "../../../utils/observer/observer.h"
 #include "../card-selector/card-selector.h"
+#include "../card-selector-delay-bar/card-selector-delay-bar.h"
 
 namespace Game
 {
@@ -55,17 +56,59 @@ namespace Game
       }
     };
 
+    class UnblockOpenCardSelectorHandler : public Observer<int>
+    {
+    private:
+      Arena &arena;
+
+    public:
+      UnblockOpenCardSelectorHandler(Arena &arena) : arena(arena) {}
+
+      void next(const int &elapsedTime) override
+      {
+        this->arena.canOpenCardSelector = true;
+      }
+    };
+
+    class ResetOpenCardSelectorDelayHandler : public Observer<int>
+    {
+    private:
+      Arena &arena;
+
+    public:
+      ResetOpenCardSelectorDelayHandler(Arena &arena) : arena(arena) {}
+
+      void next(const int &value) override
+      {
+        this->arena.cardSelectorDelayBar.resetTimer();
+        this->arena.canOpenCardSelector = false;
+      }
+    };
+
     const Music music = Global::adaptersInstance.audioManager->initMusic("assets/music/battle-music.mp3");
     ArenaMode arenaMode = ArenaMode::RUNNING;
     Player *player;
-    TileMap *tileMap;
+    TileMap tileMap;
     CardSelector cardSelector;
-    GameOverHandler gameOverHandler;
-    VictoryHandler victoryHandler;
+    CardSelectorDelayBar cardSelectorDelayBar;
+    GameOverHandler gameOverHandler = GameOverHandler(*this);
+    VictoryHandler victoryHandler = VictoryHandler(*this);
+    UnblockOpenCardSelectorHandler unblockOpenCardSelectorHandler = UnblockOpenCardSelectorHandler(*this);
+    ResetOpenCardSelectorDelayHandler resetOpenCardSelectorDelayHandler = ResetOpenCardSelectorDelayHandler(*this);
     std::list<Character *> characters;
-    std::list<Sprite> backgroundSprites;
+    const std::vector<Sprite> backgroundSprites = {
+        Sprite({Config::WINDOW_WIDTH,
+                Config::WINDOW_HEIGHT,
+                "assets/sprites/background/bg.png",
+                false,
+                Vector(0, 0)}),
+        Sprite({Config::WINDOW_WIDTH,
+                Config::WINDOW_HEIGHT,
+                "assets/sprites/background/clouds.png",
+                false,
+                Vector(0, 0)})};
+    bool canOpenCardSelector = false;
 
-    void configureBackground();
     void createEnemies();
     void renderAttacks();
     void updateAttacks();

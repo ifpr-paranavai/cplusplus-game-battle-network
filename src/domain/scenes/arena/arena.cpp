@@ -3,36 +3,20 @@
 
 namespace Game
 {
-  Arena::Arena() : tileMap(new TileMap()), victoryHandler(*this), gameOverHandler(*this)
+  Arena::Arena()
   {
     Global::adaptersInstance.audioManager->playMusic(this->music);
-    this->tileMap->init();
-    this->configureBackground();
+    this->cardSelectorDelayBar.subscribeToOnCompleteLoad(&this->unblockOpenCardSelectorHandler);
+    this->tileMap.init();
     this->createEnemies();
-  }
-
-  void Arena::configureBackground()
-  {
-    Sprite background = Sprite({Config::WINDOW_WIDTH,
-                                Config::WINDOW_HEIGHT,
-                                "assets/sprites/background/bg.png",
-                                false,
-                                Vector(0, 0)});
-    Sprite clouds = Sprite({Config::WINDOW_WIDTH,
-                            Config::WINDOW_HEIGHT,
-                            "assets/sprites/background/clouds.png",
-                            false,
-                            Vector(0, 0)});
-    this->backgroundSprites.push_back(background);
-    this->backgroundSprites.push_back(clouds);
   }
 
   void Arena::createEnemies()
   {
     auto *enemy = new FiremanEnemy();
     enemy->setTilePosition({4, 1});
-    enemy->setTileXLimit({static_cast<float>(6 - this->tileMap->getEnemyColumnTilesCount()), 5});
-    enemy->setTileYLimit({0, static_cast<float>(this->tileMap->getTilesRowsCount() - 1)});
+    enemy->setTileXLimit({static_cast<float>(6 - this->tileMap.getEnemyColumnTilesCount()), 5});
+    enemy->setTileYLimit({0, static_cast<float>(this->tileMap.getTilesRowsCount() - 1)});
     enemy->subscribeToDeath(&this->victoryHandler);
     this->characters.push_back(enemy);
   }
@@ -41,8 +25,8 @@ namespace Game
   {
     this->player = player;
     this->player->setTilePosition({1, 1});
-    this->player->setTileXLimit({0, static_cast<float>(this->tileMap->getPlayerColumnTilesCount() - 1)});
-    this->player->setTileYLimit({0, static_cast<float>(this->tileMap->getTilesRowsCount() - 1)});
+    this->player->setTileXLimit({0, static_cast<float>(this->tileMap.getPlayerColumnTilesCount() - 1)});
+    this->player->setTileYLimit({0, static_cast<float>(this->tileMap.getTilesRowsCount() - 1)});
     this->player->subscribeToDeath(&this->gameOverHandler);
     this->characters.push_back(this->player);
   }
@@ -129,11 +113,13 @@ namespace Game
     }
 
     this->updateAttacks();
-
     this->updateAnimations();
+    this->cardSelectorDelayBar.update();
+
     this->renderBackground();
-    this->tileMap->render();
+    this->tileMap.render();
     this->renderPlayerLife();
+    this->cardSelectorDelayBar.render();
 
     for (Character *character : this->characters)
     {
@@ -146,12 +132,12 @@ namespace Game
 
   void Arena::checkKeyboard()
   {
-    if (this->arenaMode == ArenaMode::RUNNING)
+    if (
+        this->arenaMode == ArenaMode::RUNNING &&
+        this->canOpenCardSelector &&
+        Global::adaptersInstance.keyboardManager->isKeyPressed(KeyCode::Z))
     {
-      if (Global::adaptersInstance.keyboardManager->isKeyPressed(KeyCode::Z))
-      {
-        this->arenaMode = ArenaMode::CARD_SELECTOR_OPENED;
-      }
+      this->arenaMode = ArenaMode::CARD_SELECTOR_OPENED;
     }
 
     if (this->arenaMode == ArenaMode::CARD_SELECTOR_OPENED)
