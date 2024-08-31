@@ -1,6 +1,5 @@
 #pragma once
 #include <list>
-#include <algorithm>
 #include "../observer/observer.h"
 
 namespace Game

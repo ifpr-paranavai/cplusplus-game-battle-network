@@ -3,18 +3,20 @@
 namespace Game
 {
 
-  Pistol::Pistol(const Vector _relativePosition) : Weapon(
-                                                       _relativePosition,
-                                                       10,
-                                                       AnimatedSprite({0,
-                                                                       "assets/sprites/weapons/pistol/idle",
-                                                                       1,
-                                                                       100,
-                                                                       60,
-                                                                       false,
-                                                                       Vector(0, 0)}))
+  Pistol::Pistol(const ChildWeaponConfig pistolConfig) : Weapon({pistolConfig.relativePosition,
+                                                                 10,
+                                                                 AnimatedSprite({0,
+                                                                                 "assets/sprites/weapons/pistol/idle",
+                                                                                 1,
+                                                                                 100,
+                                                                                 60,
+                                                                                 false,
+                                                                                 Vector(0, 0)}),
+                                                                 pistolConfig.attackInitObserver,
+                                                                 pistolConfig.attackEndObserver})
   {
     this->shootAnimation.subscribeToAnimationEnd(&this->idleModeHandler);
+    this->shootAnimation.subscribeToAnimationEnd(pistolConfig.attackEndObserver);
   }
 
   void Pistol::attack(const Vector elementPosition, const Vector elementTilePosition)

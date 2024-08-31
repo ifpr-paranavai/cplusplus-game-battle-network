@@ -20,7 +20,7 @@ namespace Game
                                                     Vector(0, 0)});
 
   public:
-    Sniper(const Vector relativePosition);
+    Sniper(const ChildWeaponConfig sniperConfig);
 
     void attack(const Vector initialPosition, const Vector elementTilePosition) override;
 

@@ -11,36 +11,80 @@
 #include "../weapons/pistol/pistol.h"
 #include "../weapons/sniper/sniper.h"
 #include "../weapons/sword/sword.h"
+#include "../../../utils/timer-subject/timer-subject.h"
 
 namespace Game
 {
-    class Player : public Character
+  class Player : public Character
+  {
+  private:
+    class InvencibilityHandler : public Observer<int>
     {
     private:
-        AnimatedSprite idleSprite = AnimatedSprite({0.1f,
-                                                    "assets/sprites/player/idle",
-                                                    8,
-                                                    120,
-                                                    120,
-                                                    false,
-                                                    Vector(-((120 - this->width) / 2), -((120 - this->height) / 2))});
-        Pistol pistol = Pistol({39, 28});
-        Sniper sniper = Sniper({39, 28});
-        Sword sword = Sword({59, 38});
-        Weapon *currentWeapon = &this->pistol;
-        bool invencible = false;
-        float invencibleTimer = 0;
-        float invencibleTime = 1;
-
-        void handleMovement();
-        void handleAttack();
-        void handleChangeWeapon();
-        void checkInvincibility();
+      Player &player;
 
     public:
-        Player();
-        void update() override;
-        void onCollision(Element *other) override;
-        void render() override;
+      InvencibilityHandler(Player &_player) : player(_player) {}
+
+      void next(const int &value) override
+      {
+        player.invencible = false;
+      }
     };
+
+    class BlockWeaponChangeHandler : public Observer<int>
+    {
+    private:
+      Player &player;
+
+    public:
+      BlockWeaponChangeHandler(Player &_player) : player(_player) {}
+
+      void next(const int &value) override
+      {
+        this->player.canChangeWeapon = false;
+      }
+    };
+
+    class UnblockWeaponChangeHandler : public Observer<int>
+    {
+    private:
+      Player &player;
+
+    public:
+      UnblockWeaponChangeHandler(Player &_player) : player(_player) {}
+
+      void next(const int &value) override
+      {
+        this->player.canChangeWeapon = true;
+      }
+    };
+
+    AnimatedSprite idleSprite = AnimatedSprite({0.1f,
+                                                "assets/sprites/player/idle",
+                                                8,
+                                                120,
+                                                120,
+                                                false,
+                                                Vector(-((120 - this->width) / 2), -((120 - this->height) / 2))});
+    UnblockWeaponChangeHandler *unblockWeaponChangeHandler = new UnblockWeaponChangeHandler(*this);
+    BlockWeaponChangeHandler *blockWeaponChangeHandler = new BlockWeaponChangeHandler(*this);
+    Pistol pistol = Pistol({{39, 28}, this->blockWeaponChangeHandler, this->unblockWeaponChangeHandler});
+    Sniper sniper = Sniper({{39, 28}, this->blockWeaponChangeHandler, this->unblockWeaponChangeHandler});
+    Sword sword = Sword({{59, 38}, this->blockWeaponChangeHandler, this->unblockWeaponChangeHandler});
+    Weapon *currentWeapon = &this->pistol;
+    TimerSubject invencibleTimer;
+    bool invencible = false;
+    bool canChangeWeapon = true;
+
+    void handleMovement();
+    void handleAttack();
+    void handleChangeWeapon();
+
+  public:
+    Player();
+    void update() override;
+    void onCollision(Element *other) override;
+    void render() override;
+  };
 }

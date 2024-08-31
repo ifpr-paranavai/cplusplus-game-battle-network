@@ -2,18 +2,20 @@
 
 namespace Game
 {
-  Sniper::Sniper(const Vector relativePosition) : Weapon(
-                                                      relativePosition,
-                                                      25,
-                                                      AnimatedSprite({0,
-                                                                      "assets/sprites/weapons/sniper/idle",
-                                                                      1,
-                                                                      160,
-                                                                      40,
-                                                                      false,
-                                                                      Vector(0, 0)}))
+  Sniper::Sniper(const ChildWeaponConfig sniperConfig) : Weapon({sniperConfig.relativePosition,
+                                                                 25,
+                                                                 AnimatedSprite({0,
+                                                                                 "assets/sprites/weapons/sniper/idle",
+                                                                                 1,
+                                                                                 160,
+                                                                                 40,
+                                                                                 false,
+                                                                                 Vector(0, 0)}),
+                                                                 sniperConfig.attackInitObserver,
+                                                                 sniperConfig.attackEndObserver})
   {
     this->shootAnimation.subscribeToAnimationEnd(new WeaponIdleModeHandler(*this));
+    this->shootAnimation.subscribeToAnimationEnd(sniperConfig.attackEndObserver);
   }
 
   void Sniper::attack(const Vector elementPosition, const Vector elementTilePosition)

@@ -92,7 +92,7 @@ namespace Game
 
     void Enemy::onCollision(Element *other)
     {
-        if (this->dead)
+        if (this->dead || this->life <= 0)
         {
             return;
         }
@@ -109,7 +109,9 @@ namespace Game
 
         if (this->life <= 0)
         {
+            this->life = 0;
             this->dead = true;
+            this->onDeath.next(0);
         }
     }
 

@@ -15,8 +15,6 @@ namespace Game
         SDL_Keycode convertKeycode(KeyCode keyCode);
 
     public:
-        SDLKeyboardManagerAdapter();
-
         bool exitEventIsCalled() override;
         bool isKeyPressed(KeyCode keyCode) override;
     };

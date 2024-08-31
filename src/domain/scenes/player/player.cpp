@@ -37,23 +37,13 @@ namespace Game
         }
     }
 
-    void Player::checkInvincibility()
+    void Player::handleChangeWeapon()
     {
-        if (!this->invencible)
+        if (!this->canChangeWeapon)
         {
             return;
         }
 
-        this->invencibleTimer -= Global::adaptersInstance.timeManager->getDeltaTime();
-        if (this->invencibleTimer <= 0)
-        {
-            this->invencible = false;
-            this->invencibleTimer = this->invencibleTime;
-        }
-    }
-
-    void Player::handleChangeWeapon()
-    {
         if (Global::adaptersInstance.keyboardManager->isKeyPressed(KeyCode::C))
         {
             if (this->currentWeapon == &this->pistol)
@@ -73,7 +63,6 @@ namespace Game
 
     void Player::update()
     {
-        this->checkInvincibility();
         this->handleMovement();
         this->handleAttack();
         this->handleChangeWeapon();
@@ -105,6 +94,7 @@ namespace Game
 
         if (this->life <= 0)
         {
+            this->life = 0;
             this->onDeath.next(0);
         }
     }

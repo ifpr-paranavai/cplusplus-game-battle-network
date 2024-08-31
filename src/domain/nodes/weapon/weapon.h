@@ -1,9 +1,28 @@
 #pragma once
+#include <memory>
 #include "../animated-sprited/animated-sprited.h"
 #include "../../global/global-services/global-services.h"
+#include "../../../utils/observer/observer.h"
+#include "../../../utils/subject/subject.h"
 
 namespace Game
 {
+  struct WeaponConfig
+  {
+    Vector relativePosition;
+    int damage;
+    AnimatedSprite idleAnimation;
+    Observer<int> *attackInitObserver;
+    Observer<int> *attackEndObserver;
+  };
+
+  struct ChildWeaponConfig
+  {
+    Vector relativePosition;
+    Observer<int> *attackInitObserver;
+    Observer<int> *attackEndObserver;
+  };
+
   class Weapon
   {
 
@@ -30,6 +49,8 @@ namespace Game
     AnimatedSprite *pendingAnimation = nullptr;
     WeaponIdleModeHandler idleModeHandler;
     bool canAttack = true;
+    Subject<int> onAttackInitSubject;
+    Subject<int> onAttackEndSubject;
 
     void applyPendingAnimation();
 
@@ -39,16 +60,7 @@ namespace Game
     }
 
   public:
-    Weapon(
-        const Vector _relativePosition,
-        const int _damage,
-        AnimatedSprite _idleAnimation) : relativePosition(_relativePosition),
-                                               damage(_damage),
-                                               idleAnimation(_idleAnimation),
-                                               idleModeHandler(*this)
-    {
-      this->queueAnimationChange(&this->idleAnimation);
-    }
+    Weapon(const WeaponConfig weaponConfig);
 
     virtual void attack(const Vector elementAbsolutePosition, const Vector elementTilePosition) = 0;
 

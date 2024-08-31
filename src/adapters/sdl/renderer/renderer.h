@@ -13,26 +13,25 @@
 
 namespace Game
 {
-    class SDLRendererAdapter : public RendererPort
-    {
-    private:
-        std::unordered_map<std::string, SDL_Texture *> textureCache;
-        SDL_Renderer *sdlRenderer;
-        TTF_Font *font;
+  class SDLRendererAdapter : public RendererPort
+  {
+  private:
+    std::unordered_map<std::string, SDL_Texture *> textureCache;
+    SDL_Renderer *sdlRenderer;
+    TTF_Font *font;
 
-        SDL_Renderer *getRenderer();
+    SDL_Renderer *getRenderer();
 
-        unsigned int getHexColorValue(std::string_view hexColor);
-
-    public:
-        SDLRendererAdapter();
-        int getTextHeight(std::string_view text) override;
-        int getTextWidth(std::string_view text) override;
-        void renderElement(const RenderElementData &renderDataDTO) override;
-        void updateScreen() override;
-        void renderText(std::string_view text, Vector position) override;
-        void destroyRenderer() override;
-        void renderSprite(const SpriteTexture &spriteTexture, Vector position) override;
-        SpriteTexture getSpriteTexture(const RenderSpriteData2 &renderSpriteData) override;
-    };
+  public:
+    SDLRendererAdapter();
+    int getTextHeight(std::string_view text) override;
+    int getTextWidth(std::string_view text) override;
+    void renderElement(const RenderElementData &renderDataDTO) override;
+    void renderBorder(const RenderElementData &renderDataDTO) override;
+    void updateScreen() override;
+    void renderText(std::string_view text, Vector position) override;
+    void destroyRenderer() override;
+    void renderSprite(const SpriteTexture &spriteTexture, Vector position) override;
+    SpriteTexture getSpriteTexture(const RenderSpriteData &renderSpriteData) override;
+  };
 }
