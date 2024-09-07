@@ -8,8 +8,14 @@ namespace Game
                                                     idleModeHandler(*this)
   {
     this->queueAnimationChange(&this->idleAnimation);
-    this->onAttackInitSubject.subscribe(weaponConfig.attackInitObserver);
-    this->onAttackEndSubject.subscribe(weaponConfig.attackEndObserver);
+    if (weaponConfig.attackInitObserver != nullptr)
+    {
+      this->onAttackInitSubject.subscribe(weaponConfig.attackInitObserver);
+    }
+    if (weaponConfig.attackEndObserver != nullptr)
+    {
+      this->onAttackEndSubject.subscribe(weaponConfig.attackEndObserver);
+    }
   }
 
   void Weapon::applyPendingAnimation()

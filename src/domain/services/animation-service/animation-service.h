@@ -5,36 +5,36 @@
 
 namespace Game
 {
-    class AnimationService
+  class AnimationService
+  {
+  private:
+    std::list<AnimatedSprite *> animatedSprites;
+
+  public:
+    ~AnimationService()
     {
-    private:
-        std::list<AnimatedSprite *> animatedSprites;
+      for (auto animatedSprite : this->animatedSprites)
+      {
+        delete animatedSprite;
+      }
+    }
 
-    public:
-        ~AnimationService()
-        {
-            for (auto animatedSprite : this->animatedSprites)
-            {
-                delete animatedSprite;
-            }
-        }
+    void addAnimatedSprite(AnimatedSprite *animatedSprite)
+    {
+      this->animatedSprites.push_back(animatedSprite);
+    }
 
-        void addAnimatedSprite(AnimatedSprite *animatedSprite)
-        {
-            this->animatedSprites.push_back(animatedSprite);
-        }
+    void removeAnimatedSprite(AnimatedSprite *animatedSprite)
+    {
+      animatedSprites.remove(animatedSprite);
+    }
 
-        void removeAnimatedSprite(AnimatedSprite *animatedSprite)
-        {
-            animatedSprites.remove(animatedSprite);
-        }
-
-        void updateAnimatedSprites()
-        {
-            for (auto animatedSprite : this->animatedSprites)
-            {
-                animatedSprite->update();
-            }
-        }
-    };
+    void updateAnimatedSprites()
+    {
+      for (auto animatedSprite : this->animatedSprites)
+      {
+        animatedSprite->update();
+      }
+    }
+  };
 }

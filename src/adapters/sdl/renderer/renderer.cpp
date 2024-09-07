@@ -11,7 +11,7 @@ namespace Game
       throw std::runtime_error(TTF_GetError());
     }
 
-    this->font = TTF_OpenFont("assets/fonts/Mega-Man-Battle-Network.ttf", 20);
+    this->font = TTF_OpenFont("assets/fonts/Mega-Man-Battle-Network.ttf", this->defaultFontSize);
     if (!font)
     {
       SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "TTF_OpenFont failed: %s", TTF_GetError());
@@ -115,16 +115,29 @@ namespace Game
     return textWidth;
   }
 
-  void SDLRendererAdapter::renderText(std::string_view text, Vector position)
+  void SDLRendererAdapter::renderText(const RenderTextData &renderTextData)
   {
     SDL_Color textColor = {255, 255, 255, 255};
     SDL_Color borderColor = {0, 0, 0, 255};
     int borderSize = 2;
 
-    SDL_Surface *textSurface = TTF_RenderText_Solid(this->font, text.data(), textColor);
+    if (renderTextData.fontSize)
+    {
+      TTF_SetFontSize(this->font, *renderTextData.fontSize);
+    }
+    else
+    {
+      TTF_SetFontSize(this->font, this->defaultFontSize);
+    }
+
+    SDL_Surface *textSurface = TTF_RenderUTF8_Blended_Wrapped(
+        this->font,
+        renderTextData.text.data(),
+        textColor,
+        renderTextData.maxWidth ? *renderTextData.maxWidth : 0);
     if (!textSurface)
     {
-      SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "TTF_RenderText_Solid failed: %s", TTF_GetError());
+      SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "TTF_RenderUTF8_Blended_Wrapped failed: %s", TTF_GetError());
       throw std::runtime_error(TTF_GetError());
     }
 
@@ -136,8 +149,8 @@ namespace Game
     }
 
     SDL_Rect textRect;
-    textRect.x = position.x;
-    textRect.y = position.y;
+    textRect.x = renderTextData.position.x;
+    textRect.y = renderTextData.position.y;
     SDL_QueryTexture(textTexture, NULL, NULL, &textRect.w, &textRect.h);
 
     for (int dx = -borderSize; dx <= borderSize; ++dx)
@@ -147,10 +160,15 @@ namespace Game
         if (dx == 0 && dy == 0)
           continue;
 
-        SDL_Surface *borderSurface = TTF_RenderText_Solid(this->font, text.data(), borderColor);
+        SDL_Surface *borderSurface = TTF_RenderUTF8_Blended_Wrapped(
+            this->font,
+            renderTextData.text.data(),
+            borderColor,
+            renderTextData.maxWidth ? *renderTextData.maxWidth : 0);
+
         if (!borderSurface)
         {
-          SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "TTF_RenderText_Solid failed: %s", TTF_GetError());
+          SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "TTF_RenderUTF8_Blended_Wrapped failed: %s", TTF_GetError());
           throw std::runtime_error(TTF_GetError());
         }
 

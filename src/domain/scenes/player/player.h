@@ -12,6 +12,7 @@
 #include "../weapons/sniper/sniper.h"
 #include "../weapons/sword/sword.h"
 #include "../../../utils/timer-subject/timer-subject.h"
+#include "../cards/card/card.h"
 
 namespace Game
 {
@@ -32,31 +33,61 @@ namespace Game
       }
     };
 
-    class BlockWeaponChangeHandler : public Observer<int>
+    class BlockWeaponAttackHandler : public Observer<int>
     {
     private:
       Player &player;
 
     public:
-      BlockWeaponChangeHandler(Player &_player) : player(_player) {}
+      BlockWeaponAttackHandler(Player &_player) : player(_player) {}
 
       void next(const int &value) override
       {
-        this->player.canChangeWeapon = false;
+        this->player.canAttack = false;
       }
     };
 
-    class UnblockWeaponChangeHandler : public Observer<int>
+    class UnblockWeaponAttackHandler : public Observer<int>
     {
     private:
       Player &player;
 
     public:
-      UnblockWeaponChangeHandler(Player &_player) : player(_player) {}
+      UnblockWeaponAttackHandler(Player &_player) : player(_player) {}
 
       void next(const int &value) override
       {
-        this->player.canChangeWeapon = true;
+        this->player.canAttack = true;
+      }
+    };
+
+    class ResetWeaponToPistolHandler : public Observer<int>
+    {
+    private:
+      Player &player;
+
+    public:
+      ResetWeaponToPistolHandler(Player &_player) : player(_player) {}
+
+      void next(const int &value) override
+      {
+        this->player.canAttack = true;
+        this->player.currentWeapon = &this->player.pistol;
+      }
+    };
+
+    class SetSelectedCardHandler : public Observer<Card>
+    {
+    private:
+      Player &player;
+
+    public:
+      SetSelectedCardHandler(Player &_player) : player(_player) {}
+
+      void next(const Card &value) override
+      {
+        const Game::Card *cardPtr = &value;
+        player.selectedCard = const_cast<Game::Card *>(cardPtr);
       }
     };
 
@@ -67,24 +98,30 @@ namespace Game
                                                 120,
                                                 false,
                                                 Vector(-((120 - this->width) / 2), -((120 - this->height) / 2))});
-    UnblockWeaponChangeHandler *unblockWeaponChangeHandler = new UnblockWeaponChangeHandler(*this);
-    BlockWeaponChangeHandler *blockWeaponChangeHandler = new BlockWeaponChangeHandler(*this);
-    Pistol pistol = Pistol({{39, 28}, this->blockWeaponChangeHandler, this->unblockWeaponChangeHandler});
-    Sniper sniper = Sniper({{39, 28}, this->blockWeaponChangeHandler, this->unblockWeaponChangeHandler});
-    Sword sword = Sword({{59, 38}, this->blockWeaponChangeHandler, this->unblockWeaponChangeHandler});
+    ResetWeaponToPistolHandler *resetWeaponToPistolHandler = new ResetWeaponToPistolHandler(*this);
+    BlockWeaponAttackHandler *blockWeaponAttackHandler = new BlockWeaponAttackHandler(*this);
+    UnblockWeaponAttackHandler *unblockWeaponAttackHandler = new UnblockWeaponAttackHandler(*this);
+    SetSelectedCardHandler *setSelectedCardHandler = new SetSelectedCardHandler(*this);
+    Pistol pistol = Pistol({{39, 28}, this->blockWeaponAttackHandler, this->unblockWeaponAttackHandler});
     Weapon *currentWeapon = &this->pistol;
+    Card *selectedCard = nullptr;
     TimerSubject invencibleTimer;
     bool invencible = false;
-    bool canChangeWeapon = true;
+    bool canAttack = true;
 
     void handleMovement();
     void handleAttack();
-    void handleChangeWeapon();
+    void handleAttackWithCard();
 
   public:
     Player();
     void update() override;
     void onCollision(Element *other) override;
     void render() override;
+
+    SetSelectedCardHandler *getSetSelectedCardHandler()
+    {
+      return this->setSelectedCardHandler;
+    }
   };
 }

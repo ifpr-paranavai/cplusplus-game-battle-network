@@ -22,7 +22,7 @@ namespace Game
   class Sprite
   {
   private:
-    const SpriteTexture spriteTexture;
+    SpriteTexture spriteTexture;
     Vector relativePosition;
 
   public:
@@ -33,9 +33,29 @@ namespace Game
       Global::adaptersInstance.renderer->renderSprite(this->spriteTexture, elementPosition + this->relativePosition);
     }
 
-    void setRelativePosition(Vector relativePosition)
+    void setRelativePosition(const Vector relativePosition)
     {
       this->relativePosition = relativePosition;
+    }
+
+    void setWidth(const float width)
+    {
+      this->spriteTexture.width = width;
+    }
+
+    void setHeight(const float height)
+    {
+      this->spriteTexture.height = height;
+    }
+
+    float getWidth()
+    {
+      return this->spriteTexture.width;
+    }
+
+    float getHeight()
+    {
+      return this->spriteTexture.height;
     }
   };
 }

@@ -21,7 +21,6 @@ namespace Game
       void next(const int &value) override
       {
         WeaponIdleModeHandler::next(value);
-        Global::attacksService->removeTileBasedAttack(this->sword.stabAttackIt);
       }
     };
 

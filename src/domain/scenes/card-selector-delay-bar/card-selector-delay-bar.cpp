@@ -30,5 +30,10 @@ namespace Game
                                                       loadingBarWidth,
                                                       this->barHeight,
                                                       Color{239, 184, 16, 255}});
+
+    if (percentComplete == 1)
+    {
+      Global::adaptersInstance.renderer->renderText({this->helpText, this->textPosition});
+    }
   }
 }

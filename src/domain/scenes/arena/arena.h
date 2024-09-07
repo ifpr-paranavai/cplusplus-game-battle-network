@@ -70,18 +70,19 @@ namespace Game
       }
     };
 
-    class ResetOpenCardSelectorDelayHandler : public Observer<int>
+    class CloseCardSelectorDelayHandler : public Observer<Card>
     {
     private:
       Arena &arena;
 
     public:
-      ResetOpenCardSelectorDelayHandler(Arena &arena) : arena(arena) {}
+      CloseCardSelectorDelayHandler(Arena &arena) : arena(arena) {}
 
-      void next(const int &value) override
+      void next(const Card &value) override
       {
         this->arena.cardSelectorDelayBar.resetTimer();
         this->arena.canOpenCardSelector = false;
+        this->arena.arenaMode = ArenaMode::RUNNING;
       }
     };
 
@@ -94,7 +95,7 @@ namespace Game
     GameOverHandler gameOverHandler = GameOverHandler(*this);
     VictoryHandler victoryHandler = VictoryHandler(*this);
     UnblockOpenCardSelectorHandler unblockOpenCardSelectorHandler = UnblockOpenCardSelectorHandler(*this);
-    ResetOpenCardSelectorDelayHandler resetOpenCardSelectorDelayHandler = ResetOpenCardSelectorDelayHandler(*this);
+    CloseCardSelectorDelayHandler closeCardSelectorDelayHandler = CloseCardSelectorDelayHandler(*this);
     std::list<Character *> characters;
     const std::vector<Sprite> backgroundSprites = {
         Sprite({Config::WINDOW_WIDTH,

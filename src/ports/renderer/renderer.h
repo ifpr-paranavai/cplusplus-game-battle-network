@@ -25,6 +25,14 @@ namespace Game
     std::optional<Color> colorFilter;
   };
 
+  struct RenderTextData
+  {
+    std::string_view text;
+    Vector position;
+    std::optional<int> fontSize;
+    std::optional<int> maxWidth;
+  };
+
   class RendererPort
   {
   public:
@@ -34,7 +42,7 @@ namespace Game
     virtual void renderBorder(const RenderElementData &renderDataDTO) = 0;
     virtual void renderSprite(const SpriteTexture &spriteTexture, Vector position) = 0;
     virtual void updateScreen() = 0;
-    virtual void renderText(std::string_view text, Vector position) = 0;
+    virtual void renderText(const RenderTextData &renderTextData) = 0;
     virtual void destroyRenderer() = 0;
     virtual SpriteTexture getSpriteTexture(const RenderSpriteData &renderSpriteData) = 0;
   };

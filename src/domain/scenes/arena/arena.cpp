@@ -7,6 +7,7 @@ namespace Game
   {
     Global::adaptersInstance.audioManager->playMusic(this->music);
     this->cardSelectorDelayBar.subscribeToOnCompleteLoad(&this->unblockOpenCardSelectorHandler);
+    this->cardSelector.subscribeToOnSelectCard(&this->closeCardSelectorDelayHandler);
     this->tileMap.init();
     this->createEnemies();
   }
@@ -29,6 +30,7 @@ namespace Game
     this->player->setTileYLimit({0, static_cast<float>(this->tileMap.getTilesRowsCount() - 1)});
     this->player->subscribeToDeath(&this->gameOverHandler);
     this->characters.push_back(this->player);
+    this->cardSelector.subscribeToOnSelectCard(this->player->getSetSelectedCardHandler());
   }
 
   void Arena::updateAttacks()
@@ -88,7 +90,7 @@ namespace Game
         textHeight + 10.0f,
         Color{0, 0, 0, 255},
     });
-    Global::adaptersInstance.renderer->renderText(lifeStr, {10 + 100 - textWidth, 15});
+    Global::adaptersInstance.renderer->renderText({lifeStr, {10 + 100 - textWidth, 15}});
   }
 
   void Arena::renderAttacks()
@@ -139,14 +141,6 @@ namespace Game
     {
       this->arenaMode = ArenaMode::CARD_SELECTOR_OPENED;
     }
-
-    if (this->arenaMode == ArenaMode::CARD_SELECTOR_OPENED)
-    {
-      if (Global::adaptersInstance.keyboardManager->isKeyPressed(KeyCode::Z))
-      {
-        this->arenaMode = ArenaMode::RUNNING;
-      }
-    }
   }
 
   void Arena::render()
@@ -158,10 +152,10 @@ namespace Game
       this->renderRunningMode();
       break;
     case ArenaMode::VICTORY:
-      Global::adaptersInstance.renderer->renderText("VICTORY", {100, 100});
+      Global::adaptersInstance.renderer->renderText({"VICTORY", {100, 100}});
       break;
     case ArenaMode::GAME_OVER:
-      Global::adaptersInstance.renderer->renderText("GAME OVER", {100, 100});
+      Global::adaptersInstance.renderer->renderText({"GAME OVER", {100, 100}});
       break;
     case ArenaMode::CARD_SELECTOR_OPENED:
       this->cardSelector.update();

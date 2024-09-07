@@ -16,6 +16,7 @@ namespace Game
   class SDLRendererAdapter : public RendererPort
   {
   private:
+    const int defaultFontSize = 20;
     std::unordered_map<std::string, SDL_Texture *> textureCache;
     SDL_Renderer *sdlRenderer;
     TTF_Font *font;
@@ -29,7 +30,7 @@ namespace Game
     void renderElement(const RenderElementData &renderDataDTO) override;
     void renderBorder(const RenderElementData &renderDataDTO) override;
     void updateScreen() override;
-    void renderText(std::string_view text, Vector position) override;
+    void renderText(const RenderTextData &renderTextData) override;
     void destroyRenderer() override;
     void renderSprite(const SpriteTexture &spriteTexture, Vector position) override;
     SpriteTexture getSpriteTexture(const RenderSpriteData &renderSpriteData) override;
