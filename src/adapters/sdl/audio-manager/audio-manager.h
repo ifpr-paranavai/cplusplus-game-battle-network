@@ -10,16 +10,19 @@
 
 namespace Game
 {
-    class SDLAudioManagerAdapter : public AudioManagerPort
-    {
-    private:
-        Mix_Music *currentMusic = nullptr;
+  class SDLAudioManagerAdapter : public AudioManagerPort
+  {
+  private:
+    Mix_Music *currentMusic = nullptr;
 
-    public:
-        SDLAudioManagerAdapter();
-        void playWavSoundEffect(const SoundEffect &soundEffect) override;
-        void playMusic(const Music &music) override;
-        SoundEffect initSoundEffect(std::string_view soundEffectPath) override;
-        Music initMusic(std::string_view musicPath) override;
-    };
+  public:
+    SDLAudioManagerAdapter();
+    ~SDLAudioManagerAdapter();
+    void playWavSoundEffect(const SoundEffect &soundEffect) override;
+    void playMusic(const Music &music) override;
+    SoundEffect initSoundEffect(std::string_view soundEffectPath) override;
+    Music initMusic(std::string_view musicPath) override;
+    void freeMusic(const Music &music) override;
+    void freeSoundEffect(const SoundEffect &soundEffect) override;
+  };
 }

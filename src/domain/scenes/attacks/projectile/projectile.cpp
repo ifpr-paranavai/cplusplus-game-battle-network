@@ -3,26 +3,26 @@
 
 namespace Game
 {
-    Projectile::Projectile(const Vector initialPosition, const int damage) : DynamicAttack(initialPosition)
+  Projectile::Projectile(const Vector initialPosition, const int damage) : DynamicAttack(initialPosition)
+  {
+    this->velocity = {1000, 0};
+    this->damage = damage;
+    this->width = 30.5;
+    this->height = 29.75;
+    this->sprites.emplace_back(SpriteConfig{this->width,
+                                            this->height,
+                                            "assets/sprites/attacks/projectile/0.png",
+                                            false,
+                                            Vector(0, 0)});
+  }
+
+  void Projectile::onCollision(Element *other)
+  {
+    if (dynamic_cast<Player *>(other) || dynamic_cast<Projectile *>(other))
     {
-        this->velocity = {1000, 0};
-        this->damage = damage;
-        this->width = 30.5;
-        this->height = 29.75;
-        this->sprites.emplace_back(SpriteConfig{this->width,
-                                                this->height,
-                                                "assets/sprites/attacks/projectile/0.png",
-                                                false,
-                                                Vector(0, 0)});
+      return;
     }
 
-    void Projectile::onCollision(Element *other)
-    {
-        if (dynamic_cast<Player *>(other) || dynamic_cast<Projectile *>(other))
-        {
-            return;
-        }
-
-        this->deleted = true;
-    }
+    this->deleted = true;
+  }
 }

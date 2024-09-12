@@ -8,10 +8,9 @@ namespace Game
     this->life = 300;
     this->queueAnimationChange(&this->idleSprite);
 
-    auto idleAnimationHandler = new IdleAnimationHandler(*this);
-    this->fireAttackAnimation.subscribeToAnimationEnd(idleAnimationHandler);
-    this->throwingAttackAnimation.subscribeToAnimationEnd(idleAnimationHandler);
-    this->attackDelaySubject.subscribe(new UnlockMovementHandler(*this));
+    this->fireAttackAnimation.subscribeToAnimationEnd(this->idleAnimationHandler.get());
+    this->throwingAttackAnimation.subscribeToAnimationEnd(this->idleAnimationHandler.get());
+    this->attackDelaySubject.subscribe(this->unlockMovementHandler.get());
   }
 
   void FiremanEnemy::attack()

@@ -9,6 +9,18 @@ namespace Game
     this->height = height;
   }
 
+  Character::~Character()
+  {
+    if (this->currentAnimation != nullptr)
+    {
+      delete this->currentAnimation;
+    }
+    if (this->pendingAnimation != nullptr)
+    {
+      delete this->pendingAnimation;
+    }
+  }
+
   void Character::applyPendingAnimation()
   {
     if (this->pendingAnimation == nullptr)

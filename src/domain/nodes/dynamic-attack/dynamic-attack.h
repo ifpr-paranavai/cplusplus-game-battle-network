@@ -18,7 +18,7 @@ namespace Game
 
     public:
         DynamicAttack(Vector initialPosition);
-
+        virtual ~DynamicAttack();
         void update();
         virtual void render();
 

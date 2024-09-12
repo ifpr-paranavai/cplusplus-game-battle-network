@@ -20,6 +20,14 @@ namespace Game
     }
   }
 
+  AnimatedSprite::~AnimatedSprite()
+  {
+    for (auto sprite : this->sprites)
+    {
+      sprite.destroy();
+    }
+  }
+
   void AnimatedSprite::update()
   {
     if (this->spriteDisplayTime == 0 || this->sprites.empty())

@@ -14,8 +14,11 @@ namespace Game
         float deltaTime;
 
     public:
-        SDLTimeManagerAdapter();
-        float getDeltaTime() override;
         void updateTime() override;
+
+        float getDeltaTime() override
+        {
+            return this->deltaTime;
+        }
     };
 }

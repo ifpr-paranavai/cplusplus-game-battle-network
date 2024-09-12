@@ -45,5 +45,6 @@ namespace Game
     virtual void renderText(const RenderTextData &renderTextData) = 0;
     virtual void destroyRenderer() = 0;
     virtual SpriteTexture getSpriteTexture(const RenderSpriteData &renderSpriteData) = 0;
+    virtual void destroySpriteTexture(const SpriteTexture &spriteTexture) = 0;
   };
 }

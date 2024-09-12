@@ -19,6 +19,11 @@ namespace Game
 
     void Element::checkCollision(Element *element)
     {
+        if (!element)
+        {
+            throw std::invalid_argument("element is null");
+        }
+
         for (auto &collisionBox : this->collisionBoxes)
         {
             for (auto &collisionBox2 : element->getCollisionBoxes())
@@ -30,4 +35,5 @@ namespace Game
             }
         }
     }
+
 }

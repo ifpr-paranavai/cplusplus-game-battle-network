@@ -26,6 +26,11 @@ namespace Game
       {
         for (Observer<int> *observer : this->observers)
         {
+          if (observer == nullptr)
+          {
+            throw std::runtime_error("Observer is null");
+          }
+
           observer->next(0);
         }
         this->elapsedTime = 0;

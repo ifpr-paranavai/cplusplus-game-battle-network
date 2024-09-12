@@ -115,6 +115,7 @@ namespace Game
 
   public:
     Player();
+    ~Player();
     void update() override;
     void onCollision(Element *other) override;
     void render() override;

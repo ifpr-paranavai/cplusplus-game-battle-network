@@ -71,6 +71,8 @@ namespace Game
                                                              false,
                                                              this->spritePosition});
     TimerSubject attackDelaySubject;
+    std::unique_ptr<IdleAnimationHandler> idleAnimationHandler = std::make_unique<IdleAnimationHandler>(*this);
+    std::unique_ptr<UnlockMovementHandler> unlockMovementHandler = std::make_unique<UnlockMovementHandler>(*this);
 
     void flamethrowerAttack();
     void bombAttack();
@@ -83,7 +85,6 @@ namespace Game
 
   public:
     FiremanEnemy();
-
     void update() override;
   };
 }

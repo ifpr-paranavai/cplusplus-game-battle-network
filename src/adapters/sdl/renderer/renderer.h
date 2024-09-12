@@ -17,14 +17,14 @@ namespace Game
   {
   private:
     const int defaultFontSize = 20;
-    std::unordered_map<std::string, SDL_Texture *> textureCache;
-    SDL_Renderer *sdlRenderer;
-    TTF_Font *font;
+    SDL_Renderer *sdlRenderer = nullptr;
+    TTF_Font *font = nullptr;
 
     SDL_Renderer *getRenderer();
 
   public:
     SDLRendererAdapter();
+    ~SDLRendererAdapter();
     int getTextHeight(std::string_view text) override;
     int getTextWidth(std::string_view text) override;
     void renderElement(const RenderElementData &renderDataDTO) override;
@@ -34,5 +34,6 @@ namespace Game
     void destroyRenderer() override;
     void renderSprite(const SpriteTexture &spriteTexture, Vector position) override;
     SpriteTexture getSpriteTexture(const RenderSpriteData &renderSpriteData) override;
+    void destroySpriteTexture(const SpriteTexture &spriteTexture) override;
   };
 }

@@ -30,7 +30,7 @@ namespace Game
 	public:
 		Character(const int width, const int height);
 
-		virtual ~Character() = default;
+		virtual ~Character();
 
 		void update() override
 		{
@@ -57,13 +57,14 @@ namespace Game
 			return this->life;
 		}
 
-		void subscribeToDeath(Observer<int>* observer) {
-        onDeath.subscribe(observer);
-    }
+		void subscribeToDeath(Observer<int> *observer)
+		{
+			onDeath.subscribe(observer);
+		}
 
-    void unsubscribeFromDeath(Observer<int>* observer) {
-        onDeath.unsubscribe(observer);
-    }
-
+		void unsubscribeFromDeath(Observer<int> *observer)
+		{
+			onDeath.unsubscribe(observer);
+		}
 	};
 }

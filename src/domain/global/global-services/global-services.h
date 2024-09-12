@@ -8,5 +8,7 @@ namespace Game
     {
         extern AttacksService *attacksService;
         extern AnimationService *animationService;
+        void initializeGlobalServices();
+        void cleanupGlobalServices();
     }
 }

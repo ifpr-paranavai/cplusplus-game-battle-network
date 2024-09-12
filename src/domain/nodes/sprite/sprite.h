@@ -57,5 +57,10 @@ namespace Game
     {
       return this->spriteTexture.height;
     }
+
+    void destroy()
+    {
+      Global::adaptersInstance.renderer->destroySpriteTexture(this->spriteTexture);
+    }
   };
 }

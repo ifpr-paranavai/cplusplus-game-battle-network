@@ -32,6 +32,7 @@ namespace Game
 
   public:
     AnimatedSprite(const AnimatedSpriteConfig &config);
+    ~AnimatedSprite();
     void update();
     void renderSprite(const Vector elementPosition) const;
 

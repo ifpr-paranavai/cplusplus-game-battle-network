@@ -23,6 +23,7 @@ namespace Game
 
   public:
     Pistol(const ChildWeaponConfig pistolConfig);
+    ~Pistol();
 
     void attack(const Vector initialPosition, const Vector elementTilePosition) override;
   };

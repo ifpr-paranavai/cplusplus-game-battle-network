@@ -12,6 +12,14 @@ namespace Game
     this->createEnemies();
   }
 
+  Arena::~Arena()
+  {
+    for (Character *character : characters)
+    {
+      delete character;
+    }
+  }
+
   void Arena::createEnemies()
   {
     auto *enemy = new FiremanEnemy();
@@ -35,7 +43,7 @@ namespace Game
 
   void Arena::updateAttacks()
   {
-    for (auto &projectile : Global::attacksService->getDyanmicAttacks())
+    for (auto &projectile : Global::attacksService->getDynamicAttacks())
     {
       projectile->move();
       projectile->update();
@@ -46,7 +54,7 @@ namespace Game
       tileBasedAttack->update();
     }
 
-    for (auto &projectile : Global::attacksService->getDyanmicAttacks())
+    for (auto &projectile : Global::attacksService->getDynamicAttacks())
     {
       for (Character *character : this->characters)
       {
@@ -96,7 +104,7 @@ namespace Game
   void Arena::renderAttacks()
   {
 
-    for (const auto &projectile : Global::attacksService->getDyanmicAttacks())
+    for (const auto &projectile : Global::attacksService->getDynamicAttacks())
     {
       projectile->render();
     }

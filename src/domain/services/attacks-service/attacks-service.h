@@ -6,44 +6,51 @@
 
 namespace Game
 {
-    class AttacksService
+  class AttacksService
+  {
+    std::list<std::unique_ptr<DynamicAttack>> dynamicAttacks;
+    std::list<std::unique_ptr<TileBasedAttack>> tileBasedAttacks;
+
+  public:
+    ~AttacksService() = default;
+    void removeExpiredAttacks();
+
+    auto addDynamicAttack(std::unique_ptr<DynamicAttack> projectile)
     {
-        std::list<std::unique_ptr<DynamicAttack>> dynamicAttacks;
-        std::list<std::unique_ptr<TileBasedAttack>> tileBasedAttacks;
+      dynamicAttacks.push_back(std::move(projectile));
+      return std::prev(dynamicAttacks.end());
+    }
 
-    public:
-        void removeExpiredAttacks();
+    auto addTileBasedAttack(std::unique_ptr<TileBasedAttack> tileBasedAttack)
+    {
+      tileBasedAttacks.push_back(std::move(tileBasedAttack));
+      return std::prev(tileBasedAttacks.end());
+    }
 
-        auto addDynamicAttack(std::unique_ptr<DynamicAttack> projectile)
-        {
-            dynamicAttacks.push_back(std::move(projectile));
-            return std::prev(dynamicAttacks.end());
-        }
+    void removeDynamicAttack(std::list<std::unique_ptr<DynamicAttack>>::iterator attackIt)
+    {
+      if (attackIt != dynamicAttacks.end())
+      {
+        dynamicAttacks.erase(attackIt);
+      }
+    }
 
-        auto addTileBasedAttack(std::unique_ptr<TileBasedAttack> tileBasedAttack)
-        {
-            tileBasedAttacks.push_back(std::move(tileBasedAttack));
-            return std::prev(tileBasedAttacks.end());
-        }
+    void removeTileBasedAttack(std::list<std::unique_ptr<TileBasedAttack>>::iterator attackIt)
+    {
+      if (attackIt != tileBasedAttacks.end())
+      {
+        tileBasedAttacks.erase(attackIt);
+      }
+    }
 
-        void removeDynamicAttack(std::list<std::unique_ptr<DynamicAttack>>::iterator attackIt)
-        {
-            dynamicAttacks.erase(attackIt);
-        }
+    const auto &getDynamicAttacks() const
+    {
+      return dynamicAttacks;
+    }
 
-        void removeTileBasedAttack(std::list<std::unique_ptr<TileBasedAttack>>::iterator attackIt)
-        {
-            tileBasedAttacks.erase(attackIt);
-        }
-
-        auto &getDyanmicAttacks()
-        {
-            return dynamicAttacks;
-        }
-
-        auto &getTileBasedAttacks()
-        {
-            return tileBasedAttacks;
-        }
-    };
+    const auto &getTileBasedAttacks() const
+    {
+      return tileBasedAttacks;
+    }
+  };
 }

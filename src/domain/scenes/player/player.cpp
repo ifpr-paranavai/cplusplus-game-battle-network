@@ -8,6 +8,14 @@ namespace Game
     this->collisionBoxes.emplace_back(this->position, this->width, this->height);
   }
 
+  Player::~Player()
+  {
+    delete resetWeaponToPistolHandler;
+    delete blockWeaponAttackHandler;
+    delete unblockWeaponAttackHandler;
+    delete setSelectedCardHandler;
+  }
+
   void Player::handleMovement()
   {
     const auto &keyboardManager = Global::adaptersInstance.keyboardManager;

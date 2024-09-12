@@ -4,7 +4,6 @@ namespace Game
 {
   SDLRendererAdapter::SDLRendererAdapter()
   {
-    this->sdlRenderer = nullptr;
     if (TTF_Init() == -1)
     {
       SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "TTF_Init failed: %s", TTF_GetError());
@@ -14,11 +13,21 @@ namespace Game
     this->font = TTF_OpenFont("assets/fonts/Mega-Man-Battle-Network.ttf", this->defaultFontSize);
     if (!font)
     {
-      SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "TTF_OpenFont failed: %s", TTF_GetError());
+      SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "TTF_OpenFont ftextureCacheailed: %s", TTF_GetError());
       throw std::runtime_error(TTF_GetError());
     }
 
     IMG_Init(IMG_INIT_PNG);
+  }
+
+  SDLRendererAdapter::~SDLRendererAdapter()
+  {
+    this->destroyRenderer();
+    if (font != nullptr)
+    {
+      TTF_CloseFont(font);
+      font = nullptr;
+    }
   }
 
   SDL_Renderer *SDLRendererAdapter::getRenderer()
@@ -27,7 +36,6 @@ namespace Game
     {
       SDLWindowManagerAdapter *windowManager = static_cast<Game::SDLWindowManagerAdapter *>(Global::adaptersInstance.windowManager);
       SDL_Window *window = windowManager->getWindow();
-      const char *windowTitle = SDL_GetWindowTitle(window);
 
       this->sdlRenderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 
@@ -153,6 +161,24 @@ namespace Game
     textRect.y = renderTextData.position.y;
     SDL_QueryTexture(textTexture, NULL, NULL, &textRect.w, &textRect.h);
 
+    SDL_Surface *borderSurface = TTF_RenderUTF8_Blended_Wrapped(
+        this->font,
+        renderTextData.text.data(),
+        borderColor,
+        renderTextData.maxWidth ? *renderTextData.maxWidth : 0);
+    if (!borderSurface)
+    {
+      SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "TTF_RenderUTF8_Blended_Wrapped failed: %s", TTF_GetError());
+      throw std::runtime_error(TTF_GetError());
+    }
+
+    SDL_Texture *borderTexture = SDL_CreateTextureFromSurface(this->getRenderer(), borderSurface);
+    if (!borderTexture)
+    {
+      SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "SDL_CreateTextureFromSurface failed: %s", SDL_GetError());
+      throw std::runtime_error(SDL_GetError());
+    }
+
     for (int dx = -borderSize; dx <= borderSize; ++dx)
     {
       for (int dy = -borderSize; dy <= borderSize; ++dy)
@@ -160,37 +186,18 @@ namespace Game
         if (dx == 0 && dy == 0)
           continue;
 
-        SDL_Surface *borderSurface = TTF_RenderUTF8_Blended_Wrapped(
-            this->font,
-            renderTextData.text.data(),
-            borderColor,
-            renderTextData.maxWidth ? *renderTextData.maxWidth : 0);
-
-        if (!borderSurface)
-        {
-          SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "TTF_RenderUTF8_Blended_Wrapped failed: %s", TTF_GetError());
-          throw std::runtime_error(TTF_GetError());
-        }
-
-        SDL_Texture *borderTexture = SDL_CreateTextureFromSurface(this->getRenderer(), borderSurface);
-        if (!borderTexture)
-        {
-          SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "SDL_CreateTextureFromSurface failed: %s", SDL_GetError());
-          throw std::runtime_error(SDL_GetError());
-        }
-
         SDL_Rect borderRect = textRect;
         borderRect.x += dx;
         borderRect.y += dy;
         SDL_RenderCopy(this->getRenderer(), borderTexture, NULL, &borderRect);
-        SDL_FreeSurface(borderSurface);
-        SDL_DestroyTexture(borderTexture);
       }
     }
 
     SDL_RenderCopy(this->getRenderer(), textTexture, NULL, &textRect);
     SDL_FreeSurface(textSurface);
     SDL_DestroyTexture(textTexture);
+    SDL_FreeSurface(borderSurface);
+    SDL_DestroyTexture(borderTexture);
   }
 
   void SDLRendererAdapter::renderSprite(const SpriteTexture &spriteTexture, Vector position)
@@ -207,8 +214,11 @@ namespace Game
 
   void SDLRendererAdapter::destroyRenderer()
   {
-    this->sdlRenderer = nullptr;
-    SDL_DestroyRenderer(this->getRenderer());
+    if (sdlRenderer != nullptr)
+    {
+      SDL_DestroyRenderer(sdlRenderer);
+      sdlRenderer = nullptr;
+    }
   }
 
   SpriteTexture SDLRendererAdapter::getSpriteTexture(const RenderSpriteData &renderSpriteData)
@@ -227,6 +237,11 @@ namespace Game
     }
 
     return SpriteTexture{std::make_any<SDL_Texture *>(texture), renderSpriteData.width, renderSpriteData.height, renderSpriteData.flipHorizontal};
+  }
+
+  void SDLRendererAdapter::destroySpriteTexture(const SpriteTexture &spriteTexture)
+  {
+    SDL_DestroyTexture(std::any_cast<SDL_Texture *>(spriteTexture.data));
   }
 
 }

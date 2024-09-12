@@ -121,6 +121,7 @@ namespace Game
 
   public:
     Arena();
+    ~Arena();
     void render();
     void setPlayer(Player *_player);
   };

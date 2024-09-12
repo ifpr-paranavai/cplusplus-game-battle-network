@@ -8,23 +8,23 @@
 namespace Game
 {
 
-    class FlamethrowerAttack : public TileBasedAttack
-    {
-    private:
-        float increaseFlameTime = 0.75;
-        float increaseFlameTimer = 0;
-        std::list<Flame> flames;
+  class FlamethrowerAttack : public TileBasedAttack
+  {
+  private:
+    float increaseFlameTime = 0.75;
+    float increaseFlameTimer = 0;
+    std::list<Flame> flames;
 
-        void handleFlameIncrease();
-        void increaseFlame();
+    void handleFlameIncrease();
+    void increaseFlame();
 
-    protected:
-        void onCollision(Element *other) override;
+  protected:
+    void onCollision(Element *other) override;
 
-    public:
-        FlamethrowerAttack(Vector initialTilePoition);
+  public:
+    FlamethrowerAttack(Vector initialTilePoition);
 
-        void update() override;
-        void render() override;
-    };
+    void update() override;
+    void render() override;
+  };
 }

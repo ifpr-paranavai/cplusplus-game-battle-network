@@ -3,25 +3,25 @@
 
 namespace Game
 {
-    class TileBasedAttack : public TileBasedBody
+  class TileBasedAttack : public TileBasedBody
+  {
+  protected:
+    int damage;
+    bool deleted = false;
+
+  public:
+    TileBasedAttack(int width, int height) : TileBasedBody(width, height) {}
+
+    virtual void render() = 0;
+
+    int getDamage()
     {
-    protected:
-        int damage;
-        bool deleted = false;
+      return this->damage;
+    }
 
-    public:
-        TileBasedAttack(int width, int height) : TileBasedBody(width, height) {}
-
-        virtual void render() = 0;
-
-        int getDamage()
-        {
-            return this->damage;
-        }
-
-        bool isDeleted()
-        {
-            return this->deleted;
-        }
-    };
+    bool isDeleted()
+    {
+      return this->deleted;
+    }
+  };
 }

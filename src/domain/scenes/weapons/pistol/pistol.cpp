@@ -19,6 +19,11 @@ namespace Game
     this->shootAnimation.subscribeToAnimationEnd(pistolConfig.attackEndObserver);
   }
 
+  Pistol::~Pistol()
+  {
+    Global::adaptersInstance.audioManager->freeSoundEffect(this->projectileSFX);
+  }
+
   void Pistol::attack(const Vector elementPosition, const Vector elementTilePosition)
   {
     if (!this->canAttack)

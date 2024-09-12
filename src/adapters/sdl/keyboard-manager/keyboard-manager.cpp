@@ -47,19 +47,18 @@ namespace Game
     const Uint8 *currentState = SDL_GetKeyboardState(NULL);
     const bool isPressed = currentState[sdlScancode] != 0;
 
-    if (isPressed && keyStates[sdlKeyCode] == false)
+    if (isPressed && !keyStates[sdlKeyCode])
     {
       keyStates[sdlKeyCode] = true;
       return true;
     }
-    else if (!isPressed && keyStates[sdlKeyCode] == true)
+
+    if (!isPressed && keyStates[sdlKeyCode])
     {
       keyStates[sdlKeyCode] = false;
-      return false;
     }
-    else
-    {
-      return false;
-    }
+
+    return false;
   }
+
 }
