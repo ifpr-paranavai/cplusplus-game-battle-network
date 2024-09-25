@@ -27,9 +27,9 @@ namespace Game
     void render(const Vector position) override
     {
       Weapon::render(position);
-      if (this->currentAnimation != &this->idleAnimation)
+      if (this->currentAnimation != this->idleAnimation)
       {
-        this->idleAnimation.renderSprite(position + this->relativePosition);
+        this->idleAnimation->renderSprite(position + this->relativePosition);
       }
     }
   };

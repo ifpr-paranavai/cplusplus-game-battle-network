@@ -4,7 +4,7 @@ namespace Game
 {
   Sniper::Sniper(const ChildWeaponConfig sniperConfig) : Weapon({sniperConfig.relativePosition,
                                                                  25,
-                                                                 AnimatedSprite({0,
+                                                                 new AnimatedSprite({0,
                                                                                  "assets/sprites/weapons/sniper/idle",
                                                                                  1,
                                                                                  160,

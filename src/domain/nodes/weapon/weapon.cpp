@@ -7,7 +7,7 @@ namespace Game
                                                     idleAnimation(weaponConfig.idleAnimation),
                                                     idleModeHandler(*this)
   {
-    this->queueAnimationChange(&this->idleAnimation);
+    this->queueAnimationChange(this->idleAnimation);
     if (weaponConfig.attackInitObserver != nullptr)
     {
       this->onAttackInitSubject.subscribe(weaponConfig.attackInitObserver);

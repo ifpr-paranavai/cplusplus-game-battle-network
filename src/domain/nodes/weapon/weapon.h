@@ -11,7 +11,7 @@ namespace Game
   {
     Vector relativePosition;
     int damage;
-    AnimatedSprite idleAnimation;
+    AnimatedSprite *idleAnimation;
     Observer<int> *attackInitObserver;
     Observer<int> *attackEndObserver;
   };
@@ -38,13 +38,13 @@ namespace Game
       void next(const int &value) override
       {
         this->weapon.canAttack = true;
-        this->weapon.queueAnimationChange(&this->weapon.idleAnimation);
+        this->weapon.queueAnimationChange(this->weapon.idleAnimation);
       }
     };
 
     const Vector relativePosition;
     const int damage;
-    AnimatedSprite idleAnimation;
+    AnimatedSprite *idleAnimation = nullptr;
     AnimatedSprite *currentAnimation = nullptr;
     AnimatedSprite *pendingAnimation = nullptr;
     WeaponIdleModeHandler idleModeHandler;

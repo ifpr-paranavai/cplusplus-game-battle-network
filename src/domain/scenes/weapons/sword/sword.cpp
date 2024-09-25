@@ -4,7 +4,7 @@ namespace Game
 {
   Sword::Sword(const ChildWeaponConfig swordConfig) : Weapon({swordConfig.relativePosition,
                                                               50,
-                                                              AnimatedSprite({
+                                                              new AnimatedSprite({
                                                                   0,
                                                                   "assets/sprites/weapons/sword/idle",
                                                                   1,
