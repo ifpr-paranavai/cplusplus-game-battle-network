@@ -11,14 +11,19 @@ namespace Game
     auto &renderer = Global::adaptersInstance.renderer;
 
     windowManager->createWindow(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT);
-    std::unique_ptr<Player> player = std::make_unique<Player>();
-    std::unique_ptr<Arena> arena = std::make_unique<Arena>();
-    arena->setPlayer(player.get());
+
+    MainMenu mainMenu;
+    Global::gameStateService->pushGameState(&mainMenu);
+    // std::unique_ptr<Player> player = std::make_unique<Player>();
+    // Arena arena;
+    // arena.setPlayer(player.get());
 
     while (!keyboardManager->exitEventIsCalled())
     {
       timeManager->updateTime();
-      arena->render();
+      // arena.render();
+      // mainMenu.render();
+      Global::gameStateService->renderCurrentState();
       renderer->updateScreen();
     }
   }

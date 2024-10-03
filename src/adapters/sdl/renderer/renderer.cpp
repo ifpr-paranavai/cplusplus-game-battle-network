@@ -129,6 +129,11 @@ namespace Game
     SDL_Color borderColor = {0, 0, 0, 255};
     int borderSize = 2;
 
+    if (renderTextData.color)
+    {
+      textColor = {renderTextData.color->r, renderTextData.color->g, renderTextData.color->b, 255};
+    }
+
     if (renderTextData.fontSize)
     {
       TTF_SetFontSize(this->font, *renderTextData.fontSize);

@@ -71,6 +71,15 @@
     "variant": "cpp",
     "xhash": "cpp",
     "any": "cpp",
-    "string_view": "cpp"
+    "string_view": "cpp",
+    "condition_variable": "cpp",
+    "csignal": "cpp",
+    "deque": "cpp",
+    "fstream": "cpp",
+    "map": "cpp",
+    "set": "cpp",
+    "span": "cpp",
+    "unordered_set": "cpp",
+    "xtree": "cpp"
   }
 }

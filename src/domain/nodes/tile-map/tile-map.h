@@ -20,8 +20,6 @@ namespace Game
         std::list<Tile> tiles;
         int playerColumnTilesCount = 3;
         int enemyColumnTilesCount = TileMap::tilesColumnsCount - this->playerColumnTilesCount;
-        std::string playerTileColor = "#FF4500";
-        std::string enemyTileColor = "#4169E1";
 
     public:
         TileMap();

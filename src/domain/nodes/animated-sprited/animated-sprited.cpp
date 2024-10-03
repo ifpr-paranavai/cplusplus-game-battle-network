@@ -30,7 +30,7 @@ namespace Game
 
   void AnimatedSprite::update()
   {
-    if (this->spriteDisplayTime == 0 || this->sprites.empty())
+    if (this->spriteDisplayTime == 0 || this->sprites.empty()) [[unlikely]]
     {
       return;
     }

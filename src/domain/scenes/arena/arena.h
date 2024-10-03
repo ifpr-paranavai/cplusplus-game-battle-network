@@ -12,6 +12,7 @@
 #include "../../../utils/observer/observer.h"
 #include "../card-selector/card-selector.h"
 #include "../card-selector-delay-bar/card-selector-delay-bar.h"
+#include "../../nodes/game-state/game-state.h"
 
 namespace Game
 {
@@ -23,7 +24,7 @@ namespace Game
     CARD_SELECTOR_OPENED
   };
 
-  class Arena
+  class Arena : public GameState
   {
   private:
     class VictoryHandler : public Observer<int>
@@ -112,7 +113,7 @@ namespace Game
     CloseCardSelectorDelayHandler closeCardSelectorDelayHandler = CloseCardSelectorDelayHandler(*this);
     PointsIncrementHandler pointsIncrementHandler = PointsIncrementHandler(*this);
     std::list<Character *> characters;
-    const std::vector<Sprite> backgroundSprites = {
+    const std::array<Sprite, 2> backgroundSprites = {
         Sprite({Config::WINDOW_WIDTH,
                 Config::WINDOW_HEIGHT,
                 "assets/sprites/background/bg.png",
@@ -139,7 +140,7 @@ namespace Game
   public:
     Arena();
     ~Arena();
-    void render();
+    void render() override;
     void setPlayer(Player *_player);
   };
 }

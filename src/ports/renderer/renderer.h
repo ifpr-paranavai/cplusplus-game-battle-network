@@ -31,6 +31,7 @@ namespace Game
     Vector position;
     std::optional<int> fontSize;
     std::optional<int> maxWidth;
+    std::optional<Color> color;
   };
 
   class RendererPort
