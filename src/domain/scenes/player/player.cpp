@@ -6,6 +6,7 @@ namespace Game
   {
     this->queueAnimationChange(&this->idleSprite);
     this->collisionBoxes.emplace_back(this->position, this->width, this->height);
+    this->invencibleTimer.subscribe(&this->invencibilityHandler);
   }
 
   Player::~Player()
@@ -70,11 +71,13 @@ namespace Game
       collisionBox.setPosition(this->position);
     }
     this->currentWeapon->update();
+    this->invencibleTimer.update();
     Character::update();
   }
 
   void Player::onCollision(Element *other)
   {
+    std::cout << "onCollision" << std::endl;
     if (dynamic_cast<Projectile *>(other) || this->invencible || this->life <= 0)
     {
       return;
@@ -89,6 +92,11 @@ namespace Game
     {
       this->life -= tileBasedAttack->getDamage();
       this->invencible = true;
+    }
+
+    if (this->invencible)
+    {
+      this->invencibleTimer.init(1);
     }
 
     if (this->life <= 0)

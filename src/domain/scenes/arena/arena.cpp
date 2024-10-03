@@ -27,6 +27,7 @@ namespace Game
     enemy->setTileXLimit({static_cast<float>(6 - this->tileMap.getEnemyColumnTilesCount()), 5});
     enemy->setTileYLimit({0, static_cast<float>(this->tileMap.getTilesRowsCount() - 1)});
     enemy->subscribeToDeath(&this->victoryHandler);
+    enemy->subscribeToOnCollide(&this->pointsIncrementHandler);
     this->characters.push_back(enemy);
   }
 
@@ -101,6 +102,13 @@ namespace Game
     Global::adaptersInstance.renderer->renderText({lifeStr, {10 + 100 - textWidth, 15}});
   }
 
+  void Arena::renderPlayerPoints()
+  {
+    const std::string pointsStr = std::to_string(this->playerPoints) + " PTS";
+    const int textWidth = Global::adaptersInstance.renderer->getTextWidth(pointsStr);
+    Global::adaptersInstance.renderer->renderText({pointsStr, {Config::WINDOW_WIDTH - textWidth - 10, 10}});
+  }
+
   void Arena::renderAttacks()
   {
 
@@ -129,6 +137,7 @@ namespace Game
     this->renderBackground();
     this->tileMap.render();
     this->renderPlayerLife();
+    this->renderPlayerPoints();
     this->cardSelectorDelayBar.render();
 
     for (Character *character : this->characters)

@@ -86,6 +86,20 @@ namespace Game
       }
     };
 
+    class PointsIncrementHandler : public Observer<Element *>
+    {
+    private:
+      Arena &arena;
+
+    public:
+      PointsIncrementHandler(Arena &arena) : arena(arena) {}
+
+      void next(Element *const &value) override
+      {
+        arena.playerPoints += 10;
+      }
+    };
+
     const Music music = Global::adaptersInstance.audioManager->initMusic("assets/music/battle-music.mp3");
     ArenaMode arenaMode = ArenaMode::RUNNING;
     Player *player;
@@ -96,6 +110,7 @@ namespace Game
     VictoryHandler victoryHandler = VictoryHandler(*this);
     UnblockOpenCardSelectorHandler unblockOpenCardSelectorHandler = UnblockOpenCardSelectorHandler(*this);
     CloseCardSelectorDelayHandler closeCardSelectorDelayHandler = CloseCardSelectorDelayHandler(*this);
+    PointsIncrementHandler pointsIncrementHandler = PointsIncrementHandler(*this);
     std::list<Character *> characters;
     const std::vector<Sprite> backgroundSprites = {
         Sprite({Config::WINDOW_WIDTH,
@@ -109,12 +124,14 @@ namespace Game
                 false,
                 Vector(0, 0)})};
     bool canOpenCardSelector = false;
+    int playerPoints = 0;
 
     void createEnemies();
     void renderAttacks();
     void updateAttacks();
     void updateAnimations();
     void renderPlayerLife();
+    void renderPlayerPoints();
     void renderBackground();
     void renderRunningMode();
     void checkKeyboard();

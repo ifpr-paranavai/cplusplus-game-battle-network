@@ -107,6 +107,8 @@ namespace Game
       this->life -= tileBasedAttack->getDamage();
     }
 
+    this->onCollide.next(other);
+
     if (this->life <= 0)
     {
       this->life = 0;

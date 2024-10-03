@@ -23,6 +23,7 @@ namespace Game
     float movementDecisionTimer = 0;
     float attackTimer = 0;
     bool dead = false;
+    Subject<Element *> onCollide;
 
     void handleMovement();
     void handleAttack();
@@ -43,5 +44,10 @@ namespace Game
     Enemy(int width, int height);
     void update() override;
     void render() override;
+
+    void subscribeToOnCollide(Observer<Element *> *observer)
+    {
+      this->onCollide.subscribe(observer);
+    }
   };
 }

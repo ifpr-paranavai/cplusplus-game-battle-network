@@ -102,6 +102,7 @@ namespace Game
     BlockWeaponAttackHandler *blockWeaponAttackHandler = new BlockWeaponAttackHandler(*this);
     UnblockWeaponAttackHandler *unblockWeaponAttackHandler = new UnblockWeaponAttackHandler(*this);
     SetSelectedCardHandler *setSelectedCardHandler = new SetSelectedCardHandler(*this);
+    InvencibilityHandler invencibilityHandler = InvencibilityHandler(*this);
     Pistol pistol = Pistol({{39, 28}, this->blockWeaponAttackHandler, this->unblockWeaponAttackHandler});
     Weapon *currentWeapon = &this->pistol;
     Card *selectedCard = nullptr;
