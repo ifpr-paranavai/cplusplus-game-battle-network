@@ -42,16 +42,6 @@ namespace Game
 			this->currentAnimation->renderSprite(this->position);
 		}
 
-		int getWidth()
-		{
-			return this->width;
-		}
-
-		int getHeight()
-		{
-			return this->height;
-		}
-
 		int getLife()
 		{
 			return this->life;

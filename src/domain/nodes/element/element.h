@@ -19,6 +19,21 @@ namespace Game
     public:
         Element(int width, int height);
 
+        Vector getPosition()
+        {
+            return this->position;
+        }
+
+        int getWidth()
+        {
+            return this->width;
+        }
+
+        int getHeight()
+        {
+            return this->height;
+        }
+
         virtual void update();
         virtual void checkCollision(Element *other);
         std::list<CollisionBox> getCollisionBoxes();
