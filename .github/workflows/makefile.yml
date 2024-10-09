@@ -1,9 +1,27 @@
+name: C++ Build
+
+on:
+  push:
+    branches:
+      - main  
+  pull_request:
+    branches:
+      - main  
+
+jobs:
+  build:
+    runs-on: windows-latest  
+
+    steps:
+    - name: Check out the repository
+      uses: actions/checkout@v4
+
     - name: Set up MinGW
       shell: cmd
       run: |
         choco install mingw -y
         set PATH=%PATH%;C:\ProgramData\chocolatey\bin
-        set PATH=%PATH%;C:\Program Files\mingw-w64\{your-version}\bin  # Ajuste com a versão correta
+        set PATH=%PATH%;C:\Program Files\mingw-w64\{your-version}\bin  
 
     - name: Build the project
       shell: cmd
