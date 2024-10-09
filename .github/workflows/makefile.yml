@@ -19,9 +19,9 @@ jobs:
     - name: Set up MinGW
       run: |
         choco install mingw -y
-        set PATH=%PATH%;C:\ProgramData\chocolatey\bin
-        set PATH=%PATH%;C:\Program Files\mingw-w64\{your-version}\bin  # Ajuste com a versão correta
-
+        $env:PATH += ";C:\ProgramData\chocolatey\bin"
+        $env:PATH += ";C:\Program Files\mingw-w64\{your-version}\bin" 
+        
     - name: Build the project
       run: |
         cd ${{ github.workspace }}
