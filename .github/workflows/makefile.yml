@@ -14,12 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install MinGW
-      uses: egor-tensin/setup-mingw@v2
-      with:
-        platform: x32
-
-    - name: Install dependencies
+    - name: Build
       run: |
         mingw32-make -j
 
