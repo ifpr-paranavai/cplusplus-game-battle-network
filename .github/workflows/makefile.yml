@@ -1,28 +1,12 @@
-name: C++ Build
-
-on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
-
-jobs:
-  build:
-    runs-on: windows-latest 
-
-    steps:
-    - name: Check out the repository
-      uses: actions/checkout@v4
-
     - name: Set up MinGW
+      shell: cmd
       run: |
         choco install mingw -y
-        $env:PATH += ";C:\ProgramData\chocolatey\bin"
-        $env:PATH += ";C:\Program Files\mingw-w64\{your-version}\bin" 
-        
+        set PATH=%PATH%;C:\ProgramData\chocolatey\bin
+        set PATH=%PATH%;C:\Program Files\mingw-w64\{your-version}\bin  # Ajuste com a versão correta
+
     - name: Build the project
+      shell: cmd
       run: |
         cd ${{ github.workspace }}
         mingw32-make
