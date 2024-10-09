@@ -8,22 +8,20 @@ on:
 
 jobs:
   build:
-
     runs-on: windows-latest
-
-    defaults:
-      run:
-        shell: cmd
 
     steps:
     - uses: actions/checkout@v4
 
     - name: Build
+      shell: cmd  
       run: |
         mingw32-make -j
         
     - name: Run check
-      run: make check
+      shell: cmd  
+      run: mingw32-make check
 
     - name: Run distcheck
-      run: make distcheck
+      shell: cmd  
+      run: mingw32-make distcheck
