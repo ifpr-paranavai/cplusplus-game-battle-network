@@ -56,13 +56,13 @@ $(BUILD_DIR_TEST)/%.o: src/%.cpp
 
 # Regra para compilar o executável principal
 $(EXECUTABLE): $(OBJECTS)
-	@if not exist "$(BIN_DIR)" mkdir "$(BIN_DIR)"
-	@if not exist "$(BIN_DIR)\assets" mkdir "$(BIN_DIR)\assets"
+	@if (-not (Test-Path -Path "$(BIN_DIR)")) { New-Item -ItemType Directory -Path "$(BIN_DIR)" }
+	@if (-not (Test-Path -Path "$(BIN_DIR)\assets")) { New-Item -ItemType Directory -Path "$(BIN_DIR)\assets" }
 	$(CXX) $(LDFLAGS) $(OBJECTS) $(LIBS) -o $@
-	@echo Copying DLLs...
-	xcopy /y /d /i "$(DLL_DIR)\*.dll" "$(BIN_DIR)\" > nul
-	@echo Copying assets...
-	xcopy /y /d /s "$(ASSETS_DIR)\*" "$(BIN_DIR)\assets\" > nul
+	@echo "Copying DLLs..."
+	powershell -Command "Copy-Item -Path '$(DLL_DIR)\*.dll' -Destination '$(BIN_DIR)' -Recurse -Force"
+	@echo "Copying assets..."
+	powershell -Command "Copy-Item -Path '$(ASSETS_DIR)\*' -Destination '$(BIN_DIR)\assets' -Recurse -Force"
 
 # Regra para compilar o executável de teste
 $(EXECUTABLE_TEST): $(OBJECTS_TEST)
