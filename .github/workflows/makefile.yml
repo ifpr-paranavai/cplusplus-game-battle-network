@@ -24,7 +24,7 @@ jobs:
         set PATH=%PATH%;C:\Program Files\mingw-w64\{your-version}\bin  
 
     - name: Build the project
-      shell: cmd
+      shell: pwsh
       run: |
         cd ${{ github.workspace }}
         mingw32-make -f makefile
