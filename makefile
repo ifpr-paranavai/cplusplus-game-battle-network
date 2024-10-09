@@ -47,11 +47,11 @@ EXECUTABLE_TEST = $(BIN_DIR_TEST)/battle-network-test.exe
 
 # Criação de diretórios automaticamente, quando necessário (Windows)
 $(BUILD_DIR)/%.o: src/%.cpp
-	@if not exist "$(BUILD_DIR)\$(dir $*)" mkdir "$(BUILD_DIR)\$(dir $*)"
+	@powershell -Command "if (-not (Test-Path -Path '$(BUILD_DIR)\$(dir $*)')) { New-Item -ItemType Directory -Path '$(BUILD_DIR)\$(dir $*)' }"
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(BUILD_DIR_TEST)/%.o: src/%.cpp
-	@if not exist "$(BUILD_DIR_TEST)\$(dir $*)" mkdir "$(BUILD_DIR_TEST)\$(dir $*)"
+	@powershell -Command "if (-not (Test-Path -Path '$(BUILD_DIR_TEST)\$(dir $*)')) { New-Item -ItemType Directory -Path '$(BUILD_DIR_TEST)\$(dir $*)' }"
 	$(CXX) $(CXXFLAGS_TEST) -c $< -o $@
 
 # Regra para compilar o executável principal
