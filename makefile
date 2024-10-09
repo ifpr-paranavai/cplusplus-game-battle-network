@@ -57,12 +57,12 @@ $(BUILD_DIR_TEST)/%.o: src/%.cpp
 # Regra para compilar o executável principal
 $(EXECUTABLE): $(OBJECTS)
 	@if not exist "$(BIN_DIR)" mkdir "$(BIN_DIR)"
-	@if not exist "$(BIN_DIR)/assets" mkdir "$(BIN_DIR)/assets"
+	@if not exist "$(BIN_DIR)\assets" mkdir "$(BIN_DIR)\assets"
 	$(CXX) $(LDFLAGS) $(OBJECTS) $(LIBS) -o $@
 	@echo Copying DLLs...
-	xcopy /y /d /i "$(DLL_DIR)\*.dll" "$(BIN_DIR)\"
+	xcopy /y /d /i "$(DLL_DIR)\*.dll" "$(BIN_DIR)\" > nul
 	@echo Copying assets...
-	xcopy /y /d /s "$(ASSETS_DIR)\*" "$(BIN_DIR)\assets\"
+	xcopy /y /d /s "$(ASSETS_DIR)\*" "$(BIN_DIR)\assets\" > nul
 
 # Regra para compilar o executável de teste
 $(EXECUTABLE_TEST): $(OBJECTS_TEST)
