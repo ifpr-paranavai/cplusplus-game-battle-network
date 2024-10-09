@@ -11,16 +11,14 @@ jobs:
 
     runs-on: windows-latest
 
+    defaults:
+      run:
+        shell: cmd
+
     steps:
     - uses: actions/checkout@v4
 
-    - name: Set up MinGW
-      run: |
-        choco install mingw --version=8.1.0  # Instala MinGW
-        refreshenv
-
     - name: Build
-      shell: cmd
       run: |
         mingw32-make -j
         
