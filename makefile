@@ -62,7 +62,7 @@ $(EXECUTABLE): $(OBJECTS)
 	@echo "Copying DLLs..."
 	@powershell -Command "Copy-Item -Path '$(DLL_DIR)\*.dll' -Destination '$(BIN_DIR)' -Recurse -Force"
 	@echo "Copying assets..."
-	@powershell -Command "Copy-Item -Path '$(ASSETS_DIR)\*' -Destination '$(BIN_DIR)\assets' -Recurse -Force"
+	@powershell -Command "Copy-Item -Path '$(ASSETS_DIR)\\*' -Destination '$(BIN_DIR)\\assets' -Recurse -Force"
 
 # Regra para compilar o executável de teste
 $(EXECUTABLE_TEST): $(OBJECTS_TEST)
