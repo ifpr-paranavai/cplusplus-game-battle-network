@@ -34,3 +34,10 @@ jobs:
       with:
         name: battle-network-bin
         path: ./bin
+
+    - name: Create a GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: ./bin/**
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
