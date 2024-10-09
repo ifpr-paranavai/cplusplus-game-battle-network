@@ -14,10 +14,16 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Set up MinGW
+      run: |
+        choco install mingw --version=8.1.0  # Instala MinGW
+        refreshenv
+
     - name: Build
+      shell: cmd
       run: |
         mingw32-make -j
-
+        
     - name: Run check
       run: make check
 
