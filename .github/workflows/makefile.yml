@@ -1,27 +1,28 @@
-name: Makefile CI
+name: C++ Build
 
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - master
   pull_request:
-    branches: [ "master" ]
+    branches:
+      - master
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-latest 
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Check out the repository
+      uses: actions/checkout@v4
 
-    - name: Build
-      shell: cmd  
+    - name: Set up MinGW
       run: |
-        mingw32-make -j
-        
-    - name: Run check
-      shell: cmd  
-      run: mingw32-make check
+        choco install mingw -y
+        set PATH=%PATH%;C:\ProgramData\chocolatey\bin
+        set PATH=%PATH%;C:\Program Files\mingw-w64\{your-version}\bin  # Ajuste com a versão correta
 
-    - name: Run distcheck
-      shell: cmd  
-      run: mingw32-make distcheck
+    - name: Build the project
+      run: |
+        cd ${{ github.workspace }}
+        mingw32-make
