@@ -27,4 +27,4 @@ jobs:
       shell: cmd
       run: |
         cd ${{ github.workspace }}
-        mingw32-make
+        mingw32-make -f makefile
