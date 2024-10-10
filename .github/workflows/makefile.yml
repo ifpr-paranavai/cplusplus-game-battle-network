@@ -35,10 +35,11 @@ jobs:
         name: battle-network-bin
         path: ./bin
 
-    # Extrair o nome da tag ou branch sem o prefixo 'refs/heads/' ou 'refs/tags/'
-    - name: Extract tag or branch name
-      id: extract_ref
-      run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+    # Gerar um nome de tag baseado na data e hora no formato YYYYMMDD-HHMMSS
+    - name: Generate date-based tag name
+      id: generate_tag
+      run: |
+        echo "TAG_NAME=$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
 
     - name: Create Release
       id: create_release
@@ -53,7 +54,7 @@ jobs:
         draft: false
         prerelease: false
 
-    # Etapa para compactar a pasta "bin" em um arquivo .zip usando PowerShell no Windows
+    # Compactar a pasta "bin" em um arquivo .zip usando PowerShell no Windows
     - name: Zip folder on Windows
       shell: pwsh
       run: Compress-Archive -Path ".\\bin" -DestinationPath "release.zip"
