@@ -21,7 +21,7 @@ jobs:
       run: |
         choco install mingw -y
         set PATH=%PATH%;C:\ProgramData\chocolatey\bin
-        set PATH=%PATH%;C:\Program Files\mingw-w64\{your-version}\bin  
+        set PATH=%PATH%;C:\Program Files\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0\mingw64\bin
 
     - name: Build the project
       shell: pwsh
@@ -35,29 +35,36 @@ jobs:
         name: battle-network-bin
         path: ./bin
 
+    # Extrair o nome da tag ou branch sem o prefixo 'refs/heads/' ou 'refs/tags/'
+    - name: Extract tag or branch name
+      id: extract_ref
+      run: echo "TAG_NAME=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
     - name: Create Release
       id: create_release
       uses: actions/create-release@latest
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
+        tag_name: ${{ env.TAG_NAME }}
+        release_name: Release ${{ env.TAG_NAME }}
         body: |
           ${{ steps.Changelog.outputs.changelog }}
         draft: false
         prerelease: false
 
+    # Etapa para compactar a pasta "bin" em um arquivo .zip usando PowerShell no Windows
     - name: Zip folder on Windows
       shell: pwsh
       run: Compress-Archive -Path ".\\bin" -DestinationPath "release.zip"
 
+    # Adiciona o arquivo .zip como asset na release
     - name: Upload Release Asset
       uses: actions/upload-release-asset@latest
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./release_folder.zip
-        asset_name: release_folder.zip
+        asset_path: ./release.zip
+        asset_name: release.zip
         asset_content_type: application/zip
