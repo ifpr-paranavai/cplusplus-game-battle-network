@@ -14,15 +14,10 @@ namespace Game
 
     MainMenu mainMenu;
     Global::gameStateService->pushGameState(&mainMenu);
-    // std::unique_ptr<Player> player = std::make_unique<Player>();
-    // Arena arena;
-    // arena.setPlayer(player.get());
 
     while (!keyboardManager->exitEventIsCalled())
     {
       timeManager->updateTime();
-      // arena.render();
-      // mainMenu.render();
       Global::gameStateService->renderCurrentState();
       renderer->updateScreen();
     }

@@ -12,7 +12,8 @@ namespace Game
         {KeyCode::ARROW_RIGHT, SDLK_RIGHT},
         {KeyCode::X, SDLK_x},
         {KeyCode::C, SDLK_c},
-        {KeyCode::Z, SDLK_z}};
+        {KeyCode::Z, SDLK_z},
+        {KeyCode::ENTER, SDLK_RETURN}};
 
     auto it = keycodeMap.find(keycode);
     if (it != keycodeMap.end())

@@ -9,7 +9,8 @@ namespace Game
         ARROW_RIGHT,
         X,
         C,
-        Z
+        Z,
+        ENTER
     };
 
     class KeyboardManagerPort

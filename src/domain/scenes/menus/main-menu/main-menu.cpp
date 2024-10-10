@@ -2,7 +2,7 @@
 
 namespace Game
 {
-  void MainMenu::verifySelectionComands()
+  void MainMenu::verifyComands()
   {
     const auto &keyboardManager = Global::adaptersInstance.keyboardManager;
     if (keyboardManager->isKeyPressed(KeyCode::ARROW_UP) && this->selectedOptionIndex > 0)
@@ -13,11 +13,20 @@ namespace Game
     {
       this->selectedOptionIndex++;
     }
+    else if (keyboardManager->isKeyPressed(KeyCode::ENTER))
+    {
+      this->clickOnSelectedOption();
+    }
+  }
+
+  void MainMenu::clickOnSelectedOption()
+  {
+    this->options.at(this->selectedOptionIndex).click();
   }
 
   void MainMenu::render()
   {
-    this->verifySelectionComands();
+    this->verifyComands();
     for (const auto bg : this->backgroundSprites)
     {
       bg.renderSprite(Vector(0, 0));
