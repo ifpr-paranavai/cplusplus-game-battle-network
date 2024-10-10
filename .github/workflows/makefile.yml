@@ -35,10 +35,29 @@ jobs:
         name: battle-network-bin
         path: ./bin
 
-    - name: Create a GitHub Release
-      uses: softprops/action-gh-release@v1
-      with:
-        tag_name: ${{ steps.date.outputs.tag }}
-        files: ./bin/**
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@latest
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        body: |
+          ${{ steps.Changelog.outputs.changelog }}
+        draft: false
+        prerelease: false
+
+    - name: Zip folder on Windows
+      shell: pwsh
+      run: Compress-Archive -Path ".\\bin" -DestinationPath "release.zip"
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@latest
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./release_folder.zip
+        asset_name: release_folder.zip
+        asset_content_type: application/zip
