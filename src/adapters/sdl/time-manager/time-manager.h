@@ -12,6 +12,7 @@ namespace Game
     private:
         Uint32 lastTime = 0;
         float deltaTime;
+        float elapsedTime = 0;
 
     public:
         void updateTime() override;
@@ -19,6 +20,11 @@ namespace Game
         float getDeltaTime() override
         {
             return this->deltaTime;
+        }
+
+        float getElapsedTime() override
+        {
+            return this->elapsedTime;
         }
     };
 }

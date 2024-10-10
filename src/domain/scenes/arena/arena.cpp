@@ -10,6 +10,7 @@ namespace Game
     this->cardSelector.subscribeToOnSelectCard(&this->closeCardSelectorDelayHandler);
     this->tileMap.init();
     this->createEnemies();
+    this->setPlayer(new Player());
   }
 
   Arena::~Arena()
@@ -104,9 +105,12 @@ namespace Game
 
   void Arena::renderPlayerPoints()
   {
-    const std::string pointsStr = std::to_string(this->playerPoints) + " PTS";
-    const int textWidth = Global::adaptersInstance.renderer->getTextWidth(pointsStr);
-    Global::adaptersInstance.renderer->renderText({pointsStr, {Config::WINDOW_WIDTH - textWidth - 10, 10}});
+    // const std::string pointsStr = std::to_string(this->playerPoints) + " PTS";
+    // Global::adaptersInstance.renderer->renderText({pointsStr, {Config::WINDOW_WIDTH - textWidth - 10, 10}});
+    const float elapsedTime = Global::adaptersInstance.timeManager->getElapsedTime();
+    const std::string elapsedTimeStr = std::to_string(int(elapsedTime / 60)) + " " + std::to_string(int(elapsedTime) % 60);
+    const int textWidth = Global::adaptersInstance.renderer->getTextWidth(elapsedTimeStr);
+    Global::adaptersInstance.renderer->renderText({elapsedTimeStr, {Config::WINDOW_WIDTH - textWidth - 10, 10}});
   }
 
   void Arena::renderAttacks()

@@ -19,6 +19,16 @@ namespace Game
       Global::gameStateService->pushGameState(new Arena());
     }
   };
+
+  class QuitGameHandler : public Observer<int>
+  {
+  public:
+    void next(const int &value) override
+    {
+      exit(0);
+    }
+  };
+
   class MainMenu : public GameState
   {
   private:
@@ -39,10 +49,13 @@ namespace Game
     const int titleWidth = Global::adaptersInstance.renderer->getTextWidth(this->title);
     const int textHeight = Global::adaptersInstance.renderer->getTextHeight(this->title);
     const Vector titlePostion = {Config::WINDOW_WIDTH / 2 - titleWidth / 2, 100};
-    std::array<MenuOption, 1> options = {MenuOption("Start", new StartGameHandler()) /**, MenuOption("Load"), MenuOption("Quit")*/};
+    std::array<MenuOption, 2> options = {
+        MenuOption("Start", new StartGameHandler()), /**, MenuOption("Load"), MenuOption("Quit")*/
+        MenuOption("Quit", new QuitGameHandler())};
     int selectedOptionIndex = 0;
 
-    void verifySelectionComands();
+    void verifyComands();
+    void clickOnSelectedOption();
 
   public:
     void render() override;

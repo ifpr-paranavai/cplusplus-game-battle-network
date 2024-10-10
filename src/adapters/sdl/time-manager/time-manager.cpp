@@ -6,7 +6,8 @@ namespace Game
     {
         Uint32 currentTime = SDL_GetTicks();
         this->deltaTime = (currentTime - this->lastTime) / 1000.0f;
-        lastTime = currentTime;
+        this->elapsedTime += this->deltaTime;
+        this->lastTime = currentTime;
     }
 
 }
