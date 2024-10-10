@@ -1,12 +1,9 @@
-name: C++ Build
+name: Build and Release Windows
 
 on:
   push:
     branches:
       - master  
-  pull_request:
-    branches:
-      - master
 
 jobs:
   build:
@@ -23,17 +20,20 @@ jobs:
         set PATH=%PATH%;C:\ProgramData\chocolatey\bin
         set PATH=%PATH%;C:\Program Files\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0\mingw64\bin
 
+    - name: Read version from file
+      id: get_version
+      shell: pwsh
+      run: echo "VERSION=$(Get-Content VERSION)" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8
+
     - name: Build the project
       shell: pwsh
       run: |
         cd ${{ github.workspace }}
         mingw32-make -f makefile
 
-    - name: Upload bin folder as artifact
-      uses: actions/upload-artifact@v4.4.3
-      with:
-        name: battle-network-bin
-        path: ./bin
+    - name: Zip folder on Windows
+      shell: pwsh
+      run: Compress-Archive -Path ".\\bin" -DestinationPath "release-windows-${{ env.VERSION }}.zip"
 
     - name: Create Release
       id: create_release
@@ -41,17 +41,12 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: v1.0.0
-        release_name: Release v.1.0.0
+        tag_name: v${{ env.VERSION }}
+        release_name: Release v${{ env.VERSION }}
         body: |
-          ${{ steps.Changelog.outputs.changelog }}
+          Release for version ${{ env.VERSION }}
         draft: false
         prerelease: false
-
-    # Compactar a pasta "bin" em um arquivo .zip usando PowerShell no Windows
-    - name: Zip folder on Windows
-      shell: pwsh
-      run: Compress-Archive -Path ".\\bin" -DestinationPath "release.zip"
 
     # Adiciona o arquivo .zip como asset na release
     - name: Upload Release Asset
@@ -60,6 +55,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./release.zip
-        asset_name: release.zip
+        asset_path: ./release-windows-${{ env.VERSION }}.zip
+        asset_name: release-windows-${{ env.VERSION }}.zip
         asset_content_type: application/zip

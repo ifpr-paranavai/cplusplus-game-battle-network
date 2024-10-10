@@ -1,12 +1,11 @@
 # Diretório onde os objetos e arquivos de dependência serão armazenados
-MAKEFLAGS += -j
 BUILD_DIR = build
 BUILD_DIR_TEST = build-test
 
 # Flags do compilador
-CXXFLAGS = -I src/include -std=c++20 -MMD -MP -g -O0
-LDFLAGS = -L src/lib -std=c++20
-LIBS = -lSDL2main -lSDL2 -lSDL2_ttf -lSDL2_image -lSDL2_mixer
+CXXFLAGS = -I src/include -std=c++20 -g -O0 `pkg-config --cflags sdl2 SDL2_mixer SDL2_image SDL2_ttf`
+LDFLAGS = 
+LIBS = `pkg-config --libs sdl2 SDL2_mixer SDL2_image SDL2_ttf`
 
 # Lista de arquivos fonte
 SOURCES = src/main.cpp $(wildcard src/application/*/*.cpp) $(wildcard src/adapters/*/*/*.cpp) $(wildcard src/domain/*/*/*.cpp) $(wildcard src/utils/*/*.cpp) $(wildcard src/domain/*/*/*/*.cpp)
@@ -30,8 +29,8 @@ ASSETS_DIR = assets
 EXECUTABLE = $(BIN_DIR)/battle-network
 
 # Flags de compilação para testes
-CXXFLAGS_TEST = -I src/include -std=c++20 -MMD -MP -g -O0
-LDFLAGS_TEST = -L src/lib -std=c++20
+CXXFLAGS_TEST = -I src/include -std=c++20 -g -O0
+LDFLAGS_TEST = 
 LIBS_TEST = 
 SOURCES_TEST = src/main-test.cpp $(wildcard src/application/*/*.cpp) $(wildcard src/domain/*/*/*.cpp) $(wildcard src/utils/*/*.cpp) $(wildcard src/domain/*/*/*/*.cpp)
 OBJECTS_TEST = $(patsubst src/%.cpp,$(BUILD_DIR_TEST)/%.o,$(SOURCES_TEST))
@@ -54,11 +53,15 @@ $(BUILD_DIR_TEST)/%.o: src/%.cpp
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS_TEST) -c $< -o $@
 
-# Regra para compilar o executável principal
+# Lê a versão do arquivo VERSION
+VERSION := $(shell cat VERSION)
+
+# Regra para compilar o executável principal com a versão
 $(EXECUTABLE): $(OBJECTS)
 	@mkdir -p $(BIN_DIR)
 	@mkdir -p $(BIN_DIR)/assets
 	$(CXX) $(LDFLAGS) $(OBJECTS) $(LIBS) -o $@
+	@echo "Version: $(VERSION)" > $(BIN_DIR)/version.txt
 	@echo "Copying libraries..."
 	@cp -r $(DLL_DIR)/*.so $(BIN_DIR)/
 	@echo "Copying assets..."
