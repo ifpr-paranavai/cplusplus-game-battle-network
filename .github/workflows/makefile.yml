@@ -14,7 +14,7 @@ jobs:
 
     steps:
     - name: Check out the repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@latest
 
     - name: Set up MinGW
       shell: cmd
@@ -30,16 +30,10 @@ jobs:
         mingw32-make -f makefile
 
     - name: Upload bin folder as artifact
-      uses: actions/upload-artifact@v4.4.3
+      uses: actions/upload-artifact@latest
       with:
         name: battle-network-bin
         path: ./bin
-
-    # Gerar um nome de tag baseado na data e hora no formato YYYYMMDD-HHMMSS
-    - name: Generate date-based tag name
-      id: generate_tag
-      run: |
-        echo "TAG_NAME=$(date +'%Y%m%d-%H%M%S')" >> $GITHUB_ENV
 
     - name: Create Release
       id: create_release
@@ -47,8 +41,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ env.TAG_NAME }}
-        release_name: Release ${{ env.TAG_NAME }}
+        tag_name: v1.0.0
+        release_name: Release v.1.0.0
         body: |
           ${{ steps.Changelog.outputs.changelog }}
         draft: false
