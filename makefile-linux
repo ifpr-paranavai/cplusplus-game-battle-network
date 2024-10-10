@@ -17,10 +17,7 @@ OBJECTS = $(patsubst src/%.cpp,$(BUILD_DIR)/%.o,$(SOURCES))
 DEPS = $(OBJECTS:.o=.d)
 
 # Diretório de saída para o executável
-BIN_DIR = bin
-
-# Diretório das DLLs (Linux: trocado para libs)
-DLL_DIR = dlls
+BIN_DIR = bin-linux
 
 # Diretório dos recursos
 ASSETS_DIR = assets
@@ -53,17 +50,11 @@ $(BUILD_DIR_TEST)/%.o: src/%.cpp
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS_TEST) -c $< -o $@
 
-# Lê a versão do arquivo VERSION
-VERSION := $(shell cat VERSION)
-
 # Regra para compilar o executável principal com a versão
 $(EXECUTABLE): $(OBJECTS)
 	@mkdir -p $(BIN_DIR)
 	@mkdir -p $(BIN_DIR)/assets
 	$(CXX) $(LDFLAGS) $(OBJECTS) $(LIBS) -o $@
-	@echo "Version: $(VERSION)" > $(BIN_DIR)/version.txt
-	@echo "Copying libraries..."
-	@cp -r $(DLL_DIR)/*.so $(BIN_DIR)/
 	@echo "Copying assets..."
 	@cp -r $(ASSETS_DIR)/* $(BIN_DIR)/assets/
 

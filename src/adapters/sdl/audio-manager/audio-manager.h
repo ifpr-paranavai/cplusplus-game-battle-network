@@ -1,6 +1,14 @@
 #pragma once
 #include <SDL2/SDL.h>
+
+#ifdef _WIN32
 #include <SDL2/SDL_mixer.h>
+#elif defined(__linux__)
+#include <SDL_mixer.h>
+#else
+#error "Unsupported platform"
+#endif
+
 #include <iostream>
 #include <stdexcept>
 #include <string_view>

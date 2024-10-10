@@ -18,7 +18,7 @@ OBJECTS = $(patsubst src/%.cpp,$(BUILD_DIR)/%.o,$(SOURCES))
 DEPS = $(OBJECTS:.o=.d)
 
 # Diretório de saída para o executável
-BIN_DIR = bin
+BIN_DIR = bin-windows
 
 # Diretório das DLLs
 DLL_DIR = dlls
