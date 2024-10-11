@@ -12,7 +12,7 @@ namespace Game
     renderTextData.position = position;
     if (isSelected)
     {
-      renderTextData.color = this->selectedColor;
+      renderTextData.color = Styles::Colors::SELECTED_COLOR;
     }
 
     Global::adaptersInstance.renderer->renderText(renderTextData);
