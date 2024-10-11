@@ -16,7 +16,7 @@ namespace Game
     const float barHeight = 30;
     const Vector barPosition = Vector(this->barWidth / 2, 10);
     const std::string_view helpText = "Pressione Z";
-    const Vector textPosition = this->barPosition + Vector((this->barWidth - Global::adaptersInstance.renderer->getTextWidth(helpText)) / 2, 0);
+    const Vector textPosition = this->barPosition + Vector((this->barWidth - Global::adaptersInstance.textRenderer->getTextWidth(helpText)) / 2, 0);
     Subject<int> onCompleteLoadSubject;
     const float delayTime = 10;
     float delayTimer = 0;

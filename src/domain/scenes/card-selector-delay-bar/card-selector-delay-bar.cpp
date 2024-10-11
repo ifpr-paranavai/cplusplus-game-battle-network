@@ -33,7 +33,7 @@ namespace Game
 
     if (percentComplete == 1)
     {
-      Global::adaptersInstance.renderer->renderText({this->helpText, this->textPosition});
+      Global::adaptersInstance.textRenderer->renderText({this->helpText, this->textPosition});
     }
   }
 }

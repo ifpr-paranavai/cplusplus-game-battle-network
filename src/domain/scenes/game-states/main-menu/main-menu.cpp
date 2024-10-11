@@ -29,7 +29,7 @@ namespace Game
     GameState::render();
     this->verifyComands();
 
-    Global::adaptersInstance.renderer->renderText({this->title, this->titlePostion});
+    Global::adaptersInstance.textRenderer->renderText({this->title, this->titlePostion});
 
     for (int i = 0; i < this->options.size(); i++)
     {
