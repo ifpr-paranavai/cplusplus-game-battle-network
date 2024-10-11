@@ -9,6 +9,7 @@
 #include "../../../../utils/observer/observer.h"
 #include "../arena/arena.h"
 #include "../score-board/score-board.h"
+#include "../score-register/score-register.h"
 
 namespace Game
 {
@@ -39,6 +40,16 @@ namespace Game
     }
   };
 
+  // NOTE: Only for test
+  class OpenScoreRegisterHandler : public Observer<int>
+  {
+  public:
+    void next(const int &value) override
+    {
+      Global::gameStateService->pushGameState(new ScoreRegister());
+    }
+  };
+
   class MainMenu : public GameState
   {
   private:
@@ -48,9 +59,10 @@ namespace Game
     const int titleWidth = Global::adaptersInstance.renderer->getTextWidth(this->title);
     const int textHeight = Global::adaptersInstance.renderer->getTextHeight(this->title);
     const Vector titlePostion = {Config::WINDOW_WIDTH / 2 - titleWidth / 2, 100};
-    std::array<MenuOption, 3> options = {
+    std::array<MenuOption, 4> options = {
         MenuOption("Iniciar", new StartGameHandler()),
         MenuOption("Placar", new OpenScoreBoardHandler()),
+        MenuOption("Registrar Pontuação", new OpenScoreRegisterHandler()),
         MenuOption("Sair", new QuitGameHandler())};
     int selectedOptionIndex = 0;
 

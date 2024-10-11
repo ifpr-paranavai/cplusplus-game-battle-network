@@ -6,6 +6,7 @@
 #include "../../dto/color/color.h"
 #include "../../../utils/subject/subject.h"
 #include "../../../utils/observer/observer.h"
+#include "../../styles/colors.h"
 
 namespace Game
 {
@@ -13,7 +14,6 @@ namespace Game
   {
   private:
     const std::string_view text;
-    const Color selectedColor = Color{239, 184, 16, 255};
     Subject<int> onClick;
 
   public:
