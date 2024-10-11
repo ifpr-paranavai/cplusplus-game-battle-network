@@ -3,7 +3,7 @@
 #include "../../../nodes/tile-based-attack/tile-based-attack.h"
 #include "../../../../utils/global-adapters/global-adapters.h"
 #include "../../../nodes/sprite/sprite.h"
-#include "../../flame/flame.h"
+#include "../flame/flame.h"
 
 namespace Game
 {

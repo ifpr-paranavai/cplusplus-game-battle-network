@@ -16,7 +16,7 @@ namespace Game
   class SDLRendererAdapter : public RendererPort
   {
   private:
-    const int defaultFontSize = 20;
+    const int defaultFontSize = 26;
     SDL_Renderer *sdlRenderer = nullptr;
     TTF_Font *font = nullptr;
 

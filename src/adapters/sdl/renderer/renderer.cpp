@@ -10,7 +10,7 @@ namespace Game
       throw std::runtime_error(TTF_GetError());
     }
 
-    this->font = TTF_OpenFont("assets/fonts/Mega-Man-Battle-Network.ttf", this->defaultFontSize);
+    this->font = TTF_OpenFont("assets/fonts/unifont.ttf", this->defaultFontSize);
     if (!font)
     {
       SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "TTF_OpenFont ftextureCacheailed: %s", TTF_GetError());
