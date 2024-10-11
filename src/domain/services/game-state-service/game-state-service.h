@@ -24,5 +24,10 @@ namespace Game
     {
       this->currentStates.push_back(gameState);
     }
+
+    void popGameState()
+    {
+      this->currentStates.pop_back();
+    }
   };
 }

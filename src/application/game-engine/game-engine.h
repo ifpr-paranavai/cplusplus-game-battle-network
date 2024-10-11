@@ -6,10 +6,9 @@
 #include "../../ports/renderer/renderer.h"
 #include "../../ports/time-manager/time-manager.h"
 #include "../../domain/scenes/player/player.h"
-#include "../../domain/scenes/arena/arena.h"
 #include "../../config/config.h"
 #include "../../utils/log-manager/log-manager.h"
-#include "../../domain/scenes/menus/main-menu/main-menu.h"
+#include "../../domain/scenes/game-states/main-menu/main-menu.h"
 #include "../../domain/global/global-services/global-services.h"
 
 namespace Game

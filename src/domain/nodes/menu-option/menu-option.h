@@ -13,11 +13,11 @@ namespace Game
   {
   private:
     const std::string_view text;
-    Color selectedColor = Color{239, 184, 16, 255};
+    const Color selectedColor = Color{239, 184, 16, 255};
     Subject<int> onClick;
 
   public:
-    MenuOption(std::string_view text, Observer<int> *onClick) : text(text)
+    MenuOption(const std::string_view text, Observer<int> *onClick) : text(text)
     {
       this->onClick.subscribe(onClick);
     };
@@ -27,6 +27,11 @@ namespace Game
     void click()
     {
       this->onClick.next(0);
+    }
+
+    std::string_view getText()
+    {
+      return this->text;
     }
   };
 }

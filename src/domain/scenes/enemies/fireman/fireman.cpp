@@ -5,7 +5,7 @@ namespace Game
   FiremanEnemy::FiremanEnemy() : Enemy(96, 96)
   {
     this->attackTime = 3;
-    this->life = 300;
+    this->life = 10;
     this->queueAnimationChange(&this->idleSprite);
 
     this->fireAttackAnimation.subscribeToAnimationEnd(this->idleAnimationHandler.get());
