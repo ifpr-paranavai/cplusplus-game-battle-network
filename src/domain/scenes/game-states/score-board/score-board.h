@@ -24,7 +24,7 @@ namespace Game
   private:
     std::list<Score> scores;
     MenuOption backOption = MenuOption("Voltar", new BackToMainMenuHandler());
-    const int backOptionYPostion = Config::WINDOW_HEIGHT - Global::adaptersInstance.renderer->getTextHeight("Voltar") - 10;
+    const int backOptionYPostion = Config::WINDOW_HEIGHT - Global::adaptersInstance.textRenderer->getTextHeight("Voltar") - 10;
 
     void loadScoresFromFile();
     void verifyCommands();

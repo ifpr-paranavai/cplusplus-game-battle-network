@@ -26,13 +26,14 @@ namespace Game
 
   void CardSelectorViewer::renderCardText(Card &selectedCard)
   {
-    const int textHeight = Global::adaptersInstance.renderer->getTextHeight(selectedCard.getName());
-    Global::adaptersInstance.renderer->renderText({selectedCard.getName(), this->textPosition});
-    const int textWidth = Global::adaptersInstance.renderer->getTextWidth(selectedCard.getDescription());
-    Global::adaptersInstance.renderer->renderText({selectedCard.getDescription(),
-                                                   this->textPosition + Vector{0, textHeight + 10},
-                                                   16,
-                                                   this->width});
+    auto textRenderer = Global::adaptersInstance.textRenderer;
+    const int textHeight = textRenderer->getTextHeight(selectedCard.getName());
+    textRenderer->renderText({selectedCard.getName(), this->textPosition});
+    const int textWidth = textRenderer->getTextWidth(selectedCard.getDescription());
+    textRenderer->renderText({selectedCard.getDescription(),
+                              this->textPosition + Vector{0, textHeight + 10},
+                              16,
+                              this->width});
   }
 
   void CardSelectorViewer::render(Card &selectedCard)

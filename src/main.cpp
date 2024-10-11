@@ -7,6 +7,7 @@
 #include "adapters/sdl/renderer/renderer.h"
 #include "adapters/sdl/time-manager/time-manager.h"
 #include "adapters/sdl/audio-manager/audio-manager.h"
+#include "adapters/sdl/text-renderer/text-renderer.h"
 #include "domain/global/global-services/global-services.h"
 
 int main(int argc, char *argv[])
@@ -16,6 +17,7 @@ int main(int argc, char *argv[])
   Game::Global::adaptersInstance.keyboardManager = new Game::SDLKeyboardManagerAdapter();
   Game::Global::adaptersInstance.timeManager = new Game::SDLTimeManagerAdapter();
   Game::Global::adaptersInstance.audioManager = new Game::SDLAudioManagerAdapter();
+  Game::Global::adaptersInstance.textRenderer = new Game::SDLTextRendererAdapter();
   Game::Global::initializeGlobalServices();
 
   Game::GameEngine gameEngine;
@@ -26,6 +28,7 @@ int main(int argc, char *argv[])
   delete Game::Global::adaptersInstance.keyboardManager;
   delete Game::Global::adaptersInstance.timeManager;
   delete Game::Global::adaptersInstance.audioManager;
+  delete Game::Global::adaptersInstance.textRenderer;
   Game::Global::cleanupGlobalServices();
 
   return EXIT_SUCCESS;

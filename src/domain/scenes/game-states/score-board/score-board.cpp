@@ -32,7 +32,7 @@ namespace Game
     for (const auto &score : this->scores)
     {
       auto scoreStr = score.getCreatedAt() + " - " + score.getPlayerName() + " - " + score.getElapsedTime();
-      Global::adaptersInstance.renderer->renderText({scoreStr, {0, 0}});
+      Global::adaptersInstance.textRenderer->renderText({scoreStr, {0, 0}});
     }
     this->backOption.render(this->backOptionYPostion, true);
   }

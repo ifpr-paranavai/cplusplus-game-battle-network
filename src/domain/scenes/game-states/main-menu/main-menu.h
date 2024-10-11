@@ -56,8 +56,8 @@ namespace Game
     const int topPadding = 100;
     const int spacing = 50;
     const std::string_view title = "Main Menu";
-    const int titleWidth = Global::adaptersInstance.renderer->getTextWidth(this->title);
-    const int textHeight = Global::adaptersInstance.renderer->getTextHeight(this->title);
+    const int titleWidth = Global::adaptersInstance.textRenderer->getTextWidth(this->title);
+    const int textHeight = Global::adaptersInstance.textRenderer->getTextHeight(this->title);
     const Vector titlePostion = {Config::WINDOW_WIDTH / 2 - titleWidth / 2, 100};
     std::array<MenuOption, 4> options = {
         MenuOption("Iniciar", new StartGameHandler()),

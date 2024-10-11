@@ -28,7 +28,7 @@ namespace Game
       {
         renderTextData.color = Styles::Colors::SELECTED_COLOR;
       }
-      Global::adaptersInstance.renderer->renderText(renderTextData);
+      Global::adaptersInstance.textRenderer->renderText(renderTextData);
     }
   };
 

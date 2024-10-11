@@ -92,8 +92,9 @@ namespace Game
   void Arena::renderPlayerLife()
   {
     const std::string lifeStr = std::to_string(this->player->getLife());
-    const int textHeight = Global::adaptersInstance.renderer->getTextHeight(lifeStr);
-    const int textWidth = Global::adaptersInstance.renderer->getTextWidth(lifeStr);
+    auto textRenderer = Global::adaptersInstance.textRenderer;
+    const int textHeight = textRenderer->getTextHeight(lifeStr);
+    const int textWidth = textRenderer->getTextWidth(lifeStr);
 
     Global::adaptersInstance.renderer->renderBorder({
         {10, 10},
@@ -101,7 +102,7 @@ namespace Game
         textHeight + 10.0f,
         Color{0, 0, 0, 255},
     });
-    Global::adaptersInstance.renderer->renderText({lifeStr, {10 + 100 - textWidth, 15}});
+    textRenderer->renderText({lifeStr, {10 + 100 - textWidth, 15}});
   }
 
   void Arena::renderPlayerPoints()
@@ -109,9 +110,10 @@ namespace Game
     // const std::string pointsStr = std::to_string(this->playerPoints) + " PTS";
     // Global::adaptersInstance.renderer->renderText({pointsStr, {Config::WINDOW_WIDTH - textWidth - 10, 10}});
     const float elapsedTime = Global::adaptersInstance.timeManager->getElapsedTime();
+    auto textRenderer = Global::adaptersInstance.textRenderer;
     const std::string elapsedTimeStr = std::to_string(int(elapsedTime / 60)) + " " + std::to_string(int(elapsedTime) % 60);
-    const int textWidth = Global::adaptersInstance.renderer->getTextWidth(elapsedTimeStr);
-    Global::adaptersInstance.renderer->renderText({elapsedTimeStr, {Config::WINDOW_WIDTH - textWidth - 10, 10}});
+    const int textWidth = textRenderer->getTextWidth(elapsedTimeStr);
+    textRenderer->renderText({elapsedTimeStr, {Config::WINDOW_WIDTH - textWidth - 10, 10}});
   }
 
   void Arena::renderAttacks()
@@ -174,10 +176,10 @@ namespace Game
       this->renderRunningMode();
       break;
     case ArenaMode::VICTORY:
-      Global::adaptersInstance.renderer->renderText({"VICTORY", {100, 100}});
+      Global::adaptersInstance.textRenderer->renderText({"VICTORY", {100, 100}});
       break;
     case ArenaMode::GAME_OVER:
-      Global::adaptersInstance.renderer->renderText({"GAME OVER", {100, 100}});
+      Global::adaptersInstance.textRenderer->renderText({"GAME OVER", {100, 100}});
       break;
     case ArenaMode::CARD_SELECTOR_OPENED:
       this->cardSelector.update();

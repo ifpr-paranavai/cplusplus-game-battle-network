@@ -121,6 +121,6 @@ namespace Game
   {
     Character::render();
     const Vector textPosition = {this->position.x, this->position.y + this->height + 5};
-    Global::adaptersInstance.renderer->renderText({std::to_string(this->life), textPosition});
+    Global::adaptersInstance.textRenderer->renderText({std::to_string(this->life), textPosition});
   }
 }
