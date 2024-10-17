@@ -22,13 +22,13 @@ namespace Game
     const Vector textPosition;
     const Vector viewerPosition;
 
-    void renderCardViewer(Card &selectedCard);
-    void renderCardText(Card &selectedCard);
+    void renderCardViewer(const Card &selectedCard) const;
+    void renderCardText(const Card &selectedCard) const;
 
   public:
     CardSelectorViewer(const CardSelectorViewerConfig config);
 
-    void render(Card &selectedCard);
+    void render(const Card &selectedCard) const;
     void resizeCardsSprites(std::vector<Card> &cards);
   };
 };

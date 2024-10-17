@@ -23,7 +23,7 @@ namespace Game
   public:
     CardSelectorCardsList(const CardSelectorCardsListConfig config);
 
-    void render(std::vector<Card> cards, const int selectIndex);
+    void render(std::vector<Card> cards, const int selectIndex) const;
     void resizeCardsIcons(std::vector<Card> &cards);
   };
 }

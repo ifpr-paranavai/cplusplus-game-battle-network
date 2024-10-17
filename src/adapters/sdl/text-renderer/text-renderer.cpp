@@ -2,6 +2,7 @@
 
 namespace Game
 {
+
   SDLTextRendererAdapter::SDLTextRendererAdapter()
   {
     if (TTF_Init() == -1)
@@ -27,31 +28,39 @@ namespace Game
     }
   }
 
-  int SDLTextRendererAdapter::getTextHeight(std::string_view text)
-  {
-    int textWidth, textHeight;
-    if (TTF_SizeText(this->font, text.data(), &textWidth, &textHeight) != 0)
-    {
-      SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "TTF_SizeText failed: %s", TTF_GetError());
-      throw std::runtime_error(TTF_GetError());
-    }
-    return textHeight;
-  }
-
   SDL_Renderer *SDLTextRendererAdapter::getRenderer()
   {
     SDLRendererAdapter *rendererAdapter = static_cast<Game::SDLRendererAdapter *>(Global::adaptersInstance.renderer);
     return rendererAdapter->getRenderer();
   }
 
-  int SDLTextRendererAdapter::getTextWidth(std::string_view text)
+  void SDLTextRendererAdapter::setFontSize(int fontSize)
   {
-    int textWidth, textHeight;
-    if (TTF_SizeText(this->font, text.data(), &textWidth, &textHeight) != 0)
+    TTF_SetFontSize(this->font, fontSize);
+  }
+
+  int SDLTextRendererAdapter::getTextDimensions(std::string_view text, std::optional<int> fontSize, int *textWidth, int *textHeight)
+  {
+    this->setFontSize(fontSize ? *fontSize : this->defaultFontSize);
+    if (TTF_SizeText(this->font, text.data(), textWidth, textHeight) != 0)
     {
       SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "TTF_SizeText failed: %s", TTF_GetError());
       throw std::runtime_error(TTF_GetError());
     }
+    return 0; // Retorna 0 se bem sucedido
+  }
+
+  int SDLTextRendererAdapter::getTextHeight(std::string_view text, std::optional<int> fontSize)
+  {
+    int textWidth, textHeight;
+    this->getTextDimensions(text, fontSize, &textWidth, &textHeight);
+    return textHeight;
+  }
+
+  int SDLTextRendererAdapter::getTextWidth(std::string_view text, std::optional<int> fontSize)
+  {
+    int textWidth, textHeight;
+    this->getTextDimensions(text, fontSize, &textWidth, &textHeight);
     return textWidth;
   }
 
@@ -66,14 +75,7 @@ namespace Game
       textColor = {renderTextData.color->r, renderTextData.color->g, renderTextData.color->b, 255};
     }
 
-    if (renderTextData.fontSize)
-    {
-      TTF_SetFontSize(this->font, *renderTextData.fontSize);
-    }
-    else
-    {
-      TTF_SetFontSize(this->font, this->defaultFontSize);
-    }
+    this->setFontSize(renderTextData.fontSize ? *renderTextData.fontSize : this->defaultFontSize);
 
     SDL_Surface *textSurface = TTF_RenderUTF8_Blended_Wrapped(
         this->font,

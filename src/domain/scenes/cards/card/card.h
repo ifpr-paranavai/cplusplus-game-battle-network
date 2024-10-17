@@ -23,8 +23,8 @@ namespace Game
       Sprite iconSprite;
     };
 
-    std::string_view name;
-    std::string_view description;
+    std::string name;
+    std::string description;
     WeaponFactory *weaponFactory = nullptr;
     Sprite iconSprite;
     Sprite cardSprite;
@@ -32,24 +32,36 @@ namespace Game
   public:
     Card(const CardConfig cardConfig);
 
-    std::string_view getName() const
+    std::string getName() const
     {
       return this->name;
     }
 
-    std::string_view getDescription() const
+    std::string getDescription() const
     {
       return this->description;
     }
 
-    Sprite &getIconSprite()
+    const Sprite &getIconSprite() const
     {
       return this->iconSprite;
     }
 
-    Sprite &getCardSprite()
+    const Sprite &getCardSprite() const
     {
       return this->cardSprite;
+    }
+
+    void setSpriteSize(const float width, const float height)
+    {
+      this->cardSprite.setWidth(width);
+      this->cardSprite.setHeight(height);
+    }
+
+    void setIconSpriteSize(const float width, const float height)
+    {
+      this->iconSprite.setWidth(width);
+      this->iconSprite.setHeight(height);
     }
 
     Weapon *createWeapon(const ChildWeaponConfig &weaponConfig) const

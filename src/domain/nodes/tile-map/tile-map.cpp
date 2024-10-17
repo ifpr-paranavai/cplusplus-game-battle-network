@@ -19,7 +19,7 @@ namespace Game
         }
     }
 
-    void TileMap::render()
+    void TileMap::render() const
     {
         for (const Tile &tile : this->tiles)
         {

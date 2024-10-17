@@ -31,6 +31,7 @@ namespace Game
 
   public:
     ScoreBoard();
-    void render() override;
+    void update() override;
+    void render() const override;
   };
 }

@@ -46,7 +46,7 @@ namespace Game
   public:
     void next(const int &value) override
     {
-      Global::gameStateService->pushGameState(new ScoreRegister());
+      Global::gameStateService->pushGameState(new ScoreRegister(1000.0f));
     }
   };
 
@@ -55,7 +55,7 @@ namespace Game
   private:
     const int topPadding = 100;
     const int spacing = 50;
-    const std::string_view title = "Main Menu";
+    const std::string title = "Main Menu";
     const int titleWidth = Global::adaptersInstance.textRenderer->getTextWidth(this->title);
     const int textHeight = Global::adaptersInstance.textRenderer->getTextHeight(this->title);
     const Vector titlePostion = {Config::WINDOW_WIDTH / 2 - titleWidth / 2, 100};
@@ -70,6 +70,7 @@ namespace Game
     void clickOnSelectedOption();
 
   public:
-    void render() override;
+    void update() override;
+    void render() const override;
   };
 }

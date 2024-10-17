@@ -20,7 +20,9 @@ namespace Game
                 Vector(0, 0)})};
 
   public:
-    virtual void render()
+    virtual void update() = 0;
+
+    virtual void render() const
     {
       for (const auto bg : this->backgroundSprites)
       {

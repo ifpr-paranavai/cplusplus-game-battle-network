@@ -9,7 +9,7 @@ namespace Game
         cardSize(config.width / 5 - 20),
         initialCardPosition(config.position + Vector{10, 10}) {}
 
-  void CardSelectorCardsList::render(std::vector<Card> cards, const int selectIndex)
+  void CardSelectorCardsList::render(std::vector<Card> cards, const int selectIndex) const
   {
     for (size_t i = 0; i < cards.size(); i++)
     {
@@ -28,10 +28,9 @@ namespace Game
   {
     for (auto &card : cards)
     {
-      Sprite &iconSprite = card.getIconSprite();
+      auto &iconSprite = card.getIconSprite();
       const float scale = this->cardSize / iconSprite.getWidth();
-      iconSprite.setWidth(this->cardSize);
-      iconSprite.setHeight(iconSprite.getHeight() * scale);
+      card.setIconSpriteSize(this->cardSize, iconSprite.getHeight() * scale);
     }
   }
 }

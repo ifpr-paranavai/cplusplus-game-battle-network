@@ -14,6 +14,8 @@
 #include "../../card-selector-delay-bar/card-selector-delay-bar.h"
 #include "../../../nodes/game-state/game-state.h"
 #include "../../../dto/score/score.h"
+#include "../../../../utils/time/time.h"
+#include "../score-register/score-register.h"
 
 namespace Game
 {
@@ -21,23 +23,7 @@ namespace Game
   {
     VICTORY,
     GAME_OVER,
-    RUNNING,
-    CARD_SELECTOR_OPENED
-  };
-
-  class SaveScoreHandler : public Observer<int>
-  {
-  public:
-    void next(const int &value) override
-    {
-      const float elapsedTime = Global::adaptersInstance.timeManager->getElapsedTime();
-      const std::string elapsedTimeStr = std::to_string(int(elapsedTime / 60)) + " " + std::to_string(int(elapsedTime) % 60);
-      Score score(
-          "10/10/2024",
-          "AAA",
-          elapsedTimeStr);
-      Global::fileService->saveToBinaryFile("score_board", {score.toFileData()});
-    }
+    RUNNING
   };
 
   class Arena : public GameState
@@ -53,7 +39,8 @@ namespace Game
 
       void next(const int &value) override
       {
-        this->arena.arenaMode = ArenaMode::VICTORY;
+        const float playedTime = Global::adaptersInstance.timeManager->getElapsedTime() - arena.arenaStartedAt;
+        Global::gameStateService->replace(new ScoreRegister(playedTime));
       }
     };
 
@@ -99,7 +86,7 @@ namespace Game
       {
         this->arena.cardSelectorDelayBar.resetTimer();
         this->arena.canOpenCardSelector = false;
-        this->arena.arenaMode = ArenaMode::RUNNING;
+        Global::gameStateService->popGameState();
       }
     };
 
@@ -118,6 +105,7 @@ namespace Game
     };
 
     const Music music = Global::adaptersInstance.audioManager->initMusic("assets/music/battle-music.mp3");
+    const float arenaStartedAt = Global::adaptersInstance.timeManager->getElapsedTime();
     ArenaMode arenaMode = ArenaMode::RUNNING;
     Player *player;
     TileMap tileMap;
@@ -129,34 +117,23 @@ namespace Game
     CloseCardSelectorDelayHandler closeCardSelectorDelayHandler = CloseCardSelectorDelayHandler(*this);
     PointsIncrementHandler pointsIncrementHandler = PointsIncrementHandler(*this);
     std::list<Character *> characters;
-    const std::array<Sprite, 2> backgroundSprites = {
-        Sprite({Config::WINDOW_WIDTH,
-                Config::WINDOW_HEIGHT,
-                "assets/sprites/background/bg.png",
-                false,
-                Vector(0, 0)}),
-        Sprite({Config::WINDOW_WIDTH,
-                Config::WINDOW_HEIGHT,
-                "assets/sprites/background/clouds.png",
-                false,
-                Vector(0, 0)})};
     bool canOpenCardSelector = false;
     int playerPoints = 0;
 
     void createEnemies();
-    void renderAttacks();
     void updateAttacks();
     void updateAnimations();
-    void renderPlayerLife();
-    void renderPlayerPoints();
-    void renderBackground();
-    void renderRunningMode();
     void checkKeyboard();
+    void renderAttacks() const;
+    void renderPlayerLife() const;
+    void renderPlayedTime() const;
+    void renderRunningMode() const;
 
   public:
     Arena();
     ~Arena();
-    void render() override;
+    void update() override;
+    void render() const override;
     void setPlayer(Player *_player);
   };
 }

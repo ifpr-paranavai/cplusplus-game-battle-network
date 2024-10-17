@@ -25,9 +25,13 @@ namespace Game
     }
   }
 
-  void ScoreBoard::render()
+  void ScoreBoard::update()
   {
     this->verifyCommands();
+  }
+
+  void ScoreBoard::render() const
+  {
     GameState::render();
     for (const auto &score : this->scores)
     {

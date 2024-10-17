@@ -19,6 +19,8 @@ namespace Game
     {
       delete character;
     }
+
+    Global::adaptersInstance.audioManager->freeMusic(this->music);
   }
 
   void Arena::createEnemies()
@@ -28,7 +30,6 @@ namespace Game
     enemy->setTileXLimit({static_cast<float>(6 - this->tileMap.getEnemyColumnTilesCount()), 5});
     enemy->setTileYLimit({0, static_cast<float>(this->tileMap.getTilesRowsCount() - 1)});
     enemy->subscribeToDeath(&this->victoryHandler);
-    enemy->subscribeToDeath(new SaveScoreHandler());
     enemy->subscribeToOnCollide(&this->pointsIncrementHandler);
     this->characters.push_back(enemy);
   }
@@ -81,15 +82,7 @@ namespace Game
     Global::animationService->updateAnimatedSprites();
   }
 
-  void Arena::renderBackground()
-  {
-    for (const Sprite &bgSprite : this->backgroundSprites)
-    {
-      bgSprite.renderSprite(Vector(0, 0));
-    }
-  }
-
-  void Arena::renderPlayerLife()
+  void Arena::renderPlayerLife() const
   {
     const std::string lifeStr = std::to_string(this->player->getLife());
     auto textRenderer = Global::adaptersInstance.textRenderer;
@@ -105,18 +98,16 @@ namespace Game
     textRenderer->renderText({lifeStr, {10 + 100 - textWidth, 15}});
   }
 
-  void Arena::renderPlayerPoints()
+  void Arena::renderPlayedTime() const
   {
-    // const std::string pointsStr = std::to_string(this->playerPoints) + " PTS";
-    // Global::adaptersInstance.renderer->renderText({pointsStr, {Config::WINDOW_WIDTH - textWidth - 10, 10}});
-    const float elapsedTime = Global::adaptersInstance.timeManager->getElapsedTime();
+    const float playedTime = Global::adaptersInstance.timeManager->getElapsedTime() - this->arenaStartedAt;
     auto textRenderer = Global::adaptersInstance.textRenderer;
-    const std::string elapsedTimeStr = std::to_string(int(elapsedTime / 60)) + " " + std::to_string(int(elapsedTime) % 60);
-    const int textWidth = textRenderer->getTextWidth(elapsedTimeStr);
-    textRenderer->renderText({elapsedTimeStr, {Config::WINDOW_WIDTH - textWidth - 10, 10}});
+    const auto playedTimeStr = TimeUtil::formatElapsedTime(playedTime);
+    const int textWidth = textRenderer->getTextWidth(playedTimeStr);
+    textRenderer->renderText({playedTimeStr, {Config::WINDOW_WIDTH - textWidth - 10, 10}});
   }
 
-  void Arena::renderAttacks()
+  void Arena::renderAttacks() const
   {
 
     for (const auto &projectile : Global::attacksService->getDynamicAttacks())
@@ -130,21 +121,12 @@ namespace Game
     }
   }
 
-  void Arena::renderRunningMode()
+  void Arena::renderRunningMode() const
   {
-    for (Character *character : this->characters)
-    {
-      character->update();
-    }
-
-    this->updateAttacks();
-    this->updateAnimations();
-    this->cardSelectorDelayBar.update();
-
-    this->renderBackground();
+    GameState::render();
     this->tileMap.render();
     this->renderPlayerLife();
-    this->renderPlayerPoints();
+    this->renderPlayedTime();
     this->cardSelectorDelayBar.render();
 
     for (Character *character : this->characters)
@@ -153,7 +135,7 @@ namespace Game
     }
 
     this->renderAttacks();
-    Global::attacksService->removeExpiredAttacks();
+    Global::attacksService->removeExpiredAttacks(); // TODO: Verify correct location of this method
   }
 
   void Arena::checkKeyboard()
@@ -163,13 +145,29 @@ namespace Game
         this->canOpenCardSelector &&
         Global::adaptersInstance.keyboardManager->isKeyPressed(KeyCode::Z))
     {
-      this->arenaMode = ArenaMode::CARD_SELECTOR_OPENED;
+      Global::gameStateService->pushGameState(&this->cardSelector);
     }
   }
 
-  void Arena::render()
+  void Arena::update()
   {
     this->checkKeyboard();
+
+    if (this->arenaMode == ArenaMode::RUNNING)
+    {
+      for (Character *character : this->characters)
+      {
+        character->update();
+      }
+
+      this->updateAttacks();
+      this->updateAnimations();
+      this->cardSelectorDelayBar.update();
+    }
+  }
+
+  void Arena::render() const
+  {
     switch (this->arenaMode)
     {
     case ArenaMode::RUNNING:
@@ -180,10 +178,6 @@ namespace Game
       break;
     case ArenaMode::GAME_OVER:
       Global::adaptersInstance.textRenderer->renderText({"GAME OVER", {100, 100}});
-      break;
-    case ArenaMode::CARD_SELECTOR_OPENED:
-      this->cardSelector.update();
-      this->cardSelector.render();
       break;
     }
   }

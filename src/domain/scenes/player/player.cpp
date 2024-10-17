@@ -77,7 +77,6 @@ namespace Game
 
   void Player::onCollision(Element *other)
   {
-    std::cout << "onCollision" << std::endl;
     if (dynamic_cast<Projectile *>(other) || this->invencible || this->life <= 0)
     {
       return;

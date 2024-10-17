@@ -1,26 +1,75 @@
 #pragma once
 #include <string>
+#include <vector>
 #include "../../../nodes/game-state/game-state.h"
 #include "../../../../utils/global-adapters/global-adapters.h"
 #include "../../../../config/config.h"
 #include "../../../dto/vector/vector.h"
 #include "../../../styles/colors.h"
+#include "../../../nodes/sprite/sprite.h"
+#include "../../../../utils/time/time.h"
 
 namespace Game
 {
   class ScoreRegister : public GameState
   {
   private:
+    static constexpr int fontSize = 40;
+    static constexpr int spaceBetweenElements = 10;
+
+    std::array<std::string, 3> playerNameLetters = {"A", "A", "A"};
+    const std::string registerText = "Salvar";
+    const std::string title = "Parabéns, você venceu!";
+    const int letterHeight = Global::adaptersInstance.textRenderer->getTextHeight("A", this->fontSize);
+    const int letterWidth = Global::adaptersInstance.textRenderer->getTextWidth("A", this->fontSize);
+    const int qtdNameLetters = sizeof(this->playerNameLetters) / sizeof(this->playerNameLetters[0]);
+    const int maxIndex = qtdNameLetters;
+    const int letterYPosition = Config::WINDOW_HEIGHT / 2 - this->letterHeight / 2;
+    const int registerTextWidth = Global::adaptersInstance.textRenderer->getTextWidth(this->registerText, this->fontSize);
+    const int totalWidth = this->registerTextWidth + this->letterWidth * 3 + this->spaceBetweenElements;
+    const int initialXPosition = (Config::WINDOW_WIDTH - totalWidth) / 2;
+    const int topTrianglePosition = this->letterYPosition - this->letterWidth - this->spaceBetweenElements;
+    const int bottomTrianglePosition = this->letterYPosition + this->letterHeight + this->spaceBetweenElements;
+    const int playedTimeTopPosition = this->topTrianglePosition - this->spaceBetweenElements - this->letterHeight;
+    const float playedTime;
+    const std::string congratulationsText = "Parabéns, você venceu!";
+    const RenderTextData congratulationsTextData = {
+        this->congratulationsText,
+        {Config::WINDOW_WIDTH / 2 - Global::adaptersInstance.textRenderer->getTextWidth(this->congratulationsText) / 2,
+         this->playedTimeTopPosition - this->spaceBetweenElements - this->letterHeight},
+        this->fontSize};
+    RenderTextData playedTimeTextData;
+
+    int selectedLetterIndex = 0;
+    Sprite triagleSprite = Sprite({this->letterWidth + 0.0f,
+                                   this->letterWidth + 0.0f,
+                                   "assets/sprites/misc/triangle.png",
+                                   false,
+                                   Vector(0, 0)});
+    std::vector<int> letterXPositions;
+    RenderTextData registerBtnTextData = {
+        this->registerText,
+        {this->calcXPositionByLetterIndex(this->maxIndex), this->letterYPosition},
+        this->fontSize};
+
+    void initPlayedTimeTextData();
     void verifyCommands();
-    void renderForm();
+    void incrementLetter();
+    void decrementLetter();
+    void renderPlayedTime() const;
+    void renderTriangles() const;
+    void renderPlayerName() const;
+    void renderCreateBtn() const;
+
+    int calcXPositionByLetterIndex(const int index) const
+    {
+      return this->initialXPosition + (this->letterWidth + this->spaceBetweenElements) * index;
+    }
 
   public:
-    int selectedLetterIndex = 0;
-    char playerNameLetters[3] = {'A', 'A', 'A'};
-    const int letterYPosition = Config::WINDOW_HEIGHT / 2 - Global::adaptersInstance.textRenderer->getTextHeight("A") / 2;
-    const int letterWidth = Global::adaptersInstance.textRenderer->getTextWidth("A");
-    const int initialLetterXPosition = Config::WINDOW_WIDTH / 2 - this->letterWidth / 2 - this->letterWidth;
+    ScoreRegister(const float _playedTime);
 
-    void render() override;
+    void update() override;
+    void render() const override;
   };
 }

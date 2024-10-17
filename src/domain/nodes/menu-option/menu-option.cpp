@@ -2,7 +2,7 @@
 
 namespace Game
 {
-  void MenuOption::render(const int yPosition, const bool isSelected)
+  void MenuOption::render(const int yPosition, const bool isSelected) const
   {
     auto textRenderer = Global::adaptersInstance.textRenderer;
     const int textWidth = textRenderer->getTextWidth(this->text);

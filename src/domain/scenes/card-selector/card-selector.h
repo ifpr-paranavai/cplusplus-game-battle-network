@@ -10,9 +10,11 @@
 #include "../cards/sniper-card/sniper-card.h" // TODO: remover daqui
 #include "./card-selector-viewer/card-selector-viewer.h"
 #include "./card-selector-cards-list/card-selector-cards-list.h"
+#include "../../nodes/game-state/game-state.h"
+
 namespace Game
 {
-  class CardSelector
+  class CardSelector : public GameState
   {
   private:
     const float insideContainersPadding = 10;
@@ -33,12 +35,12 @@ namespace Game
          this->insideContainerWidth,
          this->insideContainerHeight});
 
-    void renderContainer();
+    void renderContainer() const;
 
   public:
     CardSelector();
-    void render();
-    void update();
+    void update() override;
+    void render() const override;
 
     void subscribeToOnSelectCard(Observer<Card> *observer)
     {

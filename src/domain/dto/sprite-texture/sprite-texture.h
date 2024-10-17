@@ -9,5 +9,6 @@ namespace Game
         float width;
         float height;
         bool flipHorizontally;
+        bool flipVertically = false;
     };
 }

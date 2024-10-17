@@ -11,7 +11,7 @@ namespace Game
     this->cardSelectorCardsList.resizeCardsIcons(this->cards);
   }
 
-  void CardSelector::renderContainer()
+  void CardSelector::renderContainer() const
   {
     Global::adaptersInstance.renderer->renderElement({{0, 0},
                                                       this->containerWidth,
@@ -43,7 +43,7 @@ namespace Game
     }
   }
 
-  void CardSelector::render()
+  void CardSelector::render() const
   {
     this->renderContainer();
     this->cardSelectorViewer.render(this->cards[this->selectIndex]);

@@ -91,7 +91,21 @@ namespace Game
         static_cast<int>(position.y),
         static_cast<int>(spriteTexture.width),
         static_cast<int>(spriteTexture.height)};
-    SDL_RendererFlip flip = spriteTexture.flipHorizontally ? SDL_FLIP_HORIZONTAL : SDL_FLIP_NONE;
+    SDL_RendererFlip flip;
+
+    if (spriteTexture.flipVertically)
+    {
+      flip = SDL_FLIP_VERTICAL;
+    }
+    else if (spriteTexture.flipHorizontally)
+    {
+      flip = SDL_FLIP_HORIZONTAL;
+    }
+    else
+    {
+      flip = SDL_FLIP_NONE;
+    }
+
     SDL_RenderCopyEx(this->getRenderer(), texture, nullptr, &dstRect, 0, nullptr, flip);
   }
 
