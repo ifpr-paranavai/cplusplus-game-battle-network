@@ -22,7 +22,7 @@ namespace Game
       this->onClick.subscribe(onClick);
     };
 
-    void render(const int yPosition, const bool isSelected);
+    void render(const int yPosition, const bool isSelected) const;
 
     void click()
     {

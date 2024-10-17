@@ -18,7 +18,7 @@ namespace Game
     }
   }
 
-  void CardSelectorDelayBar::render()
+  void CardSelectorDelayBar::render() const
   {
     Global::adaptersInstance.renderer->renderBorder({this->barPosition,
                                                      this->barWidth,

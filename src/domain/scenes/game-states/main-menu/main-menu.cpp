@@ -24,10 +24,14 @@ namespace Game
     this->options.at(this->selectedOptionIndex).click();
   }
 
-  void MainMenu::render()
+  void MainMenu::update()
+  {
+    this->verifyComands();
+  }
+
+  void MainMenu::render() const
   {
     GameState::render();
-    this->verifyComands();
 
     Global::adaptersInstance.textRenderer->renderText({this->title, this->titlePostion});
 

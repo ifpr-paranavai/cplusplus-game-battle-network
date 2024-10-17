@@ -28,9 +28,14 @@ namespace Game
   public:
     Sprite(const SpriteConfig &spriteConfig);
 
-    void renderSprite(const Vector elementPosition) const
+    void renderSprite(const Vector elementPosition, std::optional<bool> flipVertically = std::nullopt) const
     {
-      Global::adaptersInstance.renderer->renderSprite(this->spriteTexture, elementPosition + this->relativePosition);
+      auto spriteTexture = this->spriteTexture;
+      if (flipVertically.has_value() && flipVertically.value())
+      {
+        spriteTexture.flipVertically = true;
+      }
+      Global::adaptersInstance.renderer->renderSprite(spriteTexture, elementPosition + this->relativePosition);
     }
 
     void setRelativePosition(const Vector relativePosition)
@@ -48,12 +53,12 @@ namespace Game
       this->spriteTexture.height = height;
     }
 
-    float getWidth()
+    float getWidth() const
     {
       return this->spriteTexture.width;
     }
 
-    float getHeight()
+    float getHeight() const
     {
       return this->spriteTexture.height;
     }

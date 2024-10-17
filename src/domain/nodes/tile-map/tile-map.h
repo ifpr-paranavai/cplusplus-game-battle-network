@@ -27,7 +27,7 @@ namespace Game
         static Vector getElementPositionInTile(Vector tilePosition, int elementWidth, int elementHeight);
 
         void init();
-        void render();
+        void render() const;
         int getPlayerColumnTilesCount();
         int getEnemyColumnTilesCount();
         int getTilesRowsCount();

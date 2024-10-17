@@ -13,13 +13,15 @@ namespace Game
     const int defaultFontSize = 26;
 
     SDL_Renderer *getRenderer();
+    void setFontSize(const int fontSize);
+    int getTextDimensions(std::string_view text, std::optional<int> fontSize, int *textWidth, int *textHeight);
 
   public:
     SDLTextRendererAdapter();
     ~SDLTextRendererAdapter();
 
-    int getTextHeight(std::string_view text) override;
-    int getTextWidth(std::string_view text) override;
+    int getTextHeight(std::string_view text, std::optional<int> fontSize = std::nullopt) override;
+    int getTextWidth(std::string_view text, std::optional<int> fontSize = std::nullopt) override;
     void renderText(const RenderTextData &renderTextData) override;
   };
 }
