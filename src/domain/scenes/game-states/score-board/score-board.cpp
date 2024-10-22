@@ -6,22 +6,58 @@ namespace Game
   ScoreBoard::ScoreBoard()
   {
     this->loadScoresFromFile();
+    this->sortScores();
+    this->calcScoreLineXPosition();
+  }
+
+  void ScoreBoard::sortScores()
+  {
+    std::sort(scores.begin(), scores.end(), 
+                      [](Score* a, Score* b) {
+                          return TimeUtil::formatedElapsedTimeToInt(a->getElapsedTime()) < 
+                                 TimeUtil::formatedElapsedTimeToInt(b->getElapsedTime());
+                      });
   }
 
   void ScoreBoard::loadScoresFromFile()
   {
     const auto fileDataScores = Global::fileService->loadFromBinaryFile("score_board");
+    this->scores.reserve(fileDataScores.size());
     for (const auto &fileDataScore : fileDataScores)
     {
-      this->scores.push_back(Score::fromFileData(fileDataScore));
+      scores.push_back(new Score(Score::fromFileData(fileDataScore)));
     }
+  }
+
+  void ScoreBoard::calcScoreLineXPosition()
+  {
+    if (this->scores.size() == 0)
+    {
+      return;
+    }
+
+    this->scoreLineXPosition = (Config::WINDOW_WIDTH / 2) - (Global::adaptersInstance.textRenderer->getTextWidth(this->getScoreLine(this->scores[0])) / 2);
   }
 
   void ScoreBoard::verifyCommands()
   {
     if (Global::adaptersInstance.keyboardManager->isKeyPressed(KeyCode::ENTER))
     {
-      this->backOption.click();
+        this->backOption.click();
+    }
+  }
+
+  std::string ScoreBoard::getScoreLine(const Score* score) const
+  {
+    return score->getCreatedAt() + " - " + score->getPlayerName() + " - " + score->getElapsedTime();
+  }
+
+  void ScoreBoard::renderScores() const
+  {
+    for (size_t i = 0; i < this->scoresPerPage && i < this->scores.size(); ++i)
+    {
+        auto &score = this->scores[i];
+        Global::adaptersInstance.textRenderer->renderText({this->getScoreLine(score), {this->scoreLineXPosition, (this->spaceBetweenElements * (i + 1))}});
     }
   }
 
@@ -33,11 +69,7 @@ namespace Game
   void ScoreBoard::render() const
   {
     GameState::render();
-    for (const auto &score : this->scores)
-    {
-      auto scoreStr = score.getCreatedAt() + " - " + score.getPlayerName() + " - " + score.getElapsedTime();
-      Global::adaptersInstance.textRenderer->renderText({scoreStr, {0, 0}});
-    }
+    this->renderScores();
     this->backOption.render(this->backOptionYPostion, true);
   }
 }

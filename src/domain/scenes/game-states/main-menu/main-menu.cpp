@@ -2,6 +2,14 @@
 
 namespace Game
 {
+  MainMenu::MainMenu()
+  {
+    if (Config::DEBUG)
+    {
+      this->options.push_back(MenuOption("Registrar Pontuação", new OpenScoreRegisterHandler()));
+    }
+  }
+
   void MainMenu::verifyComands()
   {
     const auto &keyboardManager = Global::adaptersInstance.keyboardManager;

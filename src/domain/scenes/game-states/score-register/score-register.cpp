@@ -1,4 +1,5 @@
 #include "score-register.h"
+#include "../main-menu/main-menu.h"
 
 namespace Game
 {
@@ -45,6 +46,24 @@ namespace Game
     }
   }
 
+  std::string ScoreRegister::getPlayerName() const
+  {
+    std::string playerName;
+    for (const auto& letter : this->playerNameLetters) {
+        playerName += letter;
+    }
+    return playerName;
+  }
+
+  void ScoreRegister::saveScore()
+  {
+    Score score(DateUtil::getCurrentDateTime(), this->getPlayerName(), TimeUtil::formatElapsedTime(this->playedTime));
+    auto currentScores = Global::fileService->loadFromBinaryFile("score_board");
+    currentScores.push_back(score.toFileData());
+    Global::fileService->saveToBinaryFile("score_board", currentScores);
+    Global::gameStateService->replace(new MainMenu());
+  }
+
   void ScoreRegister::verifyCommands()
   {
     auto keyboardManager = Global::adaptersInstance.keyboardManager;
@@ -63,6 +82,9 @@ namespace Game
     else if (keyboardManager->isKeyPressed(KeyCode::ARROW_DOWN))
     {
       this->decrementLetter();
+    } else if (keyboardManager->isKeyPressed(KeyCode::ENTER))
+    {
+      this->saveScore();
     }
   }
 

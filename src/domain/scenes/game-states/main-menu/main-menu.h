@@ -1,5 +1,5 @@
 #pragma once
-#include <array>
+#include <vector>
 #include "../../../nodes/menu-option/menu-option.h"
 #include "../../../nodes/sprite/sprite.h"
 #include "../../../../config/config.h"
@@ -59,10 +59,9 @@ namespace Game
     const int titleWidth = Global::adaptersInstance.textRenderer->getTextWidth(this->title);
     const int textHeight = Global::adaptersInstance.textRenderer->getTextHeight(this->title);
     const Vector titlePostion = {Config::WINDOW_WIDTH / 2 - titleWidth / 2, 100};
-    std::array<MenuOption, 4> options = {
+    std::vector<MenuOption> options = {
         MenuOption("Iniciar", new StartGameHandler()),
-        MenuOption("Placar", new OpenScoreBoardHandler()),
-        MenuOption("Registrar Pontuação", new OpenScoreRegisterHandler()),
+        MenuOption("Placar", new OpenScoreBoardHandler()),        
         MenuOption("Sair", new QuitGameHandler())};
     int selectedOptionIndex = 0;
 
@@ -70,6 +69,7 @@ namespace Game
     void clickOnSelectedOption();
 
   public:
+    MainMenu();
     void update() override;
     void render() const override;
   };

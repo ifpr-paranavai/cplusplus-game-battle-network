@@ -47,7 +47,7 @@ namespace Game
 
       if (!file.is_open())
       {
-        throw std::runtime_error("Unable to open file: " + fileName);
+        return fileDataList;
       }
 
       size_t fileDataCount;

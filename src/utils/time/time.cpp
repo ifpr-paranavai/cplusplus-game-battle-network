@@ -17,4 +17,11 @@ namespace Game
     return formattedTime;
   }
 
+  int TimeUtil::formatedElapsedTimeToInt(const std::string& formatedElapsedTime)
+  {
+    int hours = std::stoi(formatedElapsedTime.substr(0, 2));
+    int minutes = std::stoi(formatedElapsedTime.substr(3, 2));
+    return hours * 60 + minutes;
+  }
+
 }

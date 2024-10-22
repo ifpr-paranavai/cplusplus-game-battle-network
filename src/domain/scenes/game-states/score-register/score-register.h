@@ -8,6 +8,8 @@
 #include "../../../styles/colors.h"
 #include "../../../nodes/sprite/sprite.h"
 #include "../../../../utils/time/time.h"
+#include "../../../../utils/date/date.h"
+#include "../../../dto/score/score.h"
 
 namespace Game
 {
@@ -18,8 +20,8 @@ namespace Game
     static constexpr int spaceBetweenElements = 10;
 
     std::array<std::string, 3> playerNameLetters = {"A", "A", "A"};
+    const std::string congratulationsText = "Parabéns, você venceu!";
     const std::string registerText = "Salvar";
-    const std::string title = "Parabéns, você venceu!";
     const int letterHeight = Global::adaptersInstance.textRenderer->getTextHeight("A", this->fontSize);
     const int letterWidth = Global::adaptersInstance.textRenderer->getTextWidth("A", this->fontSize);
     const int qtdNameLetters = sizeof(this->playerNameLetters) / sizeof(this->playerNameLetters[0]);
@@ -32,7 +34,6 @@ namespace Game
     const int bottomTrianglePosition = this->letterYPosition + this->letterHeight + this->spaceBetweenElements;
     const int playedTimeTopPosition = this->topTrianglePosition - this->spaceBetweenElements - this->letterHeight;
     const float playedTime;
-    const std::string congratulationsText = "Parabéns, você venceu!";
     const RenderTextData congratulationsTextData = {
         this->congratulationsText,
         {Config::WINDOW_WIDTH / 2 - Global::adaptersInstance.textRenderer->getTextWidth(this->congratulationsText) / 2,
@@ -56,6 +57,8 @@ namespace Game
     void verifyCommands();
     void incrementLetter();
     void decrementLetter();
+    void saveScore();
+    std::string getPlayerName() const;
     void renderPlayedTime() const;
     void renderTriangles() const;
     void renderPlayerName() const;

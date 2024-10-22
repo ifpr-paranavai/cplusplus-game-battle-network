@@ -9,5 +9,6 @@ namespace Game
   {
   public:
     static std::string formatElapsedTime(const float elapsedTime);
+    static int formatedElapsedTimeToInt(const std::string& formatedElapsedTime);
   };
 }
