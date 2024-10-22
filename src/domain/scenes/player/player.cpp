@@ -5,7 +5,7 @@ namespace Game
   Player::Player() : Character(96, 96)
   {
     this->queueAnimationChange(&this->idleSprite);
-    this->collisionBoxes.emplace_back(this->position, this->width, this->height);
+    this->collisionBoxes.emplace_back(this->position, this->width, 30);
     this->invencibleTimer.subscribe(&this->invencibilityHandler);
   }
 
@@ -68,7 +68,7 @@ namespace Game
     this->handleAttackWithCard();
     for (CollisionBox &collisionBox : this->collisionBoxes)
     {
-      collisionBox.setPosition(this->position);
+      collisionBox.setPosition(this->position + Vector{0, 40});
     }
     this->currentWeapon->update();
     this->invencibleTimer.update();

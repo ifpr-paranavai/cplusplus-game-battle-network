@@ -11,7 +11,7 @@ namespace Game
   class FlamethrowerAttack : public TileBasedAttack
   {
   private:
-    float increaseFlameTime = 0.75;
+    float increaseFlameTime = 0.5;
     float increaseFlameTimer = 0;
     std::list<Flame> flames;
 
