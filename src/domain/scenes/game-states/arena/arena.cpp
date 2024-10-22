@@ -12,6 +12,8 @@ namespace Game
     this->tileMap.init();
     this->createEnemies();
     this->setPlayer(new Player());
+    this->removeTutorialsTimer.subscribe(new RemoveTutorialsHandler(*this));
+    this->removeTutorialsTimer.init(5.0f);
   }
 
   Arena::~Arena()
@@ -136,7 +138,24 @@ namespace Game
     }
 
     this->renderAttacks();
+    this->renderTutorials();
     Global::attacksService->removeExpiredAttacks(); // TODO: Verify correct location of this method
+  }
+
+  void Arena::renderTutorials() const 
+  {
+    if (!this->showTutorials)
+    {
+      return;
+    }
+
+    for (int i = 0; i < this->tutorials.size(); i++)
+    {
+      const auto tutorial = this->tutorials[i];
+      const int textWidth = Global::adaptersInstance.textRenderer->getTextWidth(tutorial);
+      const int xPosition = Config::WINDOW_WIDTH / 2 - textWidth / 2;
+      Global::adaptersInstance.textRenderer->renderText({tutorial, {xPosition, this->initialTutorialYPosition + i * this->spaceBetweenTutorials}});
+    }
   }
 
   void Arena::checkKeyboard()
@@ -153,6 +172,7 @@ namespace Game
   void Arena::update()
   {
     this->checkKeyboard();
+    this->removeTutorialsTimer.update();
 
     if (this->arenaMode == ArenaMode::RUNNING)
     {

@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <list>
+#include <vector>
 #include "../../../../config/config.h"
 #include "../../player/player.h"
 #include "../../../nodes/tile-map/tile-map.h"
@@ -17,6 +18,7 @@
 #include "../../../../utils/time/time.h"
 #include "../score-register/score-register.h"
 #include "../score-board/score-board.h"
+#include "../../../../utils/timer-subject/timer-subject.h"
 
 namespace Game
 {
@@ -106,8 +108,32 @@ namespace Game
       }
     };
 
+    class RemoveTutorialsHandler : public Observer<int>
+    {
+    private:
+      Arena &arena;
+
+    public: 
+      RemoveTutorialsHandler(Arena &arena) : arena(arena) {}
+
+      void next(const int &value) override
+      {
+        arena.showTutorials = false;
+      }
+    };
+
     const Music music = Global::adaptersInstance.audioManager->initMusic("assets/music/battle-music.mp3");
     const float arenaStartedAt = Global::adaptersInstance.timeManager->getElapsedTime();
+    const int initialTutorialYPosition = Config::WINDOW_HEIGHT / 3;
+    const int textHeight = Global::adaptersInstance.textRenderer->getTextHeight("A");
+    const int spaceBetweenTutorials = 30 + textHeight;
+    const std::vector<std::string> tutorials = {
+      "X - Atirar / Selecionar",
+      "Z - Abrir menu de cartas",
+      "C - Usar Carta"
+    };
+    TimerSubject removeTutorialsTimer;
+    bool showTutorials = true;
     ArenaMode arenaMode = ArenaMode::RUNNING;
     Player *player;
     TileMap tileMap;
@@ -127,6 +153,7 @@ namespace Game
     void updateAttacks();
     void updateAnimations();
     void checkKeyboard();
+    void renderTutorials() const;
     void renderAttacks() const;
     void renderPlayerLife() const;
     void renderPlayedTime() const;
