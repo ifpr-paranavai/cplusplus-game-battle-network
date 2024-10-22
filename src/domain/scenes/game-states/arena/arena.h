@@ -16,6 +16,7 @@
 #include "../../../dto/score/score.h"
 #include "../../../../utils/time/time.h"
 #include "../score-register/score-register.h"
+#include "../score-board/score-board.h"
 
 namespace Game
 {
@@ -40,7 +41,7 @@ namespace Game
       void next(const int &value) override
       {
         const float playedTime = Global::adaptersInstance.timeManager->getElapsedTime() - arena.arenaStartedAt;
-        Global::gameStateService->replace(new ScoreRegister(playedTime));
+        Global::gameStateService->replace(new ScoreRegister(playedTime, this->arena.backHandler));
       }
     };
 
@@ -57,6 +58,7 @@ namespace Game
       {
         this->arena.arenaMode = ArenaMode::GAME_OVER;
         Global::adaptersInstance.audioManager->playMusic(this->gameOverMusic);
+        Global::gameStateService->replace(new ScoreBoard(this->arena.backHandler));
       }
     };
 
@@ -117,6 +119,7 @@ namespace Game
     CloseCardSelectorDelayHandler closeCardSelectorDelayHandler = CloseCardSelectorDelayHandler(*this);
     PointsIncrementHandler pointsIncrementHandler = PointsIncrementHandler(*this);
     std::list<Character *> characters;
+    Observer<int> *backHandler;
     bool canOpenCardSelector = false;
     int playerPoints = 0;
 
@@ -130,7 +133,7 @@ namespace Game
     void renderRunningMode() const;
 
   public:
-    Arena();
+    Arena(Observer<int> *backHandler);
     ~Arena();
     void update() override;
     void render() const override;

@@ -3,7 +3,8 @@
 
 namespace Game
 {
-  Arena::Arena()
+
+  Arena::Arena(Observer<int> *backHandler): backHandler(backHandler)
   {
     Global::adaptersInstance.audioManager->playMusic(this->music);
     this->cardSelectorDelayBar.subscribeToOnCompleteLoad(&this->unblockOpenCardSelectorHandler);

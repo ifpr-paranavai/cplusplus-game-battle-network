@@ -1,5 +1,6 @@
 #pragma once
 #include <string_view>
+#include "../../dto/sound-effect/sound-effect.h"
 #include "../../dto/vector/vector.h"
 #include "../../../utils/global-adapters/global-adapters.h"
 #include "../../../config/config.h"
@@ -13,6 +14,7 @@ namespace Game
   class MenuOption
   {
   private:
+    const SoundEffect selectSFX = Global::adaptersInstance.audioManager->initSoundEffect("assets/sounds/select.wav");
     const std::string_view text;
     Subject<int> onClick;
 
@@ -26,6 +28,7 @@ namespace Game
 
     void click()
     {
+      Global::adaptersInstance.audioManager->playWavSoundEffect(this->selectSFX);
       this->onClick.next(0);
     }
 

@@ -1,9 +1,9 @@
 #include "score-register.h"
-#include "../main-menu/main-menu.h"
+#include "../score-board/score-board.h"
 
 namespace Game
 {
-  ScoreRegister::ScoreRegister(const float _playedTime) : playedTime(_playedTime)
+  ScoreRegister::ScoreRegister(const float _playedTime, Observer<int> *backHandler) : playedTime(_playedTime), backHandler(backHandler)
   {
     this->initPlayedTimeTextData();
     for (int i = 0; i < this->qtdNameLetters; i++)
@@ -61,7 +61,7 @@ namespace Game
     auto currentScores = Global::fileService->loadFromBinaryFile("score_board");
     currentScores.push_back(score.toFileData());
     Global::fileService->saveToBinaryFile("score_board", currentScores);
-    Global::gameStateService->replace(new MainMenu());
+    Global::gameStateService->replace(new ScoreBoard(this->backHandler));
   }
 
   void ScoreRegister::verifyCommands()

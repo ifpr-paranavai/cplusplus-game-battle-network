@@ -3,7 +3,7 @@
 namespace Game
 {
 
-  ScoreBoard::ScoreBoard()
+  ScoreBoard::ScoreBoard(Observer<int> *backHandler): backOption(MenuOption("Voltar", backHandler))
   {
     this->loadScoresFromFile();
     this->sortScores();

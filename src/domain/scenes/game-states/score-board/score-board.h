@@ -12,14 +12,7 @@
 
 namespace Game
 {
-  class BackToMainMenuHandler : public Observer<int>
-  {
-  public:
-    void next(const int &value) override
-    {
-      Global::gameStateService->popGameState();
-    }
-  };
+ 
 
   class ScoreBoard : public GameState
   {
@@ -29,7 +22,7 @@ namespace Game
     const int backOptionYPostion = Config::WINDOW_HEIGHT - Global::adaptersInstance.textRenderer->getTextHeight("Voltar") - 10;
 
     std::vector<Score*> scores;
-    MenuOption backOption = MenuOption("Voltar", new BackToMainMenuHandler());
+    MenuOption backOption;
     int currentPage = 1;
     int scoreLineXPosition = 0;
 
@@ -41,7 +34,7 @@ namespace Game
     std::string getScoreLine(const Score* score) const;
 
   public:
-    ScoreBoard();
+    ScoreBoard(Observer<int> *backHandler);
     ~ScoreBoard() 
     {
         for (Score* score : this->scores)

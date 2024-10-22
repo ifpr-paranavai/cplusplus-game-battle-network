@@ -23,6 +23,12 @@ namespace Game
                                                      Color{255, 255, 255, 255}});
   }
 
+  void CardSelector::selectCard()
+  {
+    Global::adaptersInstance.audioManager->playWavSoundEffect(this->selectSFX);
+    this->onSelectCardSubject.next(this->cards[this->selectIndex]);
+  }
+
   void CardSelector::update()
   {
     if (
@@ -39,7 +45,7 @@ namespace Game
     }
     if (Global::adaptersInstance.keyboardManager->isKeyPressed(KeyCode::X))
     {
-      this->onSelectCardSubject.next(this->cards[this->selectIndex]);
+      this->selectCard();
     }
   }
 

@@ -8,6 +8,7 @@ namespace Game
     {
       this->options.push_back(MenuOption("Registrar Pontuação", new OpenScoreRegisterHandler()));
     }
+    Global::adaptersInstance.audioManager->playMusic(this->mainMenuMusic);
   }
 
   void MainMenu::verifyComands()
@@ -41,11 +42,11 @@ namespace Game
   {
     GameState::render();
 
-    Global::adaptersInstance.textRenderer->renderText({this->title, this->titlePostion});
+    Global::adaptersInstance.textRenderer->renderText({this->title, this->titlePostion, this->titleFontSize});
 
     for (int i = 0; i < this->options.size(); i++)
     {
-      const int positionY = this->topPadding + (i + 1) * (this->spacing + this->textHeight);
+      const int positionY = this->topPadding +this->titleHeight + (i + 1) * (this->spacing + this->textHeight);
       this->options[i].render(positionY, i == this->selectedOptionIndex);
     }
   }

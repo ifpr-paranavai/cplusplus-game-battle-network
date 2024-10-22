@@ -13,14 +13,7 @@
 
 namespace Game
 {
-  class StartGameHandler : public Observer<int>
-  {
-  public:
-    void next(const int &value) override
-    {
-      Global::gameStateService->pushGameState(new Arena());
-    }
-  };
+  
 
   class QuitGameHandler : public Observer<int>
   {
@@ -30,34 +23,55 @@ namespace Game
       exit(0);
     }
   };
-
-  class OpenScoreBoardHandler : public Observer<int>
-  {
-  public:
-    void next(const int &value) override
-    {
-      Global::gameStateService->pushGameState(new ScoreBoard());
-    }
-  };
-
-  // NOTE: Only for test
-  class OpenScoreRegisterHandler : public Observer<int>
-  {
-  public:
-    void next(const int &value) override
-    {
-      Global::gameStateService->pushGameState(new ScoreRegister(1000.0f));
-    }
-  };
-
+  
   class MainMenu : public GameState
   {
   private:
-    const int topPadding = 100;
-    const int spacing = 50;
-    const std::string title = "Main Menu";
-    const int titleWidth = Global::adaptersInstance.textRenderer->getTextWidth(this->title);
-    const int textHeight = Global::adaptersInstance.textRenderer->getTextHeight(this->title);
+    class BackToMainMenuHandler : public Observer<int>
+    {
+    public:
+      void next(const int &value) override
+      {
+        Global::gameStateService->replace(new MainMenu());
+      }
+    };
+
+    class StartGameHandler : public Observer<int>
+    {
+    public:
+      void next(const int &value) override
+      {
+        Global::gameStateService->pushGameState(new Arena(new BackToMainMenuHandler()));
+      }
+    };
+
+    // NOTE: Only for test
+    class OpenScoreRegisterHandler : public Observer<int>
+    {
+    public:
+      void next(const int &value) override
+      {
+        Global::gameStateService->pushGameState(new ScoreRegister(1000.0f, new BackToMainMenuHandler()));
+      }
+    };
+
+    class OpenScoreBoardHandler : public Observer<int>
+    {
+    public:
+      void next(const int &value) override
+      {
+        Global::gameStateService->pushGameState(new ScoreBoard(new BackToMainMenuHandler()));
+      }
+    };
+
+    static constexpr int topPadding = 100;
+    static constexpr int spacing = 50;
+    static constexpr int titleFontSize = 40;
+    const Music mainMenuMusic = Global::adaptersInstance.audioManager->initMusic("assets/music/main-menu.mp3");
+    const std::string title = "Battle Network CPLUSPLUS";
+    const int titleWidth = Global::adaptersInstance.textRenderer->getTextWidth(this->title, this->titleFontSize);
+    const int titleHeight = Global::adaptersInstance.textRenderer->getTextHeight(this->title, this->titleFontSize);
+    const int textHeight = Global::adaptersInstance.textRenderer->getTextHeight("A");
     const Vector titlePostion = {Config::WINDOW_WIDTH / 2 - titleWidth / 2, 100};
     std::vector<MenuOption> options = {
         MenuOption("Iniciar", new StartGameHandler()),
@@ -70,7 +84,15 @@ namespace Game
 
   public:
     MainMenu();
+    ~MainMenu()
+    {
+      Global::adaptersInstance.audioManager->freeMusic(this->mainMenuMusic);
+    }
     void update() override;
     void render() const override;
   };
+
+  
+  
+
 }
