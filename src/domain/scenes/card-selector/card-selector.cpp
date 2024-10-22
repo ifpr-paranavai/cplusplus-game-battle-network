@@ -11,7 +11,7 @@ namespace Game
     this->cardSelectorCardsList.resizeCardsIcons(this->cards);
   }
 
-  void CardSelector::renderContainer()
+  void CardSelector::renderContainer() const
   {
     Global::adaptersInstance.renderer->renderElement({{0, 0},
                                                       this->containerWidth,
@@ -21,6 +21,12 @@ namespace Game
                                                      this->containerWidth,
                                                      this->containerHeight,
                                                      Color{255, 255, 255, 255}});
+  }
+
+  void CardSelector::selectCard()
+  {
+    Global::adaptersInstance.audioManager->playWavSoundEffect(this->selectSFX);
+    this->onSelectCardSubject.next(this->cards[this->selectIndex]);
   }
 
   void CardSelector::update()
@@ -39,11 +45,11 @@ namespace Game
     }
     if (Global::adaptersInstance.keyboardManager->isKeyPressed(KeyCode::X))
     {
-      this->onSelectCardSubject.next(this->cards[this->selectIndex]);
+      this->selectCard();
     }
   }
 
-  void CardSelector::render()
+  void CardSelector::render() const
   {
     this->renderContainer();
     this->cardSelectorViewer.render(this->cards[this->selectIndex]);

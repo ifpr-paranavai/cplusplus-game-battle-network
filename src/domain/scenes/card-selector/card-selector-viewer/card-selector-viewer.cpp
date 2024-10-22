@@ -12,7 +12,7 @@ namespace Game
   {
   }
 
-  void CardSelectorViewer::renderCardViewer(Card &selectedCard)
+  void CardSelectorViewer::renderCardViewer(const Card &selectedCard) const
   {
     Global::adaptersInstance.renderer->renderBorder(
         {this->viewerPosition,
@@ -24,18 +24,19 @@ namespace Game
     selectedCard.getCardSprite().renderSprite(this->viewerPosition + Vector{0, viewerTopPadding});
   }
 
-  void CardSelectorViewer::renderCardText(Card &selectedCard)
+  void CardSelectorViewer::renderCardText(const Card &selectedCard) const
   {
-    const int textHeight = Global::adaptersInstance.renderer->getTextHeight(selectedCard.getName());
-    Global::adaptersInstance.renderer->renderText({selectedCard.getName(), this->textPosition});
-    const int textWidth = Global::adaptersInstance.renderer->getTextWidth(selectedCard.getDescription());
-    Global::adaptersInstance.renderer->renderText({selectedCard.getDescription(),
-                                                   this->textPosition + Vector{0, textHeight + 10},
-                                                   16,
-                                                   this->width});
+    auto textRenderer = Global::adaptersInstance.textRenderer;
+    const int textHeight = textRenderer->getTextHeight(selectedCard.getName());
+    textRenderer->renderText({selectedCard.getName(), this->textPosition});
+    const int textWidth = textRenderer->getTextWidth(selectedCard.getDescription());
+    textRenderer->renderText({selectedCard.getDescription(),
+                              this->textPosition + Vector{0, textHeight + 10},
+                              16,
+                              this->width});
   }
 
-  void CardSelectorViewer::render(Card &selectedCard)
+  void CardSelectorViewer::render(const Card &selectedCard) const
   {
     this->renderCardViewer(selectedCard);
     this->renderCardText(selectedCard);
@@ -46,8 +47,7 @@ namespace Game
     for (auto &card : cards)
     {
       const float scale = this->viewerSize / card.getCardSprite().getWidth();
-      card.getCardSprite().setWidth(this->viewerSize);
-      card.getCardSprite().setHeight(card.getCardSprite().getHeight() * scale);
+      card.setSpriteSize(this->viewerSize, card.getCardSprite().getHeight() * scale);
     }
   }
 };

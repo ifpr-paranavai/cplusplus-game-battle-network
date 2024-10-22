@@ -17,11 +17,24 @@ namespace Game
         return;
       }
 
-      this->currentStates.back()->render();
+      auto currentState = this->currentStates.back();
+      currentState->update();
+      currentState->render();
     }
 
     void pushGameState(GameState *gameState)
     {
+      this->currentStates.push_back(gameState);
+    }
+
+    void popGameState()
+    {
+      this->currentStates.pop_back();
+    }
+
+    void replace(GameState *gameState)
+    {
+      this->currentStates.clear();
       this->currentStates.push_back(gameState);
     }
   };

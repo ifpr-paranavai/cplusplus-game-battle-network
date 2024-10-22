@@ -32,7 +32,7 @@ namespace Game
     void moveRandomlyWithinLimits();
 
   protected:
-    float movementDecisionTime = 1;
+    float movementDecisionTime = 0.5;
     float attackTime = 1;
     bool canMove = true;
     bool canAttack = true;

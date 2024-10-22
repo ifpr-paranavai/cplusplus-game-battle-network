@@ -80,6 +80,7 @@
     "set": "cpp",
     "span": "cpp",
     "unordered_set": "cpp",
-    "xtree": "cpp"
+    "xtree": "cpp",
+    "*.rh": "cpp"
   }
 }

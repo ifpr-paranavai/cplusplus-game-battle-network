@@ -3,7 +3,7 @@
 #include "../../../nodes/tile-based-attack/tile-based-attack.h"
 #include "../../../../utils/global-adapters/global-adapters.h"
 #include "../../../nodes/sprite/sprite.h"
-#include "../../flame/flame.h"
+#include "../flame/flame.h"
 
 namespace Game
 {
@@ -11,7 +11,7 @@ namespace Game
   class FlamethrowerAttack : public TileBasedAttack
   {
   private:
-    float increaseFlameTime = 0.75;
+    float increaseFlameTime = 0.5;
     float increaseFlameTimer = 0;
     std::list<Flame> flames;
 

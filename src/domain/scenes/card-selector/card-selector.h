@@ -10,11 +10,15 @@
 #include "../cards/sniper-card/sniper-card.h" // TODO: remover daqui
 #include "./card-selector-viewer/card-selector-viewer.h"
 #include "./card-selector-cards-list/card-selector-cards-list.h"
+#include "../../nodes/game-state/game-state.h"
+#include "../../dto/sound-effect/sound-effect.h"
+
 namespace Game
 {
-  class CardSelector
+  class CardSelector : public GameState
   {
   private:
+    const SoundEffect selectSFX = Global::adaptersInstance.audioManager->initSoundEffect("assets/sounds/select.wav");
     const float insideContainersPadding = 10;
     const float containerWidth = Config::WINDOW_WIDTH / 2;
     const float containerHeight = Config::WINDOW_HEIGHT;
@@ -33,12 +37,13 @@ namespace Game
          this->insideContainerWidth,
          this->insideContainerHeight});
 
-    void renderContainer();
+    void selectCard();
+    void renderContainer() const;
 
   public:
     CardSelector();
-    void render();
-    void update();
+    void update() override;
+    void render() const override;
 
     void subscribeToOnSelectCard(Observer<Card> *observer)
     {

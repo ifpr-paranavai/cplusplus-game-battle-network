@@ -18,7 +18,7 @@ namespace Game
     }
   }
 
-  void CardSelectorDelayBar::render()
+  void CardSelectorDelayBar::render() const
   {
     Global::adaptersInstance.renderer->renderBorder({this->barPosition,
                                                      this->barWidth,
@@ -33,7 +33,7 @@ namespace Game
 
     if (percentComplete == 1)
     {
-      Global::adaptersInstance.renderer->renderText({this->helpText, this->textPosition});
+      Global::adaptersInstance.textRenderer->renderText({this->helpText, this->textPosition});
     }
   }
 }

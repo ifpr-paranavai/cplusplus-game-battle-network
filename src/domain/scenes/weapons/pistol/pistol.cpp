@@ -4,7 +4,7 @@ namespace Game
 {
 
   Pistol::Pistol(const ChildWeaponConfig pistolConfig) : Weapon({pistolConfig.relativePosition,
-                                                                 10,
+                                                                 5,
                                                                  new AnimatedSprite({0,
                                                                                  "assets/sprites/weapons/pistol/idle",
                                                                                  1,

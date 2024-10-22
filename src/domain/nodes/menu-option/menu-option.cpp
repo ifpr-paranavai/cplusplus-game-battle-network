@@ -2,9 +2,10 @@
 
 namespace Game
 {
-  void MenuOption::render(const int yPosition, const bool isSelected)
+  void MenuOption::render(const int yPosition, const bool isSelected) const
   {
-    const int textWidth = Global::adaptersInstance.renderer->getTextWidth(this->text);
+    auto textRenderer = Global::adaptersInstance.textRenderer;
+    const int textWidth = textRenderer->getTextWidth(this->text);
     const Vector position = {Config::WINDOW_WIDTH / 2 - textWidth / 2, yPosition};
 
     RenderTextData renderTextData;
@@ -12,9 +13,9 @@ namespace Game
     renderTextData.position = position;
     if (isSelected)
     {
-      renderTextData.color = this->selectedColor;
+      renderTextData.color = Styles::Colors::SELECTED_COLOR;
     }
 
-    Global::adaptersInstance.renderer->renderText(renderTextData);
+    textRenderer->renderText(renderTextData);
   }
 }

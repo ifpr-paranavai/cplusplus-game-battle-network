@@ -42,12 +42,10 @@ namespace Game
 
   void FiremanEnemy::bombAttack()
   {
-    this->lockMovement();
-    this->attackDelaySubject.init(1);
     this->queueAnimationChange(&this->throwingAttackAnimation);
-    const float yTileDecision = std::rand() % 3;
-    this->setTilePosition({this->tileXLimit[1], yTileDecision});
+    this->lockMovement();
     Global::attacksService->addDynamicAttack(std::make_unique<BombAttack>(this->tilePosition));
+    this->attackDelaySubject.init(1.5f);
   }
 
   void FiremanEnemy::update()

@@ -40,6 +40,7 @@ namespace Game
 
     if (this->currentMusic != nullptr)
     {
+      Mix_VolumeMusic(32);
       if (Mix_PlayMusic(this->currentMusic, -1) == -1)
       {
         throw std::runtime_error("Failed to play music: " + std::string(Mix_GetError()));

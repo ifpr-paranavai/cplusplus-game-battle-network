@@ -120,7 +120,7 @@ namespace Game
   void Enemy::render()
   {
     Character::render();
-    const Vector textPosition = {this->position.x, this->position.y + this->height + 5};
-    Global::adaptersInstance.renderer->renderText({std::to_string(this->life), textPosition});
+    const Vector textPosition = {this->position.x, this->position.y + this->height - 10};
+    Global::adaptersInstance.textRenderer->renderText({std::to_string(this->life), textPosition});
   }
 }
