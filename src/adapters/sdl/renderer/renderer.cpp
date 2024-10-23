@@ -26,6 +26,8 @@ namespace Game
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create SDL_Renderer: %s", SDL_GetError());
         throw std::runtime_error(SDL_GetError());
       }
+
+      SDL_RenderSetLogicalSize(this->sdlRenderer, windowManager->getWidth(), windowManager->getHeight());
     }
     return this->sdlRenderer;
   }
