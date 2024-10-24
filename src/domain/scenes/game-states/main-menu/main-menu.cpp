@@ -46,7 +46,7 @@ namespace Game
 
     for (int i = 0; i < this->options.size(); i++)
     {
-      const int positionY = this->topPadding +this->titleHeight + (i + 1) * (this->spacing + this->textHeight);
+      const int positionY = this->topPadding + this->titleHeight + (i + 1) * (this->spacing + this->textHeight);
       this->options[i].render(positionY, i == this->selectedOptionIndex);
     }
   }

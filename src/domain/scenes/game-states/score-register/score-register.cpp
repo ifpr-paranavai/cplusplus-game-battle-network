@@ -3,7 +3,7 @@
 
 namespace Game
 {
-  ScoreRegister::ScoreRegister(const float _playedTime, Observer<int> *backHandler) : playedTime(_playedTime), backHandler(backHandler)
+  ScoreRegister::ScoreRegister(GameStateRouteParams<ScoreRegisterParams> params) : playedTime(params.data.playedTime)
   {
     this->initPlayedTimeTextData();
     for (int i = 0; i < this->qtdNameLetters; i++)
@@ -49,8 +49,9 @@ namespace Game
   std::string ScoreRegister::getPlayerName() const
   {
     std::string playerName;
-    for (const auto& letter : this->playerNameLetters) {
-        playerName += letter;
+    for (const auto &letter : this->playerNameLetters)
+    {
+      playerName += letter;
     }
     return playerName;
   }
@@ -61,7 +62,7 @@ namespace Game
     auto currentScores = Global::fileService->loadFromBinaryFile("score_board");
     currentScores.push_back(score.toFileData());
     Global::fileService->saveToBinaryFile("score_board", currentScores);
-    Global::gameStateService->replace(new ScoreBoard(this->backHandler));
+    Global::gameStateService->replace(GameStateRoute::SCORE_BOARD);
   }
 
   void ScoreRegister::verifyCommands()
@@ -82,7 +83,8 @@ namespace Game
     else if (keyboardManager->isKeyPressed(KeyCode::ARROW_DOWN))
     {
       this->decrementLetter();
-    } else if (keyboardManager->isKeyPressed(KeyCode::ENTER))
+    }
+    else if (keyboardManager->isKeyPressed(KeyCode::ENTER))
     {
       this->saveScore();
     }

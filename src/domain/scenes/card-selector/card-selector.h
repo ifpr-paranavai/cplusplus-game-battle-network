@@ -10,12 +10,12 @@
 #include "../cards/sniper-card/sniper-card.h" // TODO: remover daqui
 #include "./card-selector-viewer/card-selector-viewer.h"
 #include "./card-selector-cards-list/card-selector-cards-list.h"
-#include "../../nodes/game-state/game-state.h"
+#include "../../nodes/game-state-modal/game-state-modal.h"
 #include "../../dto/sound-effect/sound-effect.h"
 
 namespace Game
 {
-  class CardSelector : public GameState
+  class CardSelector : public GameStateModal
   {
   private:
     const SoundEffect selectSFX = Global::adaptersInstance.audioManager->initSoundEffect("assets/sounds/select.wav");

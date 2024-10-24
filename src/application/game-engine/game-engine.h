@@ -10,6 +10,7 @@
 #include "../../utils/log-manager/log-manager.h"
 #include "../../domain/scenes/game-states/main-menu/main-menu.h"
 #include "../../domain/global/global-services/global-services.h"
+#include "../../domain/enums/game-states-routes.h"
 
 namespace Game
 {

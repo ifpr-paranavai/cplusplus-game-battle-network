@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <any>
 #include "../../../nodes/menu-option/menu-option.h"
 #include "../../../nodes/sprite/sprite.h"
 #include "../../../../config/config.h"
@@ -13,7 +14,6 @@
 
 namespace Game
 {
-  
 
   class QuitGameHandler : public Observer<int>
   {
@@ -23,7 +23,7 @@ namespace Game
       exit(0);
     }
   };
-  
+
   class MainMenu : public GameState
   {
   private:
@@ -32,7 +32,7 @@ namespace Game
     public:
       void next(const int &value) override
       {
-        Global::gameStateService->replace(new MainMenu());
+        Global::gameStateService->replace(GameStateRoute::MAIN_MENU);
       }
     };
 
@@ -41,7 +41,7 @@ namespace Game
     public:
       void next(const int &value) override
       {
-        Global::gameStateService->pushGameState(new Arena(new BackToMainMenuHandler()));
+        Global::gameStateService->pushGameState(GameStateRoute::ARENA);
       }
     };
 
@@ -51,7 +51,7 @@ namespace Game
     public:
       void next(const int &value) override
       {
-        Global::gameStateService->pushGameState(new ScoreRegister(1000.0f, new BackToMainMenuHandler()));
+        Global::gameStateService->pushGameState(GameStateRoute::SCORE_REGISTER, {{1000.0f}});
       }
     };
 
@@ -60,7 +60,7 @@ namespace Game
     public:
       void next(const int &value) override
       {
-        Global::gameStateService->pushGameState(new ScoreBoard(new BackToMainMenuHandler()));
+        Global::gameStateService->pushGameState(GameStateRoute::SCORE_BOARD);
       }
     };
 
@@ -75,7 +75,7 @@ namespace Game
     const Vector titlePostion = {Config::WINDOW_WIDTH / 2 - titleWidth / 2, 100};
     std::vector<MenuOption> options = {
         MenuOption("Iniciar", new StartGameHandler()),
-        MenuOption("Placar", new OpenScoreBoardHandler()),        
+        MenuOption("Placar", new OpenScoreBoardHandler()),
         MenuOption("Sair", new QuitGameHandler())};
     int selectedOptionIndex = 0;
 
@@ -91,8 +91,5 @@ namespace Game
     void update() override;
     void render() const override;
   };
-
-  
-  
 
 }

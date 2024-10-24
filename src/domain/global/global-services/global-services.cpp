@@ -6,14 +6,13 @@ namespace Game
     {
         AttacksService *attacksService = nullptr;
         AnimationService *animationService = nullptr;
-        GameStateService *gameStateService = nullptr;
+        GameStateServicePort *gameStateService = nullptr;
         FileService *fileService = nullptr;
 
         void initializeGlobalServices()
         {
             attacksService = new AttacksService();
             animationService = new AnimationService();
-            gameStateService = new GameStateService();
             fileService = new FileService();
         }
 

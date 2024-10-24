@@ -13,9 +13,11 @@
 
 namespace Game
 {
-  
- 
 
+  struct ScoreRegisterParams
+  {
+    float playedTime;
+  };
 
   class ScoreRegister : public GameState
   {
@@ -56,7 +58,6 @@ namespace Game
         this->registerText,
         {this->calcXPositionByLetterIndex(this->maxIndex), this->letterYPosition},
         this->fontSize};
-    Observer<int> *backHandler;
 
     void initPlayedTimeTextData();
     void verifyCommands();
@@ -75,7 +76,7 @@ namespace Game
     }
 
   public:
-    ScoreRegister(const float _playedTime, Observer<int> *backHandler);
+    ScoreRegister(GameStateRouteParams<ScoreRegisterParams> params);
 
     void update() override;
     void render() const override;

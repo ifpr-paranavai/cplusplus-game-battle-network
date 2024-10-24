@@ -4,7 +4,7 @@
 namespace Game
 {
 
-  Arena::Arena(Observer<int> *backHandler): backHandler(backHandler)
+  Arena::Arena()
   {
     Global::adaptersInstance.audioManager->playMusic(this->music);
     this->cardSelectorDelayBar.subscribeToOnCompleteLoad(&this->unblockOpenCardSelectorHandler);
@@ -142,7 +142,7 @@ namespace Game
     Global::attacksService->removeExpiredAttacks(); // TODO: Verify correct location of this method
   }
 
-  void Arena::renderTutorials() const 
+  void Arena::renderTutorials() const
   {
     if (!this->showTutorials)
     {
@@ -165,7 +165,7 @@ namespace Game
         this->canOpenCardSelector &&
         Global::adaptersInstance.keyboardManager->isKeyPressed(KeyCode::Z))
     {
-      Global::gameStateService->pushGameState(&this->cardSelector);
+      Global::gameStateService->pushGameStateModal(&this->cardSelector);
     }
   }
 

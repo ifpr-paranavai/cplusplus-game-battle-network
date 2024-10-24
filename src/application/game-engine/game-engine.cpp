@@ -12,8 +12,7 @@ namespace Game
 
     windowManager->createWindow(Config::WINDOW_WIDTH, Config::WINDOW_HEIGHT);
 
-    MainMenu mainMenu;
-    Global::gameStateService->pushGameState(&mainMenu);
+    Global::gameStateService->pushGameState(GameStateRoute::MAIN_MENU);
 
     while (!keyboardManager->exitEventIsCalled())
     {

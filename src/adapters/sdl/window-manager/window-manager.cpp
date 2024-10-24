@@ -13,6 +13,9 @@ namespace Game
     {
       throw std::runtime_error("SDL_CreateWindow Error: " + std::string(SDL_GetError()));
     }
+
+    this->width = width;
+    this->height = height;
   }
 
   void SDLWindowManagerAdapter::destroyWindow()

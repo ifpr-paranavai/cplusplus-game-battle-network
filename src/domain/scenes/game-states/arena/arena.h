@@ -43,7 +43,7 @@ namespace Game
       void next(const int &value) override
       {
         const float playedTime = Global::adaptersInstance.timeManager->getElapsedTime() - arena.arenaStartedAt;
-        Global::gameStateService->replace(new ScoreRegister(playedTime, this->arena.backHandler));
+        Global::gameStateService->replace(GameStateRoute::SCORE_REGISTER, {{playedTime}});
       }
     };
 
@@ -60,7 +60,7 @@ namespace Game
       {
         this->arena.arenaMode = ArenaMode::GAME_OVER;
         Global::adaptersInstance.audioManager->playMusic(this->gameOverMusic);
-        Global::gameStateService->replace(new ScoreBoard(this->arena.backHandler));
+        Global::gameStateService->replace(GameStateRoute::SCORE_BOARD);
       }
     };
 
@@ -113,7 +113,7 @@ namespace Game
     private:
       Arena &arena;
 
-    public: 
+    public:
       RemoveTutorialsHandler(Arena &arena) : arena(arena) {}
 
       void next(const int &value) override
@@ -128,10 +128,9 @@ namespace Game
     const int textHeight = Global::adaptersInstance.textRenderer->getTextHeight("A");
     const int spaceBetweenTutorials = 30 + textHeight;
     const std::vector<std::string> tutorials = {
-      "X - Atirar / Selecionar",
-      "Z - Abrir menu de cartas",
-      "C - Usar Carta"
-    };
+        "X - Atirar / Selecionar",
+        "Z - Abrir menu de cartas",
+        "C - Usar Carta"};
     TimerSubject removeTutorialsTimer;
     bool showTutorials = true;
     ArenaMode arenaMode = ArenaMode::RUNNING;
@@ -145,7 +144,6 @@ namespace Game
     CloseCardSelectorDelayHandler closeCardSelectorDelayHandler = CloseCardSelectorDelayHandler(*this);
     PointsIncrementHandler pointsIncrementHandler = PointsIncrementHandler(*this);
     std::list<Character *> characters;
-    Observer<int> *backHandler;
     bool canOpenCardSelector = false;
     int playerPoints = 0;
 
@@ -160,7 +158,7 @@ namespace Game
     void renderRunningMode() const;
 
   public:
-    Arena(Observer<int> *backHandler);
+    Arena();
     ~Arena();
     void update() override;
     void render() const override;
