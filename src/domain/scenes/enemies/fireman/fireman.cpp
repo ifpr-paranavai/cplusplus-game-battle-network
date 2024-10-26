@@ -8,8 +8,8 @@ namespace Game
     this->height = 96;
     this->attackTime = 3;
     this->life = 300;
+    this->collisionBoxes.emplace_back(this->position, this->width, this->height);
     this->queueAnimationChange(&this->idleSprite);
-
     this->fireAttackAnimation.subscribeToAnimationEnd(this->idleAnimationHandler.get());
     this->throwingAttackAnimation.subscribeToAnimationEnd(this->idleAnimationHandler.get());
     this->attackDelaySubject.subscribe(this->unlockMovementHandler.get());

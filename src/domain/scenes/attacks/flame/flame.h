@@ -12,8 +12,8 @@ namespace Game
     AnimatedSprite animatedSprite = AnimatedSprite({0.2f,
                                                     "assets/sprites/attacks/fire",
                                                     8,
-                                                    this->width,
-                                                    this->height,
+                                                    60,
+                                                    80,
                                                     false,
                                                     Vector(0, 0)});
     const SoundEffect flameSFX = Global::adaptersInstance.audioManager->initSoundEffect("assets/sounds/flame.wav");

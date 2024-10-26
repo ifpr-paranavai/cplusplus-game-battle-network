@@ -8,6 +8,7 @@ namespace Game
     this->height = 32;
     this->movementTime = 1.0f;
     this->damage = 15;
+    this->collisionBoxes.emplace_back(this->position, this->width, this->height);
     this->calculatePositions(elementTilePosition);
     this->defineVelocity();
     Global::adaptersInstance.audioManager->playWavSoundEffect(this->grenadeThrowingSFX);

@@ -6,7 +6,6 @@ namespace Game
   {
     this->velocity = {1000, 0};
     this->position = initialPosition;
-    this->collisionBoxes.emplace_back(this->position, this->width, this->height);
   }
 
   DynamicAttack::~DynamicAttack()
@@ -19,6 +18,7 @@ namespace Game
 
   void DynamicAttack::update()
   {
+    DynamicGameObject::update();
     if (this->position.x > Config::WINDOW_WIDTH || this->position.x < 0 || this->position.y > Config::WINDOW_HEIGHT || this->position.y < 0)
     {
       this->deleted = true;
@@ -27,7 +27,6 @@ namespace Game
     {
       collisionBox.setPosition(this->position);
     }
-    DynamicGameObject::update();
   }
 
   void DynamicAttack::render() const

@@ -5,7 +5,6 @@ namespace Game
   Enemy::Enemy()
   {
     std::srand(static_cast<unsigned int>(std::time(0)));
-    this->collisionBoxes.emplace_back(this->position, this->width, this->height);
   }
 
   void Enemy::handleMovement()
