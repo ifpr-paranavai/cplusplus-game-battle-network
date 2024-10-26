@@ -1,19 +1,13 @@
 #pragma once
 #include <list>
-#include <string>
-#include <array>
-#include "../../dto/vector/vector.h"
-#include "../element/element.h"
-#include "../sprite/sprite.h"
-#include "../../dto/color/color.h"
+#include <vector>
+#include "../../nodes/visual-entity/visual-entity.h"
+#include "../../nodes/sprite/sprite.h"
 
 namespace Game
 {
-    class Tile : public Element
+    class Tile : public VisualEntity
     {
-    protected:
-        virtual void onCollision(Element *other) {}
-
     private:
         const Color playerTileColor = Color{255, 69, 0, 255};
         const Color enemyTileColor = Color{65, 105, 225, 255};
@@ -26,6 +20,7 @@ namespace Game
     public:
         Tile(int width, int height, Vector position, bool isPlayerTile = true);
 
-        void renderSprites() const;
+        void update() override {}
+        void render() const override;
     };
 }

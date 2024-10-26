@@ -34,15 +34,31 @@ namespace Game
          {
            try
            {
-             auto scoreRegisterParams = std::any_cast<ScoreRegisterParams>(params->data);
-             return new ScoreRegister({scoreRegisterParams}); // Retorne um ponteiro bruto
+             if (params.has_value()) // Verifica se params contém um valor
+             {
+               // Converte o std::any armazenado em params->data para ScoreRegisterParams
+               GameStateRouteParams<ScoreRegisterParams> convertedParams{
+                   std::any_cast<ScoreRegisterParams>(params->data)};
+
+               return new ScoreRegister(convertedParams); // Retorna um ponteiro bruto
+             }
+             else
+             {
+               throw std::runtime_error("Params não contém um valor.");
+             }
            }
            catch (const std::bad_any_cast &e)
            {
-             // Lidar com o erro aqui, por exemplo, logar uma mensagem
+             // Lida com o erro ao fazer o cast
              std::cerr << "Erro ao fazer cast: " << e.what() << std::endl;
-             throw e;
-           } // Retorne um ponteiro bruto
+             throw e; // Relança a exceção se necessário
+           }
+           catch (const std::exception &e)
+           {
+             // Lida com qualquer outro tipo de exceção
+             std::cerr << "Erro: " << e.what() << std::endl;
+             throw;
+           }
          }}};
   }
 }

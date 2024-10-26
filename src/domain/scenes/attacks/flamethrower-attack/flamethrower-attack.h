@@ -19,12 +19,12 @@ namespace Game
     void increaseFlame();
 
   protected:
-    void onCollision(Element *other) override;
+    void onCollision(GameObject *other) {}
 
   public:
     FlamethrowerAttack(Vector initialTilePoition);
 
     void update() override;
-    void render() override;
+    void render() const override;
   };
 }

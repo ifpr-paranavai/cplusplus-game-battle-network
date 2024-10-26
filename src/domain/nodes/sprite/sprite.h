@@ -5,6 +5,7 @@
 #include "../../dto/sprite-texture/sprite-texture.h"
 #include "../../dto/color/color.h"
 #include "../../dto/vector/vector.h"
+#include "../visual-entity/visual-entity.h"
 
 namespace Game
 {

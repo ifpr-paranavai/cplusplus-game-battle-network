@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "../../cards/card/card.h"
+#include "../../../styles/colors.h"
 
 namespace Game
 {

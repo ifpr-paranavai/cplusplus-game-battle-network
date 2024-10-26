@@ -2,9 +2,7 @@
 
 namespace Game
 {
-    TileMap::TileMap() {}
-
-    void TileMap::init()
+    TileMap::TileMap()
     {
         for (int i = 0; i < this->tilesColumnsCount; ++i)
         {
@@ -23,7 +21,7 @@ namespace Game
     {
         for (const Tile &tile : this->tiles)
         {
-            tile.renderSprites();
+            tile.render();
         }
     }
 

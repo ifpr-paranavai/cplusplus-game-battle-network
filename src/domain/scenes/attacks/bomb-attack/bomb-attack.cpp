@@ -89,7 +89,7 @@ namespace Game
     this->checkDeleteTimer();
   }
 
-  void BombAttack::render()
+  void BombAttack::render() const
   {
     if (this->currentSprite != nullptr)
     {
@@ -97,7 +97,4 @@ namespace Game
     }
   }
 
-  void BombAttack::onCollision(Element *other)
-  {
-  }
 }

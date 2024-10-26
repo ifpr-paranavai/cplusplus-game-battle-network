@@ -16,7 +16,7 @@ namespace Game
                                             Vector(0, 0)});
   }
 
-  void Projectile::onCollision(Element *other)
+  void Projectile::onCollision(GameObject *other)
   {
     if (dynamic_cast<Player *>(other) || dynamic_cast<Projectile *>(other))
     {

@@ -2,8 +2,11 @@
 
 namespace Game
 {
-  Player::Player() : Character(96, 96)
+  Player::Player()
   {
+    this->width = 96;
+    this->height = 96;
+    this->life = 100;
     this->queueAnimationChange(&this->idleSprite);
     this->collisionBoxes.emplace_back(this->position, this->width, 30);
     this->invencibleTimer.subscribe(&this->invencibilityHandler);
@@ -72,10 +75,10 @@ namespace Game
     }
     this->currentWeapon->update();
     this->invencibleTimer.update();
-    Character::update();
+    Actor::update();
   }
 
-  void Player::onCollision(Element *other)
+  void Player::onCollision(GameObject *other)
   {
     if (dynamic_cast<Projectile *>(other) || this->invencible || this->life <= 0)
     {
@@ -105,9 +108,9 @@ namespace Game
     }
   }
 
-  void Player::render()
+  void Player::render() const
   {
-    Character::render();
+    Actor::render();
     this->currentWeapon->render(this->position);
     if (this->selectedCard != nullptr)
     {

@@ -4,32 +4,32 @@
 #include "../../../utils/global-adapters/global-adapters.h"
 #include "../../dto/vector/vector.h"
 #include "../../../config/config.h"
-#include "../dynamic-body/dynamic-body.h"
+#include "../dynamic-game-object/dynamic-game-object.h"
 #include "../sprite/sprite.h"
 
 namespace Game
 {
-    class DynamicAttack : public DynamicBody
+  class DynamicAttack : public DynamicGameObject
+  {
+  protected:
+    std::list<Sprite> sprites;
+    bool deleted = false;
+    int damage;
+
+  public:
+    DynamicAttack(Vector initialPosition);
+    virtual ~DynamicAttack();
+    void update() override;
+    void render() const override;
+
+    bool isDeleted()
     {
-    protected:
-        std::list<Sprite> sprites;
-        bool deleted = false;
-        int damage;
+      return this->deleted;
+    }
 
-    public:
-        DynamicAttack(Vector initialPosition);
-        virtual ~DynamicAttack();
-        void update();
-        virtual void render();
-
-        bool isDeleted()
-        {
-            return this->deleted;
-        }
-
-        int getDamage()
-        {
-            return this->damage;
-        }
-    };
+    int getDamage()
+    {
+      return this->damage;
+    }
+  };
 }

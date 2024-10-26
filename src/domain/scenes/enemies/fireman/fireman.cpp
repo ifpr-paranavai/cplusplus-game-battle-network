@@ -2,8 +2,10 @@
 
 namespace Game
 {
-  FiremanEnemy::FiremanEnemy() : Enemy(96, 96)
+  FiremanEnemy::FiremanEnemy()
   {
+    this->width = 96;
+    this->height = 96;
     this->attackTime = 3;
     this->life = 300;
     this->queueAnimationChange(&this->idleSprite);
@@ -54,7 +56,7 @@ namespace Game
     Enemy::update();
   }
 
-  void FiremanEnemy::onCollision(Element *other)
+  void FiremanEnemy::onCollision(GameObject *other)
   {
     if (dynamic_cast<BombAttack *>(other))
     {

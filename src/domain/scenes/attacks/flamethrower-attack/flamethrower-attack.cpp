@@ -3,8 +3,10 @@
 namespace Game
 {
 
-  FlamethrowerAttack::FlamethrowerAttack(Vector elementPosition) : TileBasedAttack(60, 80)
+  FlamethrowerAttack::FlamethrowerAttack(Vector elementPosition)
   {
+    this->width = 60;
+    this->height = 80;
     this->damage = 10;
     this->tilePosition = elementPosition;
   }
@@ -38,16 +40,12 @@ namespace Game
     this->handleFlameIncrease();
   }
 
-  void FlamethrowerAttack::render()
+  void FlamethrowerAttack::render() const
   {
-    for (Flame &flame : this->flames)
+    for (const Flame &flame : this->flames)
     {
-      flame.renderSprite();
+      flame.render();
     }
-  }
-
-  void FlamethrowerAttack::onCollision(Element *other)
-  {
   }
 
 }

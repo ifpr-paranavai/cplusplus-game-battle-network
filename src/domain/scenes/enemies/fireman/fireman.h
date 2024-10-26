@@ -47,8 +47,8 @@ namespace Game
     const float spriteWidth = 264;
     const float spriteHeight = 248;
     const Vector spritePosition = Vector(
-        -((this->spriteWidth - this->width) / 2) - 62,
-        -((this->spriteHeight - this->height) / 2) - 92);
+        -((this->spriteWidth - 96) / 2) - 62,
+        -((this->spriteHeight - 96) / 2) - 92);
     AnimatedSprite idleSprite = AnimatedSprite({0.2f,
                                                 "assets/sprites/enemies/fireman/idle",
                                                 7,
@@ -81,7 +81,7 @@ namespace Game
 
   protected:
     void attack() override;
-    void onCollision(Element *other) override;
+    void onCollision(GameObject *other) override;
 
   public:
     FiremanEnemy();

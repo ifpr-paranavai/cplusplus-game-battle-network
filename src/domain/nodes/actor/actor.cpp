@@ -1,15 +1,8 @@
-#include "character.h"
+#include "actor.h"
 
 namespace Game
 {
-
-  Character::Character(const int width, const int height) : TileBasedBody(width, height)
-  {
-    this->width = width;
-    this->height = height;
-  }
-
-  Character::~Character()
+  Actor::~Actor()
   {
     if (this->currentAnimation != nullptr)
     {
@@ -21,7 +14,7 @@ namespace Game
     }
   }
 
-  void Character::applyPendingAnimation()
+  void Actor::applyPendingAnimation()
   {
     if (this->pendingAnimation == nullptr)
     {
@@ -37,4 +30,5 @@ namespace Game
     this->pendingAnimation = nullptr;
     Global::animationService->addAnimatedSprite(this->currentAnimation);
   }
+
 }

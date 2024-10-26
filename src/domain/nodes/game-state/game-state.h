@@ -4,6 +4,7 @@
 #include <any>
 #include "../sprite/sprite.h"
 #include "../../../config/config.h"
+#include "../visual-entity/visual-entity.h"
 
 namespace Game
 {
@@ -13,7 +14,7 @@ namespace Game
     Params data;
   };
 
-  class GameState
+  class GameState : public VisualEntity
   {
   private:
     const std::array<Sprite, 2> backgroundSprites = {
@@ -33,8 +34,6 @@ namespace Game
 
   public:
     GameState(std::optional<GameStateRouteParams<std::any>> _params = std::nullopt) : params(_params) {}
-
-    virtual void update() = 0;
 
     virtual void render() const
     {

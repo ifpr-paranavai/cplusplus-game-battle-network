@@ -17,7 +17,7 @@ namespace Game
       Global::adaptersInstance.renderer->renderBorder({cardPosition,
                                                        this->cardSize,
                                                        this->cardSize,
-                                                       selectIndex == i ? Color{239, 184, 16, 255} : Color{0, 0, 0, 255}});
+                                                       selectIndex == i ? Styles::Colors::SELECTED_COLOR : Color{0, 0, 0, 255}});
       const float iconHeight = cards[i].getIconSprite().getHeight();
       const float cardTopPadding = (this->cardSize - iconHeight) / 2;
       cards[i].getIconSprite().renderSprite(cardPosition + Vector{0, cardTopPadding});

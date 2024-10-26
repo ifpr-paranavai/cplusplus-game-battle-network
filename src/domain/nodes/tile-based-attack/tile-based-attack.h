@@ -1,18 +1,16 @@
 #pragma once
-#include "../tile-based-body/tile-based-body.h"
+#include "../tiled-game-object/tiled-game-object.h"
 
 namespace Game
 {
-  class TileBasedAttack : public TileBasedBody
+  class TileBasedAttack : public TiledGameObject
   {
   protected:
     int damage;
     bool deleted = false;
 
   public:
-    TileBasedAttack(int width, int height) : TileBasedBody(width, height) {}
-
-    virtual void render() = 0;
+    TileBasedAttack() {}
 
     int getDamage()
     {

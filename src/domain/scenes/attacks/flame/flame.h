@@ -1,12 +1,12 @@
 #pragma once
-#include "../../../nodes/tile-based-attack/tile-based-attack.h"
 #include "../../../nodes/animated-sprited/animated-sprited.h"
 #include "../../../global/global-services/global-services.h"
 #include "../../../dto/sound-effect/sound-effect.h"
+#include "../../../nodes/tiled-game-object/tiled-game-object.h"
 
 namespace Game
 {
-  class Flame : public TileBasedBody
+  class Flame : public TiledGameObject
   {
   private:
     AnimatedSprite animatedSprite = AnimatedSprite({0.2f,
@@ -19,13 +19,15 @@ namespace Game
     const SoundEffect flameSFX = Global::adaptersInstance.audioManager->initSoundEffect("assets/sounds/flame.wav");
 
   protected:
-    void onCollision(Element *other) {};
+    void onCollision(GameObject *other) {};
 
   public:
     Flame(const Vector tilePosition);
     ~Flame();
 
-    void renderSprite() const
+    void update() override {}
+
+    void render() const override
     {
       this->animatedSprite.renderSprite(this->position);
     }

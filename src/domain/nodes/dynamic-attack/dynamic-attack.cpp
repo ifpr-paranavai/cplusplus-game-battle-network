@@ -2,8 +2,7 @@
 
 namespace Game
 {
-  DynamicAttack::DynamicAttack(
-      Vector initialPosition) : DynamicBody(10, 10)
+  DynamicAttack::DynamicAttack(Vector initialPosition)
   {
     this->velocity = {1000, 0};
     this->position = initialPosition;
@@ -28,9 +27,10 @@ namespace Game
     {
       collisionBox.setPosition(this->position);
     }
+    DynamicGameObject::update();
   }
 
-  void DynamicAttack::render()
+  void DynamicAttack::render() const
   {
     for (const Sprite &sprite : this->sprites)
     {

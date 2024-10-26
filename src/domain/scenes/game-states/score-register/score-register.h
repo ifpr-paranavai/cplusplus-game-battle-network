@@ -10,14 +10,10 @@
 #include "../../../../utils/time/time.h"
 #include "../../../../utils/date/date.h"
 #include "../../../dto/score/score.h"
+#include "./score-register-params.h"
 
 namespace Game
 {
-
-  struct ScoreRegisterParams
-  {
-    float playedTime;
-  };
 
   class ScoreRegister : public GameState
   {

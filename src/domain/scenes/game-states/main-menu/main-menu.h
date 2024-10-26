@@ -1,69 +1,17 @@
 #pragma once
 #include <vector>
-#include <any>
 #include "../../../nodes/menu-option/menu-option.h"
-#include "../../../nodes/sprite/sprite.h"
 #include "../../../../config/config.h"
 #include "../../../../utils/global-adapters/global-adapters.h"
-#include "../../../nodes/game-state/game-state.h"
-#include "../../../global/global-services/global-services.h"
 #include "../../../../utils/observer/observer.h"
-#include "../arena/arena.h"
-#include "../score-board/score-board.h"
-#include "../score-register/score-register.h"
+#include "./handlers.h"
 
 namespace Game
 {
 
-  class QuitGameHandler : public Observer<int>
-  {
-  public:
-    void next(const int &value) override
-    {
-      exit(0);
-    }
-  };
-
   class MainMenu : public GameState
   {
   private:
-    class BackToMainMenuHandler : public Observer<int>
-    {
-    public:
-      void next(const int &value) override
-      {
-        Global::gameStateService->replace(GameStateRoute::MAIN_MENU);
-      }
-    };
-
-    class StartGameHandler : public Observer<int>
-    {
-    public:
-      void next(const int &value) override
-      {
-        Global::gameStateService->pushGameState(GameStateRoute::ARENA);
-      }
-    };
-
-    // NOTE: Only for test
-    class OpenScoreRegisterHandler : public Observer<int>
-    {
-    public:
-      void next(const int &value) override
-      {
-        Global::gameStateService->pushGameState(GameStateRoute::SCORE_REGISTER, {{1000.0f}});
-      }
-    };
-
-    class OpenScoreBoardHandler : public Observer<int>
-    {
-    public:
-      void next(const int &value) override
-      {
-        Global::gameStateService->pushGameState(GameStateRoute::SCORE_BOARD);
-      }
-    };
-
     static constexpr int topPadding = 100;
     static constexpr int spacing = 50;
     static constexpr int titleFontSize = 40;
