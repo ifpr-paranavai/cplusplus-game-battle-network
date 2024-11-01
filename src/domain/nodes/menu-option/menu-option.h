@@ -8,23 +8,35 @@
 #include "../../../utils/subject/subject.h"
 #include "../../../utils/observer/observer.h"
 #include "../../styles/colors.h"
+#include "../ui-entity/ui-entity.h"
 
 namespace Game
 {
-  class MenuOption
+  struct MenuOptionConfig
+  {
+    const std::string_view text;
+    const int yPosition;
+    Observer<int> *onClick;
+  };
+
+  class MenuOption : public UIEntity
   {
   private:
     const SoundEffect selectSFX = Global::adaptersInstance.audioManager->initSoundEffect("assets/sounds/select.wav");
     const std::string_view text;
+
+    bool isSelected = false;
     Subject<int> onClick;
+    RenderTextData renderTextData;
+
+    void initRenderTextData();
 
   public:
-    MenuOption(const std::string_view text, Observer<int> *onClick) : text(text)
-    {
-      this->onClick.subscribe(onClick);
-    };
+    MenuOption(const MenuOptionConfig &config);
 
-    void render(const int yPosition, const bool isSelected) const;
+    void render() const override;
+
+    void update() override {}
 
     void click()
     {
@@ -32,7 +44,9 @@ namespace Game
       this->onClick.next(0);
     }
 
-    std::string_view getText()
+    void setSelected(const bool isSelected);
+
+    std::string_view getText() const
     {
       return this->text;
     }

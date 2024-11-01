@@ -31,7 +31,7 @@ namespace Game
     const int backOptionYPostion = Config::WINDOW_HEIGHT - Global::adaptersInstance.textRenderer->getTextHeight("Voltar") - 10;
 
     std::vector<Score *> scores;
-    MenuOption backOption = MenuOption("Voltar", new BackHandler());
+    MenuOption backOption = MenuOption({"Voltar", this->backOptionYPostion, new BackHandler()});
     int currentPage = 1;
     int scoreLineXPosition = 0;
 

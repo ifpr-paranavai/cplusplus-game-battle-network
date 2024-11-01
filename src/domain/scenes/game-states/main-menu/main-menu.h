@@ -15,20 +15,22 @@ namespace Game
     static constexpr int topPadding = 100;
     static constexpr int spacing = 50;
     static constexpr int titleFontSize = 40;
-    const Music mainMenuMusic = Global::adaptersInstance.audioManager->initMusic("assets/music/main-menu.mp3");
+
     const std::string title = "Battle Network CPLUSPLUS";
     const int titleWidth = Global::adaptersInstance.textRenderer->getTextWidth(this->title, this->titleFontSize);
     const int titleHeight = Global::adaptersInstance.textRenderer->getTextHeight(this->title, this->titleFontSize);
     const int textHeight = Global::adaptersInstance.textRenderer->getTextHeight("A");
-    const Vector titlePostion = {Config::WINDOW_WIDTH / 2 - titleWidth / 2, 100};
-    std::vector<MenuOption> options = {
-        MenuOption("Iniciar", new StartGameHandler()),
-        MenuOption("Placar", new OpenScoreBoardHandler()),
-        MenuOption("Sair", new QuitGameHandler())};
+    const int initialMenuOptionYPosition = this->topPadding + this->titleHeight + this->spacing;
+    const Vector titlePosition = {Config::WINDOW_WIDTH / 2 - this->titleWidth / 2, this->topPadding};
+    const Music mainMenuMusic = Global::adaptersInstance.audioManager->initMusic("assets/music/main-menu.mp3");
+
+    std::vector<MenuOption> options;
     int selectedOptionIndex = 0;
 
     void verifyComands();
     void clickOnSelectedOption();
+    void initOptions();
+    void updateSelectedOption(const int newSelectedOptionIndex);
 
   public:
     MainMenu();

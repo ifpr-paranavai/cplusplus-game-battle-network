@@ -2,20 +2,28 @@
 
 namespace Game
 {
-  void MenuOption::render(const int yPosition, const bool isSelected) const
+  MenuOption::MenuOption(const MenuOptionConfig &config) : text(config.text)
   {
-    auto textRenderer = Global::adaptersInstance.textRenderer;
-    const int textWidth = textRenderer->getTextWidth(this->text);
-    const Vector position = {Config::WINDOW_WIDTH / 2 - textWidth / 2, yPosition};
+    const int textWidth = Global::adaptersInstance.textRenderer->getTextWidth(this->text);
+    this->onClick.subscribe(config.onClick);
+    this->position = {Config::WINDOW_WIDTH / 2 - textWidth / 2, config.yPosition};
+    this->initRenderTextData();
+  }
 
-    RenderTextData renderTextData;
-    renderTextData.text = this->text;
-    renderTextData.position = position;
-    if (isSelected)
-    {
-      renderTextData.color = Styles::Colors::SELECTED_COLOR;
-    }
+  void MenuOption::initRenderTextData()
+  {
+    this->renderTextData.text = this->text;
+    this->renderTextData.position = this->position;
+  }
 
-    textRenderer->renderText(renderTextData);
+  void MenuOption::setSelected(const bool isSelected)
+  {
+    this->isSelected = isSelected;
+    this->renderTextData.color = isSelected ? Styles::Colors::SELECTED_COLOR : Styles::Colors::WHITE;
+  }
+
+  void MenuOption::render() const
+  {
+    Global::adaptersInstance.textRenderer->renderText(this->renderTextData);
   }
 }

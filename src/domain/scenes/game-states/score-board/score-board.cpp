@@ -8,6 +8,7 @@ namespace Game
     this->loadScoresFromFile();
     this->sortScores();
     this->calcScoreLineXPosition();
+    this->backOption.setSelected(true);
   }
 
   void ScoreBoard::sortScores()
@@ -71,6 +72,6 @@ namespace Game
   {
     GameState::render();
     this->renderScores();
-    this->backOption.render(this->backOptionYPostion, true);
+    this->backOption.render();
   }
 }

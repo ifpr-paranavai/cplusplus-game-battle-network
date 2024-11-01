@@ -14,17 +14,22 @@ namespace Game
   public:
     virtual void render() const = 0;
 
-    Vector getPosition()
+    void setPosition(const Vector position)
+    {
+      this->position = position;
+    }
+
+    Vector getPosition() const
     {
       return this->position;
     }
 
-    int getWidth()
+    int getWidth() const
     {
       return this->width;
     }
 
-    int getHeight()
+    int getHeight() const
     {
       return this->height;
     }
