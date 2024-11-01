@@ -1,4 +1,5 @@
 #pragma once
+#include "../visual-entity/visual-entity.h"
 #include "../../dto/color/color.h"
 #include "../../../utils/timer-subject/timer-subject.h"
 #include "../../../utils/observer/observer.h"
@@ -7,6 +8,7 @@ namespace Game
 {
   struct BlinkingVisualElementConfig
   {
+    Vector position;
     float initialWidth;
     float initialHeight;
     Color firstColor;
@@ -15,7 +17,7 @@ namespace Game
     float secondColorDuration;
   };
 
-  class BlinkingVisualElement
+  class BlinkingVisualElement : public VisualEntity
   {
   private:
     class ChangeColorObserver : public Observer<int>
@@ -26,12 +28,11 @@ namespace Game
     public:
       ChangeColorObserver(BlinkingVisualElement &blinkingVisualElement) : blinkingVisualElement(blinkingVisualElement) {};
 
-      void next(const int &value)
+      void next(const int &value) override
       {
-        const bool isFirstColor = blinkingVisualElement.currentColor == blinkingVisualElement.firstColor;
+        const bool isFirstColor = blinkingVisualElement.currentIsFirstColor();
         const float newDuration = isFirstColor ? blinkingVisualElement.secondColorDuration : blinkingVisualElement.firstColorDuration;
         blinkingVisualElement.currentColor = isFirstColor ? blinkingVisualElement.secondColor : blinkingVisualElement.firstColor;
-        blinkingVisualElement.changeColorTimer.init(newDuration);
       }
     };
 
@@ -40,16 +41,17 @@ namespace Game
     const Color secondColor;
     const float secondColorDuration;
 
-    float width;
-    float height;
+    float peddingNewDuration = 0;
     ChangeColorObserver changeColorObserver = ChangeColorObserver(*this);
     TimerSubject changeColorTimer;
-    Color currentColor = this->firstColor;
+    Color currentColor;
+
+    bool currentIsFirstColor() { return this->currentColor == this->firstColor; }
 
   public:
     BlinkingVisualElement(const BlinkingVisualElementConfig &config);
 
-    void update();
-    void render(const Vector position) const;
+    void update() override;
+    void render() const override;
   };
 }

@@ -6,7 +6,7 @@
 #include "../../../dto/color/color.h"
 #include "../../../../utils/subject/subject.h"
 #include "../../../../utils/observer/observer.h"
-#include "../../../nodes/game-state-modal/game-state-modal.h"
+#include "../../../nodes/visual-entity/visual-entity.h"
 #include "../../../nodes/animated-visual-element/blinking-visual-element.h"
 #include "../../../styles/colors.h"
 
@@ -18,7 +18,7 @@ namespace Game
     LOADED
   };
 
-  class CardSelectorDelayBar : public GameStateModal
+  class CardSelectorDelayBar : public VisualEntity
   {
   private:
     static constexpr float barHeight = 30;
@@ -34,12 +34,13 @@ namespace Game
     float loadingBarWidth = 0;
     float percentComplete = 0;
     Subject<int> onCompleteLoadSubject;
-    BlinkingVisualElement blingkingBar = BlinkingVisualElement({this->barWidth,
+    BlinkingVisualElement blingkingBar = BlinkingVisualElement({this->barPosition,
+                                                                this->barWidth,
                                                                 this->barHeight,
                                                                 this->loadingBarColor,
-                                                                0.25f,
+                                                                0.35f,
                                                                 Color{255, 255, 255, 255},
-                                                                0.25f});
+                                                                0.35f});
 
     void updateDelayTimer();
     void updatePercentCompleted();

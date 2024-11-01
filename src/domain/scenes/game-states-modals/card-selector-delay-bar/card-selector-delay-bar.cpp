@@ -59,7 +59,7 @@ namespace Game
     }
     else
     {
-      this->blingkingBar.render(this->barPosition);
+      this->blingkingBar.render();
       Global::adaptersInstance.textRenderer->renderText({this->helpText, this->textPosition});
     }
   }
