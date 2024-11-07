@@ -59,7 +59,9 @@ namespace Game
     for (size_t i = 0; i < this->scoresPerPage && i < this->scores.size(); ++i)
     {
       auto &score = this->scores[i];
-      Global::adaptersInstance.textRenderer->renderText({this->getScoreLine(score), {this->scoreLineXPosition, (this->spaceBetweenElements * (i + 1))}});
+      Global::adaptersInstance.textRenderer->renderText(
+          {this->getScoreLine(score),
+           {static_cast<float>(this->scoreLineXPosition), static_cast<float>((this->spaceBetweenElements * (i + 1)))}});
     }
   }
 

@@ -8,17 +8,17 @@ namespace Game
   struct CardSelectorViewerConfig
   {
     const Vector position;
-    const float width;
-    const float height;
+    const int width;
+    const int height;
   };
 
   class CardSelectorViewer
   {
   private:
     const Vector position;
-    const float width;
-    const float height;
-    const float viewerSize;
+    const int width;
+    const int height;
+    const int viewerSize;
     const Vector textPosition;
     const Vector viewerPosition;
 

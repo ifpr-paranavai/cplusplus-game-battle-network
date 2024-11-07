@@ -10,8 +10,8 @@ namespace Game
   class Pistol : public Weapon
   {
   private:
-    const float spriteWidth = 100;
-    const float spriteHeight = 60;
+    const int spriteWidth = 100;
+    const int spriteHeight = 60;
     const SoundEffect projectileSFX = Global::adaptersInstance.audioManager->initSoundEffect("assets/sounds/projectile.wav");
     AnimatedSprite shootAnimation = AnimatedSprite({0.025f,
                                                     "assets/sprites/weapons/pistol/shooting",

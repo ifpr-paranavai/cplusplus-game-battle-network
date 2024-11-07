@@ -21,9 +21,9 @@ namespace Game
   class CardSelectorDelayBar : public VisualEntity
   {
   private:
-    static constexpr float barHeight = 30;
+    static constexpr int barHeight = 30;
     static constexpr float delayTime = 10;
-    static constexpr float barWidth = Config::WINDOW_WIDTH / 2;
+    static constexpr int barWidth = Config::WINDOW_WIDTH / 2;
     static constexpr Color loadingBarColor = Styles::Colors::SELECTED_COLOR;
 
     const Vector barPosition = Vector(this->barWidth / 2, 10);
@@ -31,7 +31,7 @@ namespace Game
     const Vector textPosition = this->barPosition + Vector((this->barWidth - Global::adaptersInstance.textRenderer->getTextWidth(helpText)) / 2, 0);
 
     float delayTimer = 0;
-    float loadingBarWidth = 0;
+    int loadingBarWidth = 0;
     float percentComplete = 0;
     Subject<int> onCompleteLoadSubject;
     BlinkingVisualElement blingkingBar = BlinkingVisualElement({this->barPosition,

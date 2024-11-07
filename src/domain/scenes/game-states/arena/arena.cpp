@@ -12,7 +12,7 @@ namespace Game
     this->createEnemies();
     this->setPlayer(new Player());
     this->removeTutorialsTimer.subscribe(new RemoveTutorialsHandler(*this));
-    this->removeTutorialsTimer.init(5.0f);
+    this->removeTutorialsTimer.init(this->tutorialsDuration);
   }
 
   Arena::~Arena()
@@ -92,10 +92,10 @@ namespace Game
     Global::adaptersInstance.renderer->renderBorder({
         {10, 10},
         100,
-        textHeight + 10.0f,
+        textHeight + 10,
         Color{0, 0, 0, 255},
     });
-    textRenderer->renderText({lifeStr, {10 + 100 - textWidth, 15}});
+    textRenderer->renderText({lifeStr, {10.0f + 100.0f - textWidth, 15.0f}});
   }
 
   void Arena::renderPlayedTime() const
@@ -104,7 +104,7 @@ namespace Game
     auto textRenderer = Global::adaptersInstance.textRenderer;
     const auto playedTimeStr = TimeUtil::formatElapsedTime(playedTime);
     const int textWidth = textRenderer->getTextWidth(playedTimeStr);
-    textRenderer->renderText({playedTimeStr, {Config::WINDOW_WIDTH - textWidth - 10, 10}});
+    textRenderer->renderText({playedTimeStr, {Config::WINDOW_WIDTH - textWidth - 10.0f, 10.0f}});
   }
 
   void Arena::renderAttacks() const
@@ -133,7 +133,10 @@ namespace Game
       const auto tutorial = this->tutorials[i];
       const int textWidth = Global::adaptersInstance.textRenderer->getTextWidth(tutorial);
       const int xPosition = Config::WINDOW_WIDTH / 2 - textWidth / 2;
-      Global::adaptersInstance.textRenderer->renderText({tutorial, {xPosition, this->initialTutorialYPosition + i * this->spaceBetweenTutorials}});
+      Global::adaptersInstance.textRenderer->renderText(
+          {tutorial,
+           {static_cast<float>(xPosition),
+            static_cast<float>(this->initialTutorialYPosition + i * this->spaceBetweenTutorials)}});
     }
   }
 

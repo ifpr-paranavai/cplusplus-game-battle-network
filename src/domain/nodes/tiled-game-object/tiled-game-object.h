@@ -17,20 +17,13 @@ namespace Game
     bool tryMoveRight();
 
   public:
-    void setTilePosition(Vector tilePosition)
+    inline void setTileXLimit(const Vector tileXLimit) { this->tileXLimit = tileXLimit; }
+    inline void setTileYLimit(const Vector tileYLimit) { this->tileYLimit = tileYLimit; }
+
+    void setTilePosition(const Vector tilePosition)
     {
       this->tilePosition = tilePosition;
       this->position = TileMap::getElementPositionInTile(this->tilePosition, this->width, this->height);
-    }
-
-    void setTileXLimit(Vector tileXLimit)
-    {
-      this->tileXLimit = tileXLimit;
-    }
-
-    void setTileYLimit(Vector tileYLimit)
-    {
-      this->tileYLimit = tileYLimit;
     }
   };
 }

@@ -15,7 +15,7 @@ namespace Game
         std::list<Sprite> sprites;
 
         void configureSprites();
-        void createSprite(std::string_view path, const Vector &position, float width, float height);
+        void createSprite(std::string_view path, const Vector &position, int width, int height);
 
     public:
         Tile(int width, int height, Vector position, bool isPlayerTile = true);

@@ -21,15 +21,7 @@ namespace Game
     virtual ~DynamicAttack();
     void update() override;
     void render() const override;
-
-    bool isDeleted()
-    {
-      return this->deleted;
-    }
-
-    int getDamage()
-    {
-      return this->damage;
-    }
+    inline bool isDeleted() const { return this->deleted; }
+    inline int getDamage() const { return this->damage; }
   };
 }

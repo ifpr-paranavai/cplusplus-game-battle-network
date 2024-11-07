@@ -135,7 +135,11 @@ namespace Game
       SDL_SetTextureAlphaMod(texture, colorFilter.a);
     }
 
-    return SpriteTexture{std::make_any<SDL_Texture *>(texture), renderSpriteData.width, renderSpriteData.height, renderSpriteData.flipHorizontal};
+    return SpriteTexture{
+        std::make_any<SDL_Texture *>(texture),
+        static_cast<float>(renderSpriteData.width),
+        static_cast<float>(renderSpriteData.height),
+        renderSpriteData.flipHorizontal};
   }
 
   void SDLRendererAdapter::destroySpriteTexture(const SpriteTexture &spriteTexture)

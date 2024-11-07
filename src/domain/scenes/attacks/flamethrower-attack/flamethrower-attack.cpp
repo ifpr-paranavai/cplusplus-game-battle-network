@@ -32,7 +32,7 @@ namespace Game
 
     this->setTilePosition({this->tilePosition.x - 1, this->tilePosition.y});
     this->flames.emplace_back(this->tilePosition);
-    this->collisionBoxes.emplace_back(this->position + Vector{0, this->height - 30}, this->width, 30);
+    this->collisionBoxes.emplace_back(this->position + Vector{0.0f, this->height - 30.0f}, this->width, 30);
   }
 
   void FlamethrowerAttack::update()

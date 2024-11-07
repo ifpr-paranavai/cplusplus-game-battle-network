@@ -44,8 +44,8 @@ namespace Game
       }
     };
 
-    const float spriteWidth = 264;
-    const float spriteHeight = 248;
+    const int spriteWidth = 264;
+    const int spriteHeight = 248;
     const Vector spritePosition = Vector(
         -((this->spriteWidth - 96) / 2) - 62,
         -((this->spriteHeight - 96) / 2) - 92);

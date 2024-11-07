@@ -11,15 +11,8 @@ namespace Game
     std::list<Observer<T> *> observers;
 
   public:
-    void subscribe(Observer<T> *observer)
-    {
-      observers.push_back(observer);
-    }
-
-    void unsubscribe(Observer<T> *observer)
-    {
-      observers.remove(observer);
-    }
+    inline void subscribe(Observer<T> *observer) { observers.push_back(observer); }
+    inline void unsubscribe(Observer<T> *observer) { observers.remove(observer); }
 
     void next(const T &value)
     {

@@ -15,22 +15,21 @@ namespace Game
 {
   namespace GameStateRoutes
   {
-    using OpRouteParam = std::optional<GameStateRouteParams<std::any>>;
 
-    const std::map<GameStateRoute, std::function<GameState *(OpRouteParam)>> gameStatesRoutesMap = {
-        {GameStateRoute::MAIN_MENU, [](OpRouteParam params)
+    const std::map<GameStateRoute, std::function<GameState *(DefaultRouteParams)>> gameStatesRoutesMap = {
+        {GameStateRoute::MAIN_MENU, [](DefaultRouteParams params)
          {
            return new MainMenu(); // Retorne um ponteiro bruto
          }},
-        {GameStateRoute::ARENA, [](OpRouteParam params)
+        {GameStateRoute::ARENA, [](DefaultRouteParams params)
          {
            return new Arena(); // Retorne um ponteiro bruto
          }},
-        {GameStateRoute::SCORE_BOARD, [](OpRouteParam params)
+        {GameStateRoute::SCORE_BOARD, [](DefaultRouteParams params)
          {
            return new ScoreBoard(); // Retorne um ponteiro bruto
          }},
-        {GameStateRoute::SCORE_REGISTER, [](OpRouteParam params)
+        {GameStateRoute::SCORE_REGISTER, [](DefaultRouteParams params)
          {
            try
            {

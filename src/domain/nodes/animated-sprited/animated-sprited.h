@@ -11,34 +11,31 @@ namespace Game
 {
   struct AnimatedSpriteConfig
   {
-    float spriteDisplayTime;
-    std::string_view animationFolderPath;
-    int animationFramesCount;
-    float width;
-    float height;
-    bool flipHorizontal;
-    Vector initialRelativePosition;
-    std::optional<Color> spriteColorFilter;
+    const float spriteDisplayTime;
+    const std::string_view animationFolderPath;
+    const int animationFramesCount;
+    const int width;
+    const int height;
+    const bool flipHorizontal;
+    const Vector initialRelativePosition;
+    const std::optional<Color> spriteColorFilter;
   };
 
   class AnimatedSprite
   {
   private:
+    const float spriteDisplayTime;
+
     Subject<int> onAnimationEnd;
     std::vector<Sprite> sprites;
     size_t currentSpriteIndex = 0;
-    float spriteDisplayTime;
     float elapsedTime = 0;
 
   public:
     AnimatedSprite(const AnimatedSpriteConfig &config);
     ~AnimatedSprite();
+    inline void subscribeToAnimationEnd(Observer<int> *observer) { this->onAnimationEnd.subscribe(observer); }
     void update();
     void renderSprite(const Vector elementPosition) const;
-
-    void subscribeToAnimationEnd(Observer<int> *observer)
-    {
-      this->onAnimationEnd.subscribe(observer);
-    }
   };
 }

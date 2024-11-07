@@ -14,24 +14,13 @@ namespace Game
 
     public:
         CollisionBox(const Vector position, const int with, const int height);
-        void setPosition(const Vector position);
+
+        inline void setPosition(const Vector position) { this->position = position; }
+        inline const Vector &getPosition() const { return this->position; }
+        inline int getWidth() const { return this->width; }
+        inline int getHeight() const { return this->height; }
+
         bool collidesWith(const CollisionBox &other);
-
-        Vector getPosition() const
-        {
-            return this->position;
-        }
-
-        int getWidth() const
-        {
-            return this->width;
-        }
-
-        int getHeight() const
-        {
-            return this->height;
-        }
-
         void renderCollisionBox() const;
     };
 }

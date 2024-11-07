@@ -14,10 +14,6 @@ namespace Game
 
   public:
     virtual void checkCollision(GameObject *other);
-
-    std::list<CollisionBox> getCollisionBoxes()
-    {
-      return this->collisionBoxes;
-    }
+    inline const std::list<CollisionBox> &getCollisionBoxes() const { return this->collisionBoxes; }
   };
 }

@@ -27,7 +27,7 @@ namespace Game
       currentState->render();
     }
 
-    void pushGameState(GameStateRoute route, std::optional<GameStateRouteParams<std::any>> _params = std::nullopt) override
+    void pushGameState(GameStateRoute route, DefaultRouteParams _params = std::nullopt) override
     {
       this->currentStates.push_back(GameStateRoutes::gameStatesRoutesMap.at(route)(_params));
     }
@@ -42,7 +42,7 @@ namespace Game
       this->currentStates.pop_back();
     }
 
-    void replace(GameStateRoute route, std::optional<GameStateRouteParams<std::any>> _params = std::nullopt) override
+    void replace(GameStateRoute route, DefaultRouteParams _params = std::nullopt) override
     {
       this->currentStates.clear();
       this->currentStates.push_back(GameStateRoutes::gameStatesRoutesMap.at(route)(_params));

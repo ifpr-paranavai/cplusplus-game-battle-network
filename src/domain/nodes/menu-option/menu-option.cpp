@@ -6,7 +6,10 @@ namespace Game
   {
     const int textWidth = Global::adaptersInstance.textRenderer->getTextWidth(this->text);
     this->onClick.subscribe(config.onClick);
-    this->position = {Config::WINDOW_WIDTH / 2 - textWidth / 2, config.yPosition};
+    this->position = {
+        static_cast<float>(Config::WINDOW_WIDTH) / 2.0f - static_cast<float>(textWidth) / 2.0f,
+        static_cast<float>(config.yPosition)};
+
     this->initRenderTextData();
   }
 

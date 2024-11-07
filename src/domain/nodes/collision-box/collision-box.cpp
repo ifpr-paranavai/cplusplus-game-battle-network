@@ -8,17 +8,12 @@ namespace Game
     {
     }
 
-    void CollisionBox::setPosition(const Vector position)
-    {
-        this->position = position;
-    }
-
     void CollisionBox::renderCollisionBox() const
     {
         Global::adaptersInstance.renderer->renderBorder({
             {this->position.x, this->position.y},
-            this->width + 0.0f,
-            this->height + 0.0f,
+            this->width,
+            this->height,
             Color{0, 0, 0, 255},
         });
     }

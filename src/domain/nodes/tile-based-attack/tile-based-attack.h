@@ -12,14 +12,7 @@ namespace Game
   public:
     TileBasedAttack() {}
 
-    int getDamage()
-    {
-      return this->damage;
-    }
-
-    bool isDeleted()
-    {
-      return this->deleted;
-    }
+    inline int getDamage() { return this->damage; }
+    inline bool isDeleted() { return this->deleted; }
   };
 }

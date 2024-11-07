@@ -8,13 +8,13 @@ namespace Game
 {
   struct BlinkingVisualElementConfig
   {
-    Vector position;
-    float initialWidth;
-    float initialHeight;
-    Color firstColor;
-    float firstColorDuration;
-    Color secondColor;
-    float secondColorDuration;
+    const Vector position;
+    const int initialWidth;
+    const int initialHeight;
+    const Color firstColor;
+    const float firstColorDuration;
+    const Color secondColor;
+    const float secondColorDuration;
   };
 
   class BlinkingVisualElement : public VisualEntity

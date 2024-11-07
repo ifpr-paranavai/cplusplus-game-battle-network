@@ -31,7 +31,7 @@ namespace Game
     textRenderer->renderText({selectedCard.getName(), this->textPosition});
     const int textWidth = textRenderer->getTextWidth(selectedCard.getDescription());
     textRenderer->renderText({selectedCard.getDescription(),
-                              this->textPosition + Vector{0, textHeight + 10},
+                              this->textPosition + Vector{0.0f, textHeight + 10.0f},
                               16,
                               this->width});
   }

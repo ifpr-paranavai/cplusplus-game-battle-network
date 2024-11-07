@@ -14,10 +14,12 @@ namespace Game
 
   void ScoreRegister::initPlayedTimeTextData()
   {
-    this->playedTimeTextData.text = "Tempo: " + TimeUtil::formatElapsedTime(this->playedTime);
+    this->textTime = "Tempo: " + TimeUtil::formatElapsedTime(this->playedTime);
+    this->playedTimeTextData.text = this->textTime;
     const int textWidth = Global::adaptersInstance.textRenderer->getTextWidth(this->playedTimeTextData.text, this->fontSize);
     this->playedTimeTextData.fontSize = this->fontSize;
-    this->playedTimeTextData.position = {Config::WINDOW_WIDTH / 2 - textWidth / 2, this->playedTimeTopPosition};
+    this->playedTimeTextData.position = {
+        static_cast<float>(Config::WINDOW_WIDTH / 2 - textWidth / 2), static_cast<float>(this->playedTimeTopPosition)};
   }
 
   void ScoreRegister::incrementLetter()
@@ -101,9 +103,9 @@ namespace Game
     {
       return;
     }
-    const int positionX = this->letterXPositions.at(this->selectedLetterIndex);
-    this->triagleSprite.renderSprite({positionX, this->topTrianglePosition});
-    this->triagleSprite.renderSprite({positionX, this->bottomTrianglePosition}, true);
+    const float positionX = static_cast<float>(this->letterXPositions.at(this->selectedLetterIndex));
+    this->triagleSprite.renderSprite({positionX, static_cast<float>(this->topTrianglePosition)});
+    this->triagleSprite.renderSprite({positionX, static_cast<float>(this->bottomTrianglePosition)}, true);
   }
 
   void ScoreRegister::renderPlayerName() const
@@ -114,7 +116,8 @@ namespace Game
     for (size_t i = 0; i < this->qtdNameLetters; i++)
     {
       renderTextData.text = this->playerNameLetters[i];
-      renderTextData.position = {this->letterXPositions.at(i), this->letterYPosition};
+      renderTextData.position = {
+          static_cast<float>(this->letterXPositions.at(i)), static_cast<float>(this->letterYPosition)};
       if (this->selectedLetterIndex == i)
       {
         renderTextData.color = Styles::Colors::SELECTED_COLOR;

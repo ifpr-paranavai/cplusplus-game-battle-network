@@ -14,6 +14,8 @@ namespace Game
     Params data;
   };
 
+  using DefaultRouteParams = std::optional<GameStateRouteParams<std::any>>;
+
   class GameState : public VisualEntity
   {
   private:
@@ -30,10 +32,10 @@ namespace Game
                 Vector(0, 0)})};
 
   protected:
-    std::optional<GameStateRouteParams<std::any>> params;
+    DefaultRouteParams params;
 
   public:
-    GameState(std::optional<GameStateRouteParams<std::any>> _params = std::nullopt) : params(_params) {}
+    GameState(DefaultRouteParams _params = std::nullopt) : params(_params) {}
 
     virtual void render() const
     {

@@ -18,13 +18,13 @@ namespace Game
     int life = 0;
     Subject<int> onDeath;
 
-    void queueAnimationChange(AnimatedSprite *newAnimation)
-    {
-      this->pendingAnimation = newAnimation;
-    }
+    inline void queueAnimationChange(AnimatedSprite *newAnimation) { this->pendingAnimation = newAnimation; }
 
   public:
     ~Actor();
+
+    inline int getLife() { return this->life; }
+    inline void subscribeToDeath(Observer<int> *observer) { onDeath.subscribe(observer); }
 
     virtual void update() override
     {
@@ -34,16 +34,6 @@ namespace Game
     void render() const override
     {
       this->currentAnimation->renderSprite(this->position);
-    }
-
-    int getLife()
-    {
-      return this->life;
-    }
-
-    void subscribeToDeath(Observer<int> *observer)
-    {
-      onDeath.subscribe(observer);
     }
   };
 }

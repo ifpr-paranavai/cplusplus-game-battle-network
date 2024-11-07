@@ -12,12 +12,12 @@ namespace Game
 
   struct SpriteConfig
   {
-    float width;
-    float height;
-    std::string_view spritePath;
-    bool flipHorizontal;
-    Vector initialRelativePosition;
-    std::optional<Color> spriteColorFilter;
+    const int width;
+    const int height;
+    const std::string_view spritePath;
+    const bool flipHorizontal;
+    const Vector initialRelativePosition;
+    const std::optional<Color> spriteColorFilter;
   };
 
   class Sprite
@@ -39,30 +39,11 @@ namespace Game
       Global::adaptersInstance.renderer->renderSprite(spriteTexture, elementPosition + this->relativePosition);
     }
 
-    void setRelativePosition(const Vector relativePosition)
-    {
-      this->relativePosition = relativePosition;
-    }
-
-    void setWidth(const float width)
-    {
-      this->spriteTexture.width = width;
-    }
-
-    void setHeight(const float height)
-    {
-      this->spriteTexture.height = height;
-    }
-
-    float getWidth() const
-    {
-      return this->spriteTexture.width;
-    }
-
-    float getHeight() const
-    {
-      return this->spriteTexture.height;
-    }
+    inline void setRelativePosition(const Vector relativePosition) { this->relativePosition = relativePosition; }
+    inline void setWidth(const float width) { this->spriteTexture.width = width; }
+    inline void setHeight(const float height) { this->spriteTexture.height = height; }
+    inline float getWidth() const { return this->spriteTexture.width; }
+    inline float getHeight() const { return this->spriteTexture.height; }
 
     void destroy()
     {

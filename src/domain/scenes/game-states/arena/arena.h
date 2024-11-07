@@ -69,17 +69,22 @@ namespace Game
       }
     };
 
+    static constexpr int initialTutorialYPosition = Config::WINDOW_HEIGHT / 3;
+    static constexpr float tutorialsDuration = 7.5f;
+
     const Music music = Global::adaptersInstance.audioManager->initMusic("assets/music/battle-music.mp3");
     const float arenaStartedAt = Global::adaptersInstance.timeManager->getElapsedTime();
-    const int initialTutorialYPosition = Config::WINDOW_HEIGHT / 3;
     const int textHeight = Global::adaptersInstance.textRenderer->getTextHeight("A");
     const int spaceBetweenTutorials = 30 + textHeight;
-    const std::vector<std::string> tutorials = {
+    const std::vector<std::string_view> tutorials = {
         "X - Atirar / Selecionar",
         "Z - Abrir menu de cartas",
-        "C - Usar Carta"};
-    TimerSubject removeTutorialsTimer;
+        "C - Usar Carta",
+        "Setas - Mover"};
+
     bool showTutorials = true;
+    bool canOpenCardSelector = false;
+    TimerSubject removeTutorialsTimer;
     Player *player;
     TileMap tileMap;
     CardSelector cardSelector;
@@ -89,8 +94,6 @@ namespace Game
     UnblockOpenCardSelectorHandler unblockOpenCardSelectorHandler = UnblockOpenCardSelectorHandler(*this);
     CloseCardSelectorDelayHandler closeCardSelectorDelayHandler = CloseCardSelectorDelayHandler(*this);
     std::list<Actor *> actors;
-    bool canOpenCardSelector = false;
-    int playerPoints = 0;
 
     void createEnemies();
     void updateAttacks();

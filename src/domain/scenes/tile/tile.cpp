@@ -12,8 +12,8 @@ namespace Game
 
   void Tile::configureSprites()
   {
-    const float spriteWidth = std::round(this->width / 4);
-    const float spriteHeight = std::round(this->height / 3);
+    const int spriteWidth = std::round(this->width / 4);
+    const int spriteHeight = std::round(this->height / 3);
     const std::string initialSpritePath = "assets/sprites/tilemap/";
     const std::vector spritePaths = {
         initialSpritePath + "left-top.png",
@@ -48,7 +48,7 @@ namespace Game
     }
   }
 
-  void Tile::createSprite(std::string_view path, const Vector &position, float width, float height)
+  void Tile::createSprite(std::string_view path, const Vector &position, int width, int height)
   {
     const Sprite sprite = Sprite({width,
                                   height,

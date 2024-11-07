@@ -7,31 +7,15 @@ namespace Game
   class VisualEntity : public Entity
   {
   protected:
-    float width = 0;
-    float height = 0;
+    int width = 0;
+    int height = 0;
     Vector position;
 
   public:
     virtual void render() const = 0;
-
-    void setPosition(const Vector position)
-    {
-      this->position = position;
-    }
-
-    Vector getPosition() const
-    {
-      return this->position;
-    }
-
-    int getWidth() const
-    {
-      return this->width;
-    }
-
-    int getHeight() const
-    {
-      return this->height;
-    }
+    inline void setPosition(const Vector position) { this->position = position; }
+    inline const Vector &getPosition() const { return this->position; }
+    inline int getWidth() const { return this->width; }
+    inline int getHeight() const { return this->height; }
   };
 }

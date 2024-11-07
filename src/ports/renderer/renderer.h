@@ -10,19 +10,19 @@ namespace Game
 
   struct RenderElementData
   {
-    Vector position;
-    float width;
-    float height;
-    Color color;
+    const Vector position;
+    const int width;
+    const int height;
+    const Color color;
   };
 
   struct RenderSpriteData
   {
-    std::string_view path;
-    float width;
-    float height;
-    bool flipHorizontal;
-    std::optional<Color> colorFilter;
+    const std::string_view path;
+    const int width;
+    const int height;
+    const bool flipHorizontal;
+    const std::optional<Color> colorFilter;
   };
 
   class RendererPort
