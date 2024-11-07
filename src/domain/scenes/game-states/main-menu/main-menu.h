@@ -5,32 +5,26 @@
 #include "../../../../utils/global-adapters/global-adapters.h"
 #include "../../../../utils/observer/observer.h"
 #include "./handlers.h"
+#include "../../../nodes/menu/menu.h"
 
 namespace Game
 {
-
-  class MainMenu : public GameState
+  class MainMenu : public Menu
   {
   private:
-    static constexpr int topPadding = 100;
-    static constexpr int spacing = 50;
-    static constexpr int titleFontSize = 40;
+    static constexpr std::string_view tutorial = "Setas para navegar | Enter para selecionar";
 
-    const std::string title = "Battle Network CPLUSPLUS";
-    const int titleWidth = Global::adaptersInstance.textRenderer->getTextWidth(this->title, this->titleFontSize);
-    const int titleHeight = Global::adaptersInstance.textRenderer->getTextHeight(this->title, this->titleFontSize);
+    const Vector tutorialPosition = {
+        static_cast<float>(Config::WINDOW_WIDTH) / 2.0f -
+            static_cast<float>(Global::adaptersInstance.textRenderer->getTextWidth(this->tutorial)) / 2.0f,
+        static_cast<float>(Config::WINDOW_HEIGHT) -
+            static_cast<float>(Global::adaptersInstance.textRenderer->getTextHeight(this->tutorial)) -
+            static_cast<float>(this->getSpacing())};
+
     const int textHeight = Global::adaptersInstance.textRenderer->getTextHeight("A");
-    const int initialMenuOptionYPosition = this->topPadding + this->titleHeight + this->spacing;
-    const Vector titlePosition = {Config::WINDOW_WIDTH / 2 - this->titleWidth / 2, this->topPadding};
     const Music mainMenuMusic = Global::adaptersInstance.audioManager->initMusic("assets/music/main-menu.mp3");
 
     std::vector<MenuOption> options;
-    int selectedOptionIndex = 0;
-
-    void verifyComands();
-    void clickOnSelectedOption();
-    void initOptions();
-    void updateSelectedOption(const int newSelectedOptionIndex);
 
   public:
     MainMenu();
@@ -38,7 +32,6 @@ namespace Game
     {
       Global::adaptersInstance.audioManager->freeMusic(this->mainMenuMusic);
     }
-    void update() override;
     void render() const override;
   };
 
