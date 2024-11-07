@@ -7,6 +7,7 @@ namespace Game
     MAIN_MENU,
     ARENA,
     SCORE_BOARD,
-    SCORE_REGISTER
+    SCORE_REGISTER,
+    PAUSE
   };
 }

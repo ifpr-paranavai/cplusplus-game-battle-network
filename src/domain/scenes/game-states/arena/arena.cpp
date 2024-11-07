@@ -148,6 +148,10 @@ namespace Game
     {
       Global::gameStateService->pushGameStateModal(&this->cardSelector);
     }
+    if (Global::adaptersInstance.keyboardManager->isKeyPressed(KeyCode::ENTER))
+    {
+      Global::gameStateService->pushGameState(GameStateRoute::PAUSE);
+    }
   }
 
   void Arena::update()
