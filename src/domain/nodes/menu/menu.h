@@ -45,6 +45,6 @@ namespace Game
   public:
     Menu(const MenuConfig &config, DefaultRouteParams params = std::nullopt);
     void update() override;
-    void render() const override;
+    void render(const Vector &basePosition = {0, 0}) const override;
   };
 }

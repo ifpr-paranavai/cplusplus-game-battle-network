@@ -34,7 +34,7 @@ namespace Game
   public:
     MenuOption(const MenuOptionConfig &config);
 
-    void render() const override;
+    void render(const Vector &basePosition = {0, 0}) const override;
 
     void update() override {}
 

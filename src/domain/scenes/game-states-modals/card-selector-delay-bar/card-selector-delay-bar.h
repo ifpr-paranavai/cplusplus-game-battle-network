@@ -6,7 +6,7 @@
 #include "../../../dto/color/color.h"
 #include "../../../../utils/subject/subject.h"
 #include "../../../../utils/observer/observer.h"
-#include "../../../nodes/visual-entity/visual-entity.h"
+#include "../../../nodes/ui-entity/ui-entity.h"
 #include "../../../nodes/animated-visual-element/blinking-visual-element.h"
 #include "../../../styles/colors.h"
 
@@ -18,7 +18,7 @@ namespace Game
     LOADED
   };
 
-  class CardSelectorDelayBar : public VisualEntity
+  class CardSelectorDelayBar : public UIEntity
   {
   private:
     static constexpr int barHeight = 30;
@@ -49,7 +49,7 @@ namespace Game
 
   public:
     void update() override;
-    void render() const override;
+    void render(const Vector &basePosition = {0, 0}) const override;
 
     void subscribeToOnCompleteLoad(Observer<int> *observer)
     {

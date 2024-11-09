@@ -90,11 +90,11 @@ namespace Game
     this->checkDeleteTimer();
   }
 
-  void BombAttack::render() const
+  void BombAttack::render(const Vector &basePosition) const
   {
     if (this->currentSprite != nullptr)
     {
-      this->currentSprite->renderSprite(this->position);
+      this->currentSprite->render(this->position);
     }
   }
 

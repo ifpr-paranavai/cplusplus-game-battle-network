@@ -108,7 +108,7 @@ namespace Game
     Arena();
     ~Arena();
     void update() override;
-    void render() const override;
+    void render(const Vector &basePosition = {0, 0}) const override;
     void setPlayer(Player *_player);
   };
 }

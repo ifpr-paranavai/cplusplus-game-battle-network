@@ -169,9 +169,9 @@ namespace Game
     this->cardSelectorDelayBar.update();
   }
 
-  void Arena::render() const
+  void Arena::render(const Vector &basePosition) const
   {
-    GameState::render();
+    GameState::render(basePosition);
     this->tileMap.render();
     this->renderPlayerLife();
     this->renderPlayedTime();

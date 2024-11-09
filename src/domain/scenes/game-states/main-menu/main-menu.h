@@ -32,7 +32,7 @@ namespace Game
     {
       Global::adaptersInstance.audioManager->freeMusic(this->mainMenuMusic);
     }
-    void render() const override;
+    void render(const Vector &basePosition = {0, 0}) const override;
   };
 
 }

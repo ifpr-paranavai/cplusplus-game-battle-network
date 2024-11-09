@@ -2,10 +2,11 @@
 #include "../../dto/vector/vector.h"
 #include "../../../config/config.h"
 #include "../../../utils/global-adapters/global-adapters.h"
+#include "../entity/entity.h"
 
 namespace Game
 {
-    class CollisionBox
+    class CollisionBox : public Entity
     {
     private:
         int width;
@@ -21,6 +22,7 @@ namespace Game
         inline int getHeight() const { return this->height; }
 
         bool collidesWith(const CollisionBox &other);
+        void update() override {}
         void renderCollisionBox() const;
     };
 }

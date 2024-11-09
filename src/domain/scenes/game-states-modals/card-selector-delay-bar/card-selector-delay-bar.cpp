@@ -50,7 +50,7 @@ namespace Game
     this->blingkingBar.update();
   }
 
-  void CardSelectorDelayBar::render() const
+  void CardSelectorDelayBar::render(const Vector &basePosition) const
   {
     this->renderBorder();
     if (this->percentComplete < 1)

@@ -17,7 +17,7 @@ namespace Game
         }
     }
 
-    void TileMap::render() const
+    void TileMap::render(const Vector &basePosition) const
     {
         for (const Tile &tile : this->tiles)
         {

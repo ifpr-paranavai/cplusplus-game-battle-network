@@ -31,9 +31,9 @@ namespace Game
       this->applyPendingAnimation();
     }
 
-    void render() const override
+    void render(const Vector &basePosition = {0, 0}) const override
     {
-      this->currentAnimation->renderSprite(this->position);
+      this->currentAnimation->render(this->position);
     }
   };
 }

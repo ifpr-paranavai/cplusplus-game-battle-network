@@ -1,12 +1,12 @@
 #pragma once
 #include <list>
 #include <vector>
-#include "../../nodes/visual-entity/visual-entity.h"
 #include "../../nodes/sprite/sprite.h"
+#include "../../nodes/game-object/game-object.h"
 
 namespace Game
 {
-    class Tile : public VisualEntity
+    class Tile : public GameObject
     {
     private:
         const Color playerTileColor = Color{255, 69, 0, 255};
@@ -20,7 +20,8 @@ namespace Game
     public:
         Tile(int width, int height, Vector position, bool isPlayerTile = true);
 
+        void render(const Vector &basePosition = {0, 0}) const override;
         void update() override {}
-        void render() const override;
+        void onCollision(GameObject *other) override {}
     };
 }

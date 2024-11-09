@@ -10,7 +10,7 @@ namespace Game
     Global::adaptersInstance.audioManager->playMusic(this->mainMenuMusic);
   }
 
-  void MainMenu::render() const
+  void MainMenu::render(const Vector &basePosition) const
   {
     Menu::render();
     Global::adaptersInstance.textRenderer->renderText({this->tutorial, this->tutorialPosition});

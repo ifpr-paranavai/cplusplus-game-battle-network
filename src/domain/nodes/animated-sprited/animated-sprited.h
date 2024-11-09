@@ -7,6 +7,8 @@
 #include "../sprite/sprite.h"
 #include "../../../utils/global-adapters/global-adapters.h"
 #include "../../../utils/subject/subject.h"
+#include "../visual-entity/visual-entity.h"
+
 namespace Game
 {
   struct AnimatedSpriteConfig
@@ -17,25 +19,29 @@ namespace Game
     const int width;
     const int height;
     const bool flipHorizontal;
-    const Vector initialRelativePosition;
+    const Vector position;
     const std::optional<Color> spriteColorFilter;
   };
 
-  class AnimatedSprite
+  class AnimatedSprite : public VisualEntity
   {
   private:
     const float spriteDisplayTime;
 
-    Subject<int> onAnimationEnd;
-    std::vector<Sprite> sprites;
-    size_t currentSpriteIndex = 0;
+    bool flipVertically = false;
+    bool flipHorizontally = false;
     float elapsedTime = 0;
+    size_t currentSpriteIndex = 0;
+    Subject<int> onAnimationEnd;
+    std::vector<SpriteTexture> spriteTextures;
+
+    void initSprites(const AnimatedSpriteConfig &config);
 
   public:
     AnimatedSprite(const AnimatedSpriteConfig &config);
     ~AnimatedSprite();
+    void update() override;
+    void render(const Vector &basePosition) const override;
     inline void subscribeToAnimationEnd(Observer<int> *observer) { this->onAnimationEnd.subscribe(observer); }
-    void update();
-    void renderSprite(const Vector elementPosition) const;
   };
 }

@@ -27,9 +27,9 @@ namespace Game
 
     void update() override {}
 
-    void render() const override
+    void render(const Vector &basePosition = {0, 0}) const override
     {
-      this->animatedSprite.renderSprite(this->position);
+      this->animatedSprite.render(this->position);
     }
   };
 }

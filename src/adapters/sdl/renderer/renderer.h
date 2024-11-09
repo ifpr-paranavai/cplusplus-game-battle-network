@@ -26,8 +26,8 @@ namespace Game
     void renderBorder(const RenderElementData &renderDataDTO) override;
     void updateScreen() override;
     void destroyRenderer() override;
-    void renderSprite(const SpriteTexture &spriteTexture, Vector position) override;
-    SpriteTexture getSpriteTexture(const RenderSpriteData &renderSpriteData) override;
+    void renderSprite(const RenderSpriteData &renderSpriteData) override;
+    SpriteTexture getSpriteTexture(const CreateSpriteTextureData &renderSpriteData) override;
     void destroySpriteTexture(const SpriteTexture &spriteTexture) override;
   };
 }

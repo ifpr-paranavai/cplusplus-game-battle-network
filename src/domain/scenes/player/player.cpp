@@ -108,13 +108,13 @@ namespace Game
     }
   }
 
-  void Player::render() const
+  void Player::render(const Vector &basePosition) const
   {
     Actor::render();
     this->currentWeapon->render(this->position);
     if (this->selectedCard != nullptr)
     {
-      this->selectedCard->getIconSprite().renderSprite(this->position);
+      this->selectedCard->getIconSprite().render(this->position);
     }
   }
 }

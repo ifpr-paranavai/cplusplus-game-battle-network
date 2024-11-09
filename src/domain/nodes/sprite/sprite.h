@@ -16,34 +16,35 @@ namespace Game
     const int height;
     const std::string_view spritePath;
     const bool flipHorizontal;
-    const Vector initialRelativePosition;
+    const Vector position;
     const std::optional<Color> spriteColorFilter;
+    const std::optional<bool> flipVertically;
   };
 
-  class Sprite
+  class Sprite : public VisualEntity
   {
   private:
+    bool flipVertically = false;
+    bool flipHorizontally = false;
     SpriteTexture spriteTexture;
-    Vector relativePosition;
 
   public:
     Sprite(const SpriteConfig &spriteConfig);
 
-    void renderSprite(const Vector elementPosition, std::optional<bool> flipVertically = std::nullopt) const
+    void update() override {}
+
+    void render(const Vector &basePosition = {0, 0}) const override
     {
-      auto spriteTexture = this->spriteTexture;
-      if (flipVertically.has_value() && flipVertically.value())
-      {
-        spriteTexture.flipVertically = true;
-      }
-      Global::adaptersInstance.renderer->renderSprite(spriteTexture, elementPosition + this->relativePosition);
+      Global::adaptersInstance.renderer->renderSprite({this->spriteTexture,
+                                                       basePosition + this->position,
+                                                       static_cast<float>(this->width),
+                                                       static_cast<float>(this->height),
+                                                       this->flipHorizontally,
+                                                       this->flipVertically});
     }
 
-    inline void setRelativePosition(const Vector relativePosition) { this->relativePosition = relativePosition; }
-    inline void setWidth(const float width) { this->spriteTexture.width = width; }
-    inline void setHeight(const float height) { this->spriteTexture.height = height; }
-    inline float getWidth() const { return this->spriteTexture.width; }
-    inline float getHeight() const { return this->spriteTexture.height; }
+    inline void setFlipVertically(const bool flipVertically) { this->flipVertically = flipVertically; }
+    inline void setFlipHorizontally(const bool flipHorizontally) { this->flipHorizontally = flipHorizontally; }
 
     void destroy()
     {

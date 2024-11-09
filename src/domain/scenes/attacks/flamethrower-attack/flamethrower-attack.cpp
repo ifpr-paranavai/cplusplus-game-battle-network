@@ -40,7 +40,7 @@ namespace Game
     this->handleFlameIncrease();
   }
 
-  void FlamethrowerAttack::render() const
+  void FlamethrowerAttack::render(const Vector &basePosition) const
   {
     for (const Flame &flame : this->flames)
     {

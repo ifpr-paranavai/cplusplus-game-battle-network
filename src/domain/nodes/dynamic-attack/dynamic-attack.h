@@ -20,7 +20,7 @@ namespace Game
     DynamicAttack(Vector initialPosition);
     virtual ~DynamicAttack();
     void update() override;
-    void render() const override;
+    void render(const Vector &basePosition = {0, 0}) const override;
     inline bool isDeleted() const { return this->deleted; }
     inline int getDamage() const { return this->damage; }
   };

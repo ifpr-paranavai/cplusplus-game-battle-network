@@ -30,7 +30,7 @@ namespace Game
         static Vector getElementPositionInTile(Vector tilePosition, int elementWidth, int elementHeight);
 
         void update() override {}
-        void render() const override;
+        void render(const Vector &basePosition = {0, 0}) const override;
         int getPlayerColumnTilesCount();
         int getEnemyColumnTilesCount();
         int getTilesRowsCount();

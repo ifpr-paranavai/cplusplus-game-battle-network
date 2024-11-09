@@ -75,7 +75,7 @@ namespace Game
       {
         return;
       }
-      this->currentAnimation->renderSprite(elementAbsolutePosition + this->relativePosition);
+      this->currentAnimation->render(elementAbsolutePosition + this->relativePosition);
     }
   };
 }

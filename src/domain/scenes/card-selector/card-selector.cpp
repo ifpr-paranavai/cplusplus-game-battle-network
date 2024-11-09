@@ -49,7 +49,7 @@ namespace Game
     }
   }
 
-  void CardSelector::render() const
+  void CardSelector::render(const Vector &basePosition) const
   {
     this->renderContainer();
     this->cardSelectorViewer.render(this->cards[this->selectIndex]);

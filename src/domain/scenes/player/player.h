@@ -119,7 +119,7 @@ namespace Game
     ~Player();
     void update() override;
     void onCollision(GameObject *other) override;
-    void render() const override;
+    void render(const Vector &basePosition = {0, 0}) const override;
 
     SetSelectedCardHandler *getSetSelectedCardHandler()
     {

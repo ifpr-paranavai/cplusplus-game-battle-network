@@ -29,7 +29,7 @@ namespace Game
       Weapon::render(position);
       if (this->currentAnimation != this->idleAnimation)
       {
-        this->idleAnimation->renderSprite(position + this->relativePosition);
+        this->idleAnimation->render(position + this->relativePosition);
       }
     }
   };

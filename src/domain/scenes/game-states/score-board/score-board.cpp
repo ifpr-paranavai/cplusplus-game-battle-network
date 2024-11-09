@@ -70,9 +70,9 @@ namespace Game
     this->verifyCommands();
   }
 
-  void ScoreBoard::render() const
+  void ScoreBoard::render(const Vector &basePosition) const
   {
-    GameState::render();
+    GameState::render(basePosition);
     this->renderScores();
     this->backOption.render();
   }

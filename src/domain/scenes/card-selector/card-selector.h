@@ -45,7 +45,7 @@ namespace Game
   public:
     CardSelector();
     void update() override;
-    void render() const override;
+    void render(const Vector &basePosition = {0, 0}) const override;
 
     void subscribeToOnSelectCard(Observer<Card> *observer)
     {

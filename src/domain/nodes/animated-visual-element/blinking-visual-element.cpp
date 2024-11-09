@@ -26,7 +26,7 @@ namespace Game
     this->changeColorTimer.update();
   }
 
-  void BlinkingVisualElement::render() const
+  void BlinkingVisualElement::render(const Vector &basePosition) const
   {
     Global::adaptersInstance.renderer->renderElement(RenderElementData{this->position, this->width, this->height, this->currentColor});
   }

@@ -16,13 +16,20 @@ namespace Game
     const Color color;
   };
 
-  struct RenderSpriteData
+  struct CreateSpriteTextureData
   {
     const std::string_view path;
-    const int width;
-    const int height;
-    const bool flipHorizontal;
     const std::optional<Color> colorFilter;
+  };
+
+  struct RenderSpriteData
+  {
+    const SpriteTexture &spriteTexture;
+    const Vector &position;
+    const float width;
+    const float height;
+    const bool flipHorizontally = false;
+    const bool flipVertically = false;
   };
 
   class RendererPort
@@ -30,10 +37,10 @@ namespace Game
   public:
     virtual void renderElement(const RenderElementData &renderDataDTO) = 0;
     virtual void renderBorder(const RenderElementData &renderDataDTO) = 0;
-    virtual void renderSprite(const SpriteTexture &spriteTexture, Vector position) = 0;
+    virtual void renderSprite(const RenderSpriteData &renderSpriteData) = 0;
     virtual void updateScreen() = 0;
     virtual void destroyRenderer() = 0;
-    virtual SpriteTexture getSpriteTexture(const RenderSpriteData &renderSpriteData) = 0;
+    virtual SpriteTexture getSpriteTexture(const CreateSpriteTextureData &renderSpriteData) = 0;
     virtual void destroySpriteTexture(const SpriteTexture &spriteTexture) = 0;
   };
 }

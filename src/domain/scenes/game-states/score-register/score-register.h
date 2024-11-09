@@ -50,6 +50,13 @@ namespace Game
                                    "assets/sprites/misc/triangle.png",
                                    false,
                                    Vector(0, 0)});
+    Sprite downTriagleSprite = Sprite({this->letterWidth,
+                                       this->letterWidth,
+                                       "assets/sprites/misc/triangle.png",
+                                       false,
+                                       Vector(0, 0),
+                                       std::nullopt,
+                                       true});
     std::vector<int> letterXPositions;
     RenderTextData registerBtnTextData = {
         this->registerText,
@@ -76,6 +83,6 @@ namespace Game
     ScoreRegister(GameStateRouteParams<ScoreRegisterParams> params);
 
     void update() override;
-    void render() const override;
+    void render(const Vector &basePosition = {0, 0}) const override;
   };
 }

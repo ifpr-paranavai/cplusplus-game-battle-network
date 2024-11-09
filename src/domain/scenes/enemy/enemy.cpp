@@ -116,7 +116,7 @@ namespace Game
     }
   }
 
-  void Enemy::render() const
+  void Enemy::render(const Vector &basePosition) const
   {
     Actor::render();
     const Vector textPosition = {this->position.x, this->position.y + this->height - 10};

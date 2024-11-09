@@ -50,6 +50,6 @@ namespace Game
     ~BombAttack();
 
     void update() override;
-    void render() const override;
+    void render(const Vector &basePosition = {0, 0}) const override;
   };
 }

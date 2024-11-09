@@ -20,7 +20,7 @@ namespace Game
                                                        selectIndex == i ? Styles::Colors::SELECTED_COLOR : Color{0, 0, 0, 255}});
       const float iconHeight = cards[i].getIconSprite().getHeight();
       const float cardTopPadding = (this->cardSize - iconHeight) / 2;
-      cards[i].getIconSprite().renderSprite(cardPosition + Vector{0, cardTopPadding});
+      cards[i].getIconSprite().render(cardPosition + Vector{0, cardTopPadding});
     }
   }
 

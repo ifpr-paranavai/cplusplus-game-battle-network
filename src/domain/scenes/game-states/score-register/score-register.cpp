@@ -104,8 +104,8 @@ namespace Game
       return;
     }
     const float positionX = static_cast<float>(this->letterXPositions.at(this->selectedLetterIndex));
-    this->triagleSprite.renderSprite({positionX, static_cast<float>(this->topTrianglePosition)});
-    this->triagleSprite.renderSprite({positionX, static_cast<float>(this->bottomTrianglePosition)}, true);
+    this->triagleSprite.render({positionX, static_cast<float>(this->topTrianglePosition)});
+    this->downTriagleSprite.render({positionX, static_cast<float>(this->bottomTrianglePosition)});
   }
 
   void ScoreRegister::renderPlayerName() const
@@ -145,9 +145,9 @@ namespace Game
     this->verifyCommands();
   }
 
-  void ScoreRegister::render() const
+  void ScoreRegister::render(const Vector &basePosition) const
   {
-    GameState::render();
+    GameState::render(basePosition);
     this->renderPlayedTime();
     this->renderTriangles();
     this->renderPlayerName();

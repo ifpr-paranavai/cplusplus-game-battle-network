@@ -25,7 +25,7 @@ namespace Game
     this->renderTextData.color = isSelected ? Styles::Colors::SELECTED_COLOR : Styles::Colors::WHITE;
   }
 
-  void MenuOption::render() const
+  void MenuOption::render(const Vector &basePosition) const
   {
     Global::adaptersInstance.textRenderer->renderText(this->renderTextData);
   }

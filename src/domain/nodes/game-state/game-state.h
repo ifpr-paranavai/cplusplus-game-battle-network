@@ -37,11 +37,11 @@ namespace Game
   public:
     GameState(DefaultRouteParams _params = std::nullopt) : params(_params) {}
 
-    virtual void render() const
+    virtual void render(const Vector &basePosition = {0, 0}) const
     {
       for (const auto bg : this->backgroundSprites)
       {
-        bg.renderSprite(Vector(0, 0));
+        bg.render(Vector(0, 0));
       }
     }
   };

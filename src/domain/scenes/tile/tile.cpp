@@ -59,11 +59,11 @@ namespace Game
     this->sprites.emplace_back(std::move(sprite));
   }
 
-  void Tile::render() const
+  void Tile::render(const Vector &basePosition) const
   {
     for (const Sprite &sprite : this->sprites)
     {
-      sprite.renderSprite(this->position);
+      sprite.render(this->position);
     }
   }
 }

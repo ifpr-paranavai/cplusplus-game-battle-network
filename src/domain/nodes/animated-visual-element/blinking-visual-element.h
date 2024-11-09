@@ -52,6 +52,6 @@ namespace Game
     BlinkingVisualElement(const BlinkingVisualElementConfig &config);
 
     void update() override;
-    void render() const override;
+    void render(const Vector &basePosition = {0, 0}) const override;
   };
 }

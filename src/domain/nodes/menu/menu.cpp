@@ -70,9 +70,9 @@ namespace Game
     this->verifyComands();
   }
 
-  void Menu::render() const
+  void Menu::render(const Vector &basePosition) const
   {
-    GameState::render();
+    GameState::render(basePosition);
     Global::adaptersInstance.textRenderer->renderText({this->title, this->titlePosition, this->titleFontSize});
     for (int i = 0; i < this->options.size(); i++)
     {
