@@ -14,9 +14,10 @@ namespace Game
                                             "assets/sprites/attacks/projectile/0.png",
                                             false,
                                             Vector(0, 0)});
+    this->collisionBoxes.emplace_back(this->position, this->width, this->height);
   }
 
-  void Projectile::onCollision(Element *other)
+  void Projectile::onCollision(GameObject *other)
   {
     if (dynamic_cast<Player *>(other) || dynamic_cast<Projectile *>(other))
     {

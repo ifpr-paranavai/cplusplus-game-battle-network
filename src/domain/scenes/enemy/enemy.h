@@ -3,9 +3,9 @@
 #include <random>
 #include <ctime>
 #include "../../../utils/global-adapters/global-adapters.h"
-#include "../../nodes/character/character.h"
 #include "../../../utils/log-manager/log-manager.h"
 #include "../../global/global-services/global-services.h"
+#include "../../nodes/actor/actor.h"
 
 namespace Game
 {
@@ -17,13 +17,13 @@ namespace Game
     RIGHT
   };
 
-  class Enemy : public Character
+  class Enemy : public Actor
   {
   private:
     float movementDecisionTimer = 0;
     float attackTimer = 0;
     bool dead = false;
-    Subject<Element *> onCollide;
+    Subject<GameObject *> onCollide;
 
     void handleMovement();
     void handleAttack();
@@ -38,16 +38,11 @@ namespace Game
     bool canAttack = true;
 
     virtual void attack() = 0;
-    void onCollision(Element *other) override;
+    void onCollision(GameObject *other) override;
 
   public:
-    Enemy(int width, int height);
+    Enemy();
     void update() override;
-    void render() override;
-
-    void subscribeToOnCollide(Observer<Element *> *observer)
-    {
-      this->onCollide.subscribe(observer);
-    }
+    void render(const Vector &basePosition = {0, 0}) const override;
   };
 }

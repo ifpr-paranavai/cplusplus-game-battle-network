@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <algorithm>
+#include <any>
 #include "../../../nodes/game-state/game-state.h"
 #include "../../../global/global-services/global-services.h"
 #include "../../../dto/score/score.h"
@@ -12,7 +13,15 @@
 
 namespace Game
 {
- 
+
+  class BackHandler : public Observer<int>
+  {
+  public:
+    void next(const int &value) override
+    {
+      Global::gameStateService->replace(GameStateRoute::MAIN_MENU);
+    }
+  };
 
   class ScoreBoard : public GameState
   {
@@ -21,8 +30,8 @@ namespace Game
     const int spaceBetweenElements = 10 + Global::adaptersInstance.textRenderer->getTextHeight("A");
     const int backOptionYPostion = Config::WINDOW_HEIGHT - Global::adaptersInstance.textRenderer->getTextHeight("Voltar") - 10;
 
-    std::vector<Score*> scores;
-    MenuOption backOption;
+    std::vector<Score *> scores;
+    MenuOption backOption = MenuOption({"Voltar", this->backOptionYPostion, new BackHandler()});
     int currentPage = 1;
     int scoreLineXPosition = 0;
 
@@ -31,18 +40,18 @@ namespace Game
     void sortScores();
     void verifyCommands();
     void renderScores() const;
-    std::string getScoreLine(const Score* score) const;
+    std::string getScoreLine(const Score *score) const;
 
   public:
-    ScoreBoard(Observer<int> *backHandler);
-    ~ScoreBoard() 
+    ScoreBoard();
+    ~ScoreBoard()
     {
-        for (Score* score : this->scores)
-        {
-            delete score; 
-        }
+      for (Score *score : this->scores)
+      {
+        delete score;
+      }
     }
     void update() override;
-    void render() const override;
+    void render(const Vector &basePosition = {0, 0}) const override;
   };
 }

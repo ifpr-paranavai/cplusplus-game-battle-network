@@ -9,6 +9,7 @@
 #include "adapters/sdl/audio-manager/audio-manager.h"
 #include "adapters/sdl/text-renderer/text-renderer.h"
 #include "domain/global/global-services/global-services.h"
+#include "./domain/services/game-state-service/game-state-service.h"
 
 int main(int argc, char *argv[])
 {
@@ -19,6 +20,7 @@ int main(int argc, char *argv[])
   Game::Global::adaptersInstance.audioManager = new Game::SDLAudioManagerAdapter();
   Game::Global::adaptersInstance.textRenderer = new Game::SDLTextRendererAdapter();
   Game::Global::initializeGlobalServices();
+  Game::Global::gameStateService = new Game::GameStateService();
 
   Game::GameEngine gameEngine;
   gameEngine.startGame();

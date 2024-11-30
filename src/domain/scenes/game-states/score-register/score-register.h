@@ -10,12 +10,10 @@
 #include "../../../../utils/time/time.h"
 #include "../../../../utils/date/date.h"
 #include "../../../dto/score/score.h"
+#include "./score-register-params.h"
 
 namespace Game
 {
-  
- 
-
 
   class ScoreRegister : public GameState
   {
@@ -40,23 +38,30 @@ namespace Game
     const float playedTime;
     const RenderTextData congratulationsTextData = {
         this->congratulationsText,
-        {Config::WINDOW_WIDTH / 2 - Global::adaptersInstance.textRenderer->getTextWidth(this->congratulationsText) / 2,
-         this->playedTimeTopPosition - this->spaceBetweenElements - this->letterHeight},
+        {static_cast<float>(Config::WINDOW_WIDTH / 2 - Global::adaptersInstance.textRenderer->getTextWidth(this->congratulationsText) / 2),
+         static_cast<float>(this->playedTimeTopPosition - this->spaceBetweenElements - this->letterHeight)},
         this->fontSize};
+    std::string textTime;
     RenderTextData playedTimeTextData;
 
     int selectedLetterIndex = 0;
-    Sprite triagleSprite = Sprite({this->letterWidth + 0.0f,
-                                   this->letterWidth + 0.0f,
+    Sprite triagleSprite = Sprite({this->letterWidth,
+                                   this->letterWidth,
                                    "assets/sprites/misc/triangle.png",
                                    false,
                                    Vector(0, 0)});
+    Sprite downTriagleSprite = Sprite({this->letterWidth,
+                                       this->letterWidth,
+                                       "assets/sprites/misc/triangle.png",
+                                       false,
+                                       Vector(0, 0),
+                                       std::nullopt,
+                                       true});
     std::vector<int> letterXPositions;
     RenderTextData registerBtnTextData = {
         this->registerText,
-        {this->calcXPositionByLetterIndex(this->maxIndex), this->letterYPosition},
+        {static_cast<float>(this->calcXPositionByLetterIndex(this->maxIndex)), static_cast<float>(this->letterYPosition)},
         this->fontSize};
-    Observer<int> *backHandler;
 
     void initPlayedTimeTextData();
     void verifyCommands();
@@ -75,9 +80,9 @@ namespace Game
     }
 
   public:
-    ScoreRegister(const float _playedTime, Observer<int> *backHandler);
+    ScoreRegister(GameStateRouteParams<ScoreRegisterParams> params);
 
     void update() override;
-    void render() const override;
+    void render(const Vector &basePosition = {0, 0}) const override;
   };
 }

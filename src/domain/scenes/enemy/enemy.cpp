@@ -2,10 +2,9 @@
 
 namespace Game
 {
-  Enemy::Enemy(int width, int height) : Character(width, height)
+  Enemy::Enemy()
   {
     std::srand(static_cast<unsigned int>(std::time(0)));
-    this->collisionBoxes.emplace_back(this->position, this->width, this->height);
   }
 
   void Enemy::handleMovement()
@@ -87,10 +86,10 @@ namespace Game
     {
       collisionBox.setPosition(this->position);
     }
-    Character::update();
+    Actor::update();
   }
 
-  void Enemy::onCollision(Element *other)
+  void Enemy::onCollision(GameObject *other)
   {
     if (this->dead || this->life <= 0)
     {
@@ -117,9 +116,9 @@ namespace Game
     }
   }
 
-  void Enemy::render()
+  void Enemy::render(const Vector &basePosition) const
   {
-    Character::render();
+    Actor::render();
     const Vector textPosition = {this->position.x, this->position.y + this->height - 10};
     Global::adaptersInstance.textRenderer->renderText({std::to_string(this->life), textPosition});
   }

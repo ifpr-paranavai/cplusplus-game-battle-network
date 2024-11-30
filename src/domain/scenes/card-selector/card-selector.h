@@ -10,20 +10,22 @@
 #include "../cards/sniper-card/sniper-card.h" // TODO: remover daqui
 #include "./card-selector-viewer/card-selector-viewer.h"
 #include "./card-selector-cards-list/card-selector-cards-list.h"
-#include "../../nodes/game-state/game-state.h"
+#include "../../nodes/game-state-modal/game-state-modal.h"
 #include "../../dto/sound-effect/sound-effect.h"
 
 namespace Game
 {
-  class CardSelector : public GameState
+  class CardSelector : public GameStateModal
   {
   private:
+    static constexpr int insideContainersPadding = 10;
+    static constexpr int containerWidth = Config::WINDOW_WIDTH / 2;
+    static constexpr int containerHeight = Config::WINDOW_HEIGHT;
+
     const SoundEffect selectSFX = Global::adaptersInstance.audioManager->initSoundEffect("assets/sounds/select.wav");
-    const float insideContainersPadding = 10;
-    const float containerWidth = Config::WINDOW_WIDTH / 2;
-    const float containerHeight = Config::WINDOW_HEIGHT;
-    const float insideContainerHeight = (this->containerHeight / 2) - 2 * this->insideContainersPadding;
-    const float insideContainerWidth = this->containerWidth - this->insideContainersPadding * 2;
+    const int insideContainerHeight = (this->containerHeight / 2) - 2 * this->insideContainersPadding;
+    const int insideContainerWidth = this->containerWidth - this->insideContainersPadding * 2;
+
     int selectIndex = 0;
     std::vector<Card> cards;
     Subject<Card> onSelectCardSubject;
@@ -33,7 +35,7 @@ namespace Game
                                                                 this->insideContainerWidth,
                                                                 this->insideContainerHeight});
     CardSelectorCardsList cardSelectorCardsList = CardSelectorCardsList(
-        {{this->insideContainersPadding, this->insideContainersPadding + this->insideContainerHeight},
+        {{static_cast<float>(this->insideContainersPadding), static_cast<float>(this->insideContainersPadding + this->insideContainerHeight)},
          this->insideContainerWidth,
          this->insideContainerHeight});
 
@@ -43,7 +45,7 @@ namespace Game
   public:
     CardSelector();
     void update() override;
-    void render() const override;
+    void render(const Vector &basePosition = {0, 0}) const override;
 
     void subscribeToOnSelectCard(Observer<Card> *observer)
     {

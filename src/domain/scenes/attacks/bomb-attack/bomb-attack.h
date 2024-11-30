@@ -1,7 +1,7 @@
 #pragma once
 #include "../../../global/global-services/global-services.h"
 #include "../../../nodes/dynamic-attack/dynamic-attack.h"
-#include "../../../nodes/tile-map/tile-map.h"
+#include "../../tile-map/tile-map.h"
 #include "../../../dto/sound-effect/sound-effect.h"
 
 namespace Game
@@ -43,13 +43,13 @@ namespace Game
     void checkDeleteTimer();
 
   protected:
-    void onCollision(Element *other) override;
+    void onCollision(GameObject *other) override {}
 
   public:
     BombAttack(Vector elementPosition);
     ~BombAttack();
 
     void update() override;
-    void render() override;
+    void render(const Vector &basePosition = {0, 0}) const override;
   };
 }

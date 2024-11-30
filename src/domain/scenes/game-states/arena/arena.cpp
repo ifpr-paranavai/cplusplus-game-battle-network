@@ -4,23 +4,22 @@
 namespace Game
 {
 
-  Arena::Arena(Observer<int> *backHandler): backHandler(backHandler)
+  Arena::Arena()
   {
     Global::adaptersInstance.audioManager->playMusic(this->music);
     this->cardSelectorDelayBar.subscribeToOnCompleteLoad(&this->unblockOpenCardSelectorHandler);
     this->cardSelector.subscribeToOnSelectCard(&this->closeCardSelectorDelayHandler);
-    this->tileMap.init();
     this->createEnemies();
     this->setPlayer(new Player());
     this->removeTutorialsTimer.subscribe(new RemoveTutorialsHandler(*this));
-    this->removeTutorialsTimer.init(5.0f);
+    this->removeTutorialsTimer.init(this->tutorialsDuration);
   }
 
   Arena::~Arena()
   {
-    for (Character *character : characters)
+    for (Actor *actor : this->actors)
     {
-      delete character;
+      delete actor;
     }
 
     Global::adaptersInstance.audioManager->freeMusic(this->music);
@@ -33,8 +32,7 @@ namespace Game
     enemy->setTileXLimit({static_cast<float>(6 - this->tileMap.getEnemyColumnTilesCount()), 5});
     enemy->setTileYLimit({0, static_cast<float>(this->tileMap.getTilesRowsCount() - 1)});
     enemy->subscribeToDeath(&this->victoryHandler);
-    enemy->subscribeToOnCollide(&this->pointsIncrementHandler);
-    this->characters.push_back(enemy);
+    this->actors.push_back(enemy);
   }
 
   void Arena::setPlayer(Player *player)
@@ -44,7 +42,7 @@ namespace Game
     this->player->setTileXLimit({0, static_cast<float>(this->tileMap.getPlayerColumnTilesCount() - 1)});
     this->player->setTileYLimit({0, static_cast<float>(this->tileMap.getTilesRowsCount() - 1)});
     this->player->subscribeToDeath(&this->gameOverHandler);
-    this->characters.push_back(this->player);
+    this->actors.push_back(this->player);
     this->cardSelector.subscribeToOnSelectCard(this->player->getSetSelectedCardHandler());
   }
 
@@ -52,7 +50,6 @@ namespace Game
   {
     for (auto &projectile : Global::attacksService->getDynamicAttacks())
     {
-      projectile->move();
       projectile->update();
     }
 
@@ -63,19 +60,19 @@ namespace Game
 
     for (auto &projectile : Global::attacksService->getDynamicAttacks())
     {
-      for (Character *character : this->characters)
+      for (Actor *actor : this->actors)
       {
-        projectile->checkCollision(character);
-        character->checkCollision(projectile.get());
+        projectile->checkCollision(actor);
+        actor->checkCollision(projectile.get());
       }
     }
 
     for (auto &tileBasedAttack : Global::attacksService->getTileBasedAttacks())
     {
-      for (Character *character : this->characters)
+      for (Actor *actor : this->actors)
       {
-        tileBasedAttack->checkCollision(character);
-        character->checkCollision(tileBasedAttack.get());
+        tileBasedAttack->checkCollision(actor);
+        actor->checkCollision(tileBasedAttack.get());
       }
     }
   }
@@ -95,10 +92,10 @@ namespace Game
     Global::adaptersInstance.renderer->renderBorder({
         {10, 10},
         100,
-        textHeight + 10.0f,
+        textHeight + 10,
         Color{0, 0, 0, 255},
     });
-    textRenderer->renderText({lifeStr, {10 + 100 - textWidth, 15}});
+    textRenderer->renderText({lifeStr, {10.0f + 100.0f - textWidth, 15.0f}});
   }
 
   void Arena::renderPlayedTime() const
@@ -107,7 +104,7 @@ namespace Game
     auto textRenderer = Global::adaptersInstance.textRenderer;
     const auto playedTimeStr = TimeUtil::formatElapsedTime(playedTime);
     const int textWidth = textRenderer->getTextWidth(playedTimeStr);
-    textRenderer->renderText({playedTimeStr, {Config::WINDOW_WIDTH - textWidth - 10, 10}});
+    textRenderer->renderText({playedTimeStr, {Config::WINDOW_WIDTH - textWidth - 10.0f, 10.0f}});
   }
 
   void Arena::renderAttacks() const
@@ -124,25 +121,7 @@ namespace Game
     }
   }
 
-  void Arena::renderRunningMode() const
-  {
-    GameState::render();
-    this->tileMap.render();
-    this->renderPlayerLife();
-    this->renderPlayedTime();
-    this->cardSelectorDelayBar.render();
-
-    for (Character *character : this->characters)
-    {
-      character->render();
-    }
-
-    this->renderAttacks();
-    this->renderTutorials();
-    Global::attacksService->removeExpiredAttacks(); // TODO: Verify correct location of this method
-  }
-
-  void Arena::renderTutorials() const 
+  void Arena::renderTutorials() const
   {
     if (!this->showTutorials)
     {
@@ -154,18 +133,24 @@ namespace Game
       const auto tutorial = this->tutorials[i];
       const int textWidth = Global::adaptersInstance.textRenderer->getTextWidth(tutorial);
       const int xPosition = Config::WINDOW_WIDTH / 2 - textWidth / 2;
-      Global::adaptersInstance.textRenderer->renderText({tutorial, {xPosition, this->initialTutorialYPosition + i * this->spaceBetweenTutorials}});
+      Global::adaptersInstance.textRenderer->renderText(
+          {tutorial,
+           {static_cast<float>(xPosition),
+            static_cast<float>(this->initialTutorialYPosition + i * this->spaceBetweenTutorials)}});
     }
   }
 
   void Arena::checkKeyboard()
   {
     if (
-        this->arenaMode == ArenaMode::RUNNING &&
         this->canOpenCardSelector &&
         Global::adaptersInstance.keyboardManager->isKeyPressed(KeyCode::Z))
     {
-      Global::gameStateService->pushGameState(&this->cardSelector);
+      Global::gameStateService->pushGameStateModal(&this->cardSelector);
+    }
+    if (Global::adaptersInstance.keyboardManager->isKeyPressed(KeyCode::ENTER))
+    {
+      Global::gameStateService->pushGameState(GameStateRoute::PAUSE);
     }
   }
 
@@ -174,32 +159,32 @@ namespace Game
     this->checkKeyboard();
     this->removeTutorialsTimer.update();
 
-    if (this->arenaMode == ArenaMode::RUNNING)
+    for (Actor *actor : this->actors)
     {
-      for (Character *character : this->characters)
-      {
-        character->update();
-      }
-
-      this->updateAttacks();
-      this->updateAnimations();
-      this->cardSelectorDelayBar.update();
+      actor->update();
     }
+
+    this->updateAttacks();
+    this->updateAnimations();
+    this->cardSelectorDelayBar.update();
   }
 
-  void Arena::render() const
+  void Arena::render(const Vector &basePosition) const
   {
-    switch (this->arenaMode)
+    GameState::render(basePosition);
+    this->tileMap.render();
+    this->renderPlayerLife();
+    this->renderPlayedTime();
+    this->cardSelectorDelayBar.render();
+
+    for (Actor *actor : this->actors)
     {
-    case ArenaMode::RUNNING:
-      this->renderRunningMode();
-      break;
-    case ArenaMode::VICTORY:
-      Global::adaptersInstance.textRenderer->renderText({"VICTORY", {100, 100}});
-      break;
-    case ArenaMode::GAME_OVER:
-      Global::adaptersInstance.textRenderer->renderText({"GAME OVER", {100, 100}});
-      break;
+      actor->render();
     }
+
+    this->renderAttacks();
+    this->renderTutorials();
+    Global::attacksService->removeExpiredAttacks(); // TODO: Verify correct location of this method
   }
+
 }

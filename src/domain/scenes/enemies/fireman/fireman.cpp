@@ -2,12 +2,14 @@
 
 namespace Game
 {
-  FiremanEnemy::FiremanEnemy() : Enemy(96, 96)
+  FiremanEnemy::FiremanEnemy()
   {
+    this->width = 96;
+    this->height = 96;
     this->attackTime = 3;
     this->life = 300;
+    this->collisionBoxes.emplace_back(this->position, this->width, this->height);
     this->queueAnimationChange(&this->idleSprite);
-
     this->fireAttackAnimation.subscribeToAnimationEnd(this->idleAnimationHandler.get());
     this->throwingAttackAnimation.subscribeToAnimationEnd(this->idleAnimationHandler.get());
     this->attackDelaySubject.subscribe(this->unlockMovementHandler.get());
@@ -54,7 +56,7 @@ namespace Game
     Enemy::update();
   }
 
-  void FiremanEnemy::onCollision(Element *other)
+  void FiremanEnemy::onCollision(GameObject *other)
   {
     if (dynamic_cast<BombAttack *>(other))
     {

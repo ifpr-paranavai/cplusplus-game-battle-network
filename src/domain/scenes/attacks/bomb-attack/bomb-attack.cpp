@@ -8,6 +8,7 @@ namespace Game
     this->height = 32;
     this->movementTime = 1.0f;
     this->damage = 15;
+    this->collisionBoxes.emplace_back(this->position, this->width, this->height);
     this->calculatePositions(elementTilePosition);
     this->defineVelocity();
     Global::adaptersInstance.audioManager->playWavSoundEffect(this->grenadeThrowingSFX);
@@ -89,15 +90,12 @@ namespace Game
     this->checkDeleteTimer();
   }
 
-  void BombAttack::render()
+  void BombAttack::render(const Vector &basePosition) const
   {
     if (this->currentSprite != nullptr)
     {
-      this->currentSprite->renderSprite(this->position);
+      this->currentSprite->render(this->position);
     }
   }
 
-  void BombAttack::onCollision(Element *other)
-  {
-  }
 }

@@ -1,23 +1,24 @@
 #pragma once
 #include <vector>
 #include "../../cards/card/card.h"
+#include "../../../styles/colors.h"
 
 namespace Game
 {
   struct CardSelectorCardsListConfig
   {
     const Vector position;
-    const float width;
-    const float height;
+    const int width;
+    const int height;
   };
 
   class CardSelectorCardsList
   {
   private:
     const Vector position;
-    const float width;
-    const float height;
-    const float cardSize;
+    const int width;
+    const int height;
+    const int cardSize;
     const Vector initialCardPosition;
 
   public:

@@ -26,6 +26,8 @@ namespace Game
         SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Failed to create SDL_Renderer: %s", SDL_GetError());
         throw std::runtime_error(SDL_GetError());
       }
+
+      SDL_RenderSetLogicalSize(this->sdlRenderer, windowManager->getWidth(), windowManager->getHeight());
     }
     return this->sdlRenderer;
   }
@@ -83,21 +85,21 @@ namespace Game
     SDL_RenderPresent(this->getRenderer());
   }
 
-  void SDLRendererAdapter::renderSprite(const SpriteTexture &spriteTexture, Vector position)
+  void SDLRendererAdapter::renderSprite(const RenderSpriteData &renderSpriteData)
   {
-    SDL_Texture *texture = std::any_cast<SDL_Texture *>(spriteTexture.data);
+    SDL_Texture *texture = std::any_cast<SDL_Texture *>(renderSpriteData.spriteTexture.data);
     SDL_Rect dstRect = {
-        static_cast<int>(position.x),
-        static_cast<int>(position.y),
-        static_cast<int>(spriteTexture.width),
-        static_cast<int>(spriteTexture.height)};
+        static_cast<int>(renderSpriteData.position.x),
+        static_cast<int>(renderSpriteData.position.y),
+        static_cast<int>(renderSpriteData.width),
+        static_cast<int>(renderSpriteData.height)};
     SDL_RendererFlip flip;
 
-    if (spriteTexture.flipVertically)
+    if (renderSpriteData.flipVertically)
     {
       flip = SDL_FLIP_VERTICAL;
     }
-    else if (spriteTexture.flipHorizontally)
+    else if (renderSpriteData.flipHorizontally)
     {
       flip = SDL_FLIP_HORIZONTAL;
     }
@@ -118,7 +120,7 @@ namespace Game
     }
   }
 
-  SpriteTexture SDLRendererAdapter::getSpriteTexture(const RenderSpriteData &renderSpriteData)
+  SpriteTexture SDLRendererAdapter::getSpriteTexture(const CreateSpriteTextureData &renderSpriteData)
   {
     SDL_Texture *texture = IMG_LoadTexture(this->getRenderer(), renderSpriteData.path.data());
     if (!texture)
@@ -133,7 +135,7 @@ namespace Game
       SDL_SetTextureAlphaMod(texture, colorFilter.a);
     }
 
-    return SpriteTexture{std::make_any<SDL_Texture *>(texture), renderSpriteData.width, renderSpriteData.height, renderSpriteData.flipHorizontal};
+    return SpriteTexture{std::make_any<SDL_Texture *>(texture)};
   }
 
   void SDLRendererAdapter::destroySpriteTexture(const SpriteTexture &spriteTexture)

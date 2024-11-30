@@ -2,7 +2,6 @@
 #include <iostream>
 #include <ctime>
 #include "../../../utils/global-adapters/global-adapters.h"
-#include "../../nodes/character/character.h"
 #include "../../../ports/keyboard-manager/keyboard-manager.h"
 #include "../attacks/projectile/projectile.h"
 #include "../../../utils/log-manager/log-manager.h"
@@ -13,10 +12,11 @@
 #include "../weapons/sword/sword.h"
 #include "../../../utils/timer-subject/timer-subject.h"
 #include "../cards/card/card.h"
+#include "../../nodes/actor/actor.h"
 
 namespace Game
 {
-  class Player : public Character
+  class Player : public Actor
   {
   private:
     class InvencibilityHandler : public Observer<int>
@@ -97,7 +97,7 @@ namespace Game
                                                 120,
                                                 120,
                                                 false,
-                                                Vector(-((120 - this->width) / 2), -((120 - this->height) / 2))});
+                                                Vector(-((120 - 96) / 2), -((120 - 96) / 2))});
     ResetWeaponToPistolHandler *resetWeaponToPistolHandler = new ResetWeaponToPistolHandler(*this);
     BlockWeaponAttackHandler *blockWeaponAttackHandler = new BlockWeaponAttackHandler(*this);
     UnblockWeaponAttackHandler *unblockWeaponAttackHandler = new UnblockWeaponAttackHandler(*this);
@@ -118,8 +118,8 @@ namespace Game
     Player();
     ~Player();
     void update() override;
-    void onCollision(Element *other) override;
-    void render() override;
+    void onCollision(GameObject *other) override;
+    void render(const Vector &basePosition = {0, 0}) const override;
 
     SetSelectedCardHandler *getSetSelectedCardHandler()
     {

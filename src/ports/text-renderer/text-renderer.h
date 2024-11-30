@@ -9,7 +9,7 @@ namespace Game
 
   struct RenderTextData
   {
-    std::string text;
+    std::string_view text;
     Vector position;
     std::optional<int> fontSize;
     std::optional<int> maxWidth;

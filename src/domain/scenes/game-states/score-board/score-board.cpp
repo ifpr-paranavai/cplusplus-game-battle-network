@@ -3,20 +3,22 @@
 namespace Game
 {
 
-  ScoreBoard::ScoreBoard(Observer<int> *backHandler): backOption(MenuOption("Voltar", backHandler))
+  ScoreBoard::ScoreBoard()
   {
     this->loadScoresFromFile();
     this->sortScores();
     this->calcScoreLineXPosition();
+    this->backOption.setSelected(true);
   }
 
   void ScoreBoard::sortScores()
   {
-    std::sort(scores.begin(), scores.end(), 
-                      [](Score* a, Score* b) {
-                          return TimeUtil::formatedElapsedTimeToInt(a->getElapsedTime()) < 
-                                 TimeUtil::formatedElapsedTimeToInt(b->getElapsedTime());
-                      });
+    std::sort(scores.begin(), scores.end(),
+              [](Score *a, Score *b)
+              {
+                return TimeUtil::formatedElapsedTimeToInt(a->getElapsedTime()) <
+                       TimeUtil::formatedElapsedTimeToInt(b->getElapsedTime());
+              });
   }
 
   void ScoreBoard::loadScoresFromFile()
@@ -43,11 +45,11 @@ namespace Game
   {
     if (Global::adaptersInstance.keyboardManager->isKeyPressed(KeyCode::ENTER))
     {
-        this->backOption.click();
+      this->backOption.click();
     }
   }
 
-  std::string ScoreBoard::getScoreLine(const Score* score) const
+  std::string ScoreBoard::getScoreLine(const Score *score) const
   {
     return score->getCreatedAt() + " - " + score->getPlayerName() + " - " + score->getElapsedTime();
   }
@@ -56,8 +58,10 @@ namespace Game
   {
     for (size_t i = 0; i < this->scoresPerPage && i < this->scores.size(); ++i)
     {
-        auto &score = this->scores[i];
-        Global::adaptersInstance.textRenderer->renderText({this->getScoreLine(score), {this->scoreLineXPosition, (this->spaceBetweenElements * (i + 1))}});
+      auto &score = this->scores[i];
+      Global::adaptersInstance.textRenderer->renderText(
+          {this->getScoreLine(score),
+           {static_cast<float>(this->scoreLineXPosition), static_cast<float>((this->spaceBetweenElements * (i + 1)))}});
     }
   }
 
@@ -66,10 +70,10 @@ namespace Game
     this->verifyCommands();
   }
 
-  void ScoreBoard::render() const
+  void ScoreBoard::render(const Vector &basePosition) const
   {
-    GameState::render();
+    GameState::render(basePosition);
     this->renderScores();
-    this->backOption.render(this->backOptionYPostion, true);
+    this->backOption.render();
   }
 }

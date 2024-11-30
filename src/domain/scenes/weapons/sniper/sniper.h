@@ -7,8 +7,8 @@ namespace Game
   class Sniper : public Weapon
   {
   private:
-    const float spriteWidth = 160;
-    const float spriteHeight = 40;
+    const int spriteWidth = 160;
+    const int spriteHeight = 40;
     const SoundEffect projectileSFX = Global::adaptersInstance.audioManager->initSoundEffect("assets/sounds/projectile.wav");
 
     AnimatedSprite shootAnimation = AnimatedSprite({0.01f,
@@ -29,7 +29,7 @@ namespace Game
       Weapon::render(position);
       if (this->currentAnimation != this->idleAnimation)
       {
-        this->idleAnimation->renderSprite(position + this->relativePosition);
+        this->idleAnimation->render(position + this->relativePosition);
       }
     }
   };

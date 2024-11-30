@@ -3,7 +3,7 @@
 
 namespace Game
 {
-  ScoreRegister::ScoreRegister(const float _playedTime, Observer<int> *backHandler) : playedTime(_playedTime), backHandler(backHandler)
+  ScoreRegister::ScoreRegister(GameStateRouteParams<ScoreRegisterParams> params) : playedTime(params.data.playedTime)
   {
     this->initPlayedTimeTextData();
     for (int i = 0; i < this->qtdNameLetters; i++)
@@ -14,10 +14,12 @@ namespace Game
 
   void ScoreRegister::initPlayedTimeTextData()
   {
-    this->playedTimeTextData.text = "Tempo: " + TimeUtil::formatElapsedTime(this->playedTime);
+    this->textTime = "Tempo: " + TimeUtil::formatElapsedTime(this->playedTime);
+    this->playedTimeTextData.text = this->textTime;
     const int textWidth = Global::adaptersInstance.textRenderer->getTextWidth(this->playedTimeTextData.text, this->fontSize);
     this->playedTimeTextData.fontSize = this->fontSize;
-    this->playedTimeTextData.position = {Config::WINDOW_WIDTH / 2 - textWidth / 2, this->playedTimeTopPosition};
+    this->playedTimeTextData.position = {
+        static_cast<float>(Config::WINDOW_WIDTH / 2 - textWidth / 2), static_cast<float>(this->playedTimeTopPosition)};
   }
 
   void ScoreRegister::incrementLetter()
@@ -49,8 +51,9 @@ namespace Game
   std::string ScoreRegister::getPlayerName() const
   {
     std::string playerName;
-    for (const auto& letter : this->playerNameLetters) {
-        playerName += letter;
+    for (const auto &letter : this->playerNameLetters)
+    {
+      playerName += letter;
     }
     return playerName;
   }
@@ -61,7 +64,7 @@ namespace Game
     auto currentScores = Global::fileService->loadFromBinaryFile("score_board");
     currentScores.push_back(score.toFileData());
     Global::fileService->saveToBinaryFile("score_board", currentScores);
-    Global::gameStateService->replace(new ScoreBoard(this->backHandler));
+    Global::gameStateService->replace(GameStateRoute::SCORE_BOARD);
   }
 
   void ScoreRegister::verifyCommands()
@@ -82,7 +85,8 @@ namespace Game
     else if (keyboardManager->isKeyPressed(KeyCode::ARROW_DOWN))
     {
       this->decrementLetter();
-    } else if (keyboardManager->isKeyPressed(KeyCode::ENTER))
+    }
+    else if (keyboardManager->isKeyPressed(KeyCode::ENTER))
     {
       this->saveScore();
     }
@@ -99,9 +103,9 @@ namespace Game
     {
       return;
     }
-    const int positionX = this->letterXPositions.at(this->selectedLetterIndex);
-    this->triagleSprite.renderSprite({positionX, this->topTrianglePosition});
-    this->triagleSprite.renderSprite({positionX, this->bottomTrianglePosition}, true);
+    const float positionX = static_cast<float>(this->letterXPositions.at(this->selectedLetterIndex));
+    this->triagleSprite.render({positionX, static_cast<float>(this->topTrianglePosition)});
+    this->downTriagleSprite.render({positionX, static_cast<float>(this->bottomTrianglePosition)});
   }
 
   void ScoreRegister::renderPlayerName() const
@@ -112,7 +116,8 @@ namespace Game
     for (size_t i = 0; i < this->qtdNameLetters; i++)
     {
       renderTextData.text = this->playerNameLetters[i];
-      renderTextData.position = {this->letterXPositions.at(i), this->letterYPosition};
+      renderTextData.position = {
+          static_cast<float>(this->letterXPositions.at(i)), static_cast<float>(this->letterYPosition)};
       if (this->selectedLetterIndex == i)
       {
         renderTextData.color = Styles::Colors::SELECTED_COLOR;
@@ -140,9 +145,9 @@ namespace Game
     this->verifyCommands();
   }
 
-  void ScoreRegister::render() const
+  void ScoreRegister::render(const Vector &basePosition) const
   {
-    GameState::render();
+    GameState::render(basePosition);
     this->renderPlayedTime();
     this->renderTriangles();
     this->renderPlayerName();

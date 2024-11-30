@@ -1,10 +1,10 @@
 #include <iostream>
 #include <vector>
-#include "./domain/nodes/dynamic-body/test-dynamic-body.h"
+#include "./utils/unit-test/unit-test.h"
 
 int main()
 {
-  std::vector<Test::UnitTest *> tests = {new Test::TestDynamicBody()};
+  std::vector<Test::UnitTest *> tests = {};
   bool hasFailures = false;
 
   // Executar todos os testes

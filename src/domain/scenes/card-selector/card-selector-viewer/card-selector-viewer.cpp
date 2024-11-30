@@ -21,7 +21,7 @@ namespace Game
          Color{255, 255, 255, 255}});
     const float spriteHeight = selectedCard.getCardSprite().getHeight();
     const float viewerTopPadding = (this->viewerSize - spriteHeight) / 2;
-    selectedCard.getCardSprite().renderSprite(this->viewerPosition + Vector{0, viewerTopPadding});
+    selectedCard.getCardSprite().render(this->viewerPosition + Vector{0, viewerTopPadding});
   }
 
   void CardSelectorViewer::renderCardText(const Card &selectedCard) const
@@ -31,7 +31,7 @@ namespace Game
     textRenderer->renderText({selectedCard.getName(), this->textPosition});
     const int textWidth = textRenderer->getTextWidth(selectedCard.getDescription());
     textRenderer->renderText({selectedCard.getDescription(),
-                              this->textPosition + Vector{0, textHeight + 10},
+                              this->textPosition + Vector{0.0f, textHeight + 10.0f},
                               16,
                               this->width});
   }

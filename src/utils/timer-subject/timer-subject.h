@@ -53,5 +53,9 @@ namespace Game
     {
       observers.remove(observer);
     }
+
+    int getDuration() const { return this->duration; }
+
+    bool isFinished() const { return this->duration == 0; }
   };
 }
