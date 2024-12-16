@@ -5,6 +5,8 @@ namespace Game
   MainMenu::MainMenu() : Menu({"Battle Network CPLUSPLUS",
                                {{"Iniciar", new StartGameHandler()},
                                 {"Placar", new OpenScoreBoardHandler()},
+                                {"Cadastrar Placar", new OpenScoreRegisterHandler()},
+                                {"Créditos", new OpenCreditsHandler()},
                                 {"Sair", new QuitGameHandler()}}})
   {
     Global::adaptersInstance.audioManager->playMusic(this->mainMenuMusic);

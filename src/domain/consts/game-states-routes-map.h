@@ -11,6 +11,7 @@
 #include "../scenes/game-states/score-board/score-board.h"
 #include "../scenes/game-states/score-register/score-register.h"
 #include "../scenes/game-states/pause/pause.h"
+#include "../scenes/game-states/credits/credits.h"
 
 namespace Game
 {
@@ -60,6 +61,11 @@ namespace Game
              std::cerr << "Erro: " << e.what() << std::endl;
              throw;
            }
-         }}};
+         }},
+        {GameStateRoute::CREDITS, [](DefaultRouteParams params)
+         {
+           return new CreditsState();
+         }},
+    };
   }
 }
