@@ -22,8 +22,10 @@ namespace Game
     static constexpr int spaceBetweenElements = 10;
 
     std::array<std::string, 3> playerNameLetters = {"A", "A", "A"};
+
     const std::string congratulationsText = "Parabéns, você venceu!";
     const std::string registerText = "Salvar";
+    const std::string tutorialText = "Setas - Mover cursor / Alterar letra | Enter - Confirmar";
     const int letterHeight = Global::adaptersInstance.textRenderer->getTextHeight("A", this->fontSize);
     const int letterWidth = Global::adaptersInstance.textRenderer->getTextWidth("A", this->fontSize);
     const int qtdNameLetters = sizeof(this->playerNameLetters) / sizeof(this->playerNameLetters[0]);
@@ -41,6 +43,10 @@ namespace Game
         {static_cast<float>(Config::WINDOW_WIDTH / 2 - Global::adaptersInstance.textRenderer->getTextWidth(this->congratulationsText) / 2),
          static_cast<float>(this->playedTimeTopPosition - this->spaceBetweenElements - this->letterHeight)},
         this->fontSize};
+    const Vector tutorialPosition = {
+        static_cast<float>(Config::WINDOW_WIDTH) / 2.0f - static_cast<float>(Global::adaptersInstance.textRenderer->getTextWidth(this->tutorialText)) / 2.0f,
+        Config::WINDOW_HEIGHT - Global::adaptersInstance.textRenderer->getTextHeight(this->tutorialText) - 10};
+
     std::string textTime;
     RenderTextData playedTimeTextData;
 
@@ -73,6 +79,7 @@ namespace Game
     void renderTriangles() const;
     void renderPlayerName() const;
     void renderCreateBtn() const;
+    void renderTutorial() const;
 
     int calcXPositionByLetterIndex(const int index) const
     {

@@ -140,6 +140,11 @@ namespace Game
     Global::adaptersInstance.textRenderer->renderText(renderTextData);
   }
 
+  void ScoreRegister::renderTutorial() const
+  {
+    Global::adaptersInstance.textRenderer->renderText({this->tutorialText, this->tutorialPosition});
+  }
+
   void ScoreRegister::update()
   {
     this->verifyCommands();
@@ -152,6 +157,7 @@ namespace Game
     this->renderTriangles();
     this->renderPlayerName();
     this->renderCreateBtn();
+    this->renderTutorial();
   }
 
 }

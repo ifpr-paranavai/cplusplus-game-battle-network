@@ -8,6 +8,7 @@ namespace Game
     ARENA,
     SCORE_BOARD,
     SCORE_REGISTER,
-    PAUSE
+    PAUSE,
+    CREDITS
   };
 }

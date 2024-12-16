@@ -47,4 +47,13 @@ namespace Game
     }
   };
 
+  class OpenCreditsHandler : public Observer<int>
+  {
+  public:
+    void next(const int &value) override
+    {
+      Global::gameStateService->pushGameState(GameStateRoute::CREDITS);
+    }
+  };
+
 }
